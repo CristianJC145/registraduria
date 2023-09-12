@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "removeComments": false,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "sourceMap": true,
+      "target": "es6",
+      "outDir": "dist",
+      "resolveJsonModule": true,
+      "paths": {
+        "Modules/*": ["./src/modules/*"]
+      }
+    },
+    "include": [
+      "./**/*.ts"
+    ],
+    "exclude": [
+      "node_modules/**/*",
+      ".vscode/**/*"
+    ]
+  }
