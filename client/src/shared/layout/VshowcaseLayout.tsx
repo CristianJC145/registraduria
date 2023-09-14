@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
-interface ProductLayoutProps {
+interface VshowcaseLayoutProps {
   children: ReactNode;
 }
 
-const ProductLayout: React.FC<ProductLayoutProps> = ({ children }) => {
+const VshowcaseLayout: React.FC<VshowcaseLayoutProps> = ({ children }) => {
   return (
     <main className="content">
       {children}
@@ -11,4 +11,4 @@ const ProductLayout: React.FC<ProductLayoutProps> = ({ children }) => {
   );
 };
 
-export default ProductLayout;
+export default VshowcaseLayout;

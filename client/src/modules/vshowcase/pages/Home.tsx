@@ -1,5 +1,4 @@
-import React from 'react';
-function ProductCatalog() {
+function HomePage() {
   return (
       <div className="home-page">
         <h1>HOLA MUNDO DESDE CATALOGO</h1>
@@ -7,4 +6,4 @@ function ProductCatalog() {
   );
 };
 
-export default ProductCatalog;
+export default HomePage;
