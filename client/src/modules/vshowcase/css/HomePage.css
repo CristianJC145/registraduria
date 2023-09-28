@@ -1,0 +1,43 @@
+.vs-menu-options {
+    margin: 1.5rem 1rem;
+}
+.vs-menu-title {
+    font-weight: 600;
+    color: #2d2f31;
+}
+.vs-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    overflow-x: auto;
+}
+.vs-options::-webkit-scrollbar {
+    display: none;
+  }
+.vs-btnOptions {
+    font-weight : 600;
+}
+.vs-cards {
+    display:flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: var(--p-6);
+    padding-left: var(--p-8);
+    padding-right: var(--p-8);
+}
+
+@media (min-width: 768px) {
+    .vs-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(min(100%, 48%), 1fr));
+        padding: 1.5rem
+    }
+}
+@media (min-width: 992px) {
+    .vs-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill,minmax(min(100%, 30%), 1fr));
+        padding: 1.5rem
+    }
+    
+}

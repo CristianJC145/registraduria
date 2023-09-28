@@ -1,13 +1,19 @@
 import React, { ReactNode } from 'react';
+import AppFooter from './AppFooter';
+import AppNavbarProducts from './AppNavbarProducts'
 interface VshowcaseLayoutProps {
   children: ReactNode;
 }
 
 const VshowcaseLayout: React.FC<VshowcaseLayoutProps> = ({ children }) => {
   return (
-    <main className="content">
-      {children}
-    </main>
+    <>
+      <AppNavbarProducts></AppNavbarProducts>
+      <main className="mainContent">
+        {children}
+      </main>
+      <AppFooter></AppFooter>
+    </>
   );
 };
 

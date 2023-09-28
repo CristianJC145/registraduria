@@ -1,0 +1,47 @@
+.vs-carousel {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 1rem;
+}
+.vs-carousel-items {
+    display: flex;
+    overflow: hidden;
+    gap: 1rem;
+    border-radius: 10px;
+}
+.vs-carousel-items img {
+    width: 350px;    
+    height: 120px;
+    object-fit: cover;
+    display: none;
+}
+  
+.vs-carousel-items img.active {
+    display: block;
+}
+  
+.vs-carousel-items button {
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #555;
+}
+  
+.vs-carousel-items button:focus {
+    outline: none;
+}
+  
+@media (min-width: 992px) {
+    .vs-carousel-items {
+        display: flex; 
+    }
+    .vs-carousel-items img {
+        max-width: 100%;
+        display: block;
+    }
+
+    .vs-carousel button {
+        display: none; 
+    }
+}
