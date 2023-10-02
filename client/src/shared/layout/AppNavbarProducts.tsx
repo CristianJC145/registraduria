@@ -24,16 +24,19 @@ const AppNavbarProducts: React.FC = () => {
   return (
     <nav className="vs-navbar">
       <div className="vs-navbar-left">
-        <AppButton className="openNavbar" type="button" icon="fa-bars" onClick={toogleNavbar}></AppButton>
+        <AppButton className="openNavbar" icon="fa-bars" onClick={toogleNavbar}></AppButton>
         <div className={`vs-navbar-nav ${isOpen ? 'is-active' : ''}`}>
           <div className="vs-nav-header">
             <a className="vs-navbar-logo" href="/">
               <img src="src/assets/images/logo_2.png" alt="" />
               <span>VSHOWCASE</span>
             </a>
-            <AppButton className='closeNavbar' type="button" variant='dark' icon="fa-times" onClick={toogleNavbar}></AppButton>
+            <AppButton className='closeNavbar' variant='dark' icon="fa-times" onClick={toogleNavbar}></AppButton>
           </div>
           <div className="vs-nav-links">
+
+            <AppButton className='closeNavbar' href='/register' label='Registro'></AppButton>
+
             <a className="vs-nav-link vs-nav-categories" href="#">
               <AppIcon className="vs-nav-icon" icon="fa-list"></AppIcon>
               Categorias
@@ -71,16 +74,16 @@ const AppNavbarProducts: React.FC = () => {
                 <img src="src/assets/images/logo_2.png" alt="Logo"/>
             </div>
             <input type="text" placeholder="Buscar..."/>
-            <AppButton variant='dark' type="button" icon="fa-search"></AppButton>
+            <AppButton variant='dark' icon="fa-search"></AppButton>
 
           </div>
         </section>
       </div>
       <div className="vs-navbar-right">
-        <AppButton type='link'label="Ingresar" href=''/>
-        <AppButton type='link'label="Registrarme" href='' variant='light' shadow='sm'/>
-        <AppButton variant="primary" type="button" icon="fa-user"></AppButton>
-        <AppButton type="button" icon="fa-cart-shopping"></AppButton>
+        <AppButton label="Ingresar" to='login'/>
+        <AppButton label="Registrarme" to='register' variant='light' shadow='sm'/>
+        <AppButton variant="primary" icon="fa-user"></AppButton>
+        <AppButton icon="fa-cart-shopping"></AppButton>
       </div>
     </nav>
   );

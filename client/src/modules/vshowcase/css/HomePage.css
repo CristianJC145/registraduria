@@ -36,7 +36,7 @@
 @media (min-width: 992px) {
     .vs-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill,minmax(min(100%, 30%), 1fr));
+        grid-template-columns: repeat(auto-fill,minmax(min(100%, 20%), 1fr));
         padding: 1.5rem
     }
     

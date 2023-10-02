@@ -18,10 +18,10 @@ function HomePage() {
         <div className="vs-menu-options">
           <h4 className="vs-menu-title">Recomendado para ti</h4>
           <div className="vs-options">
-            <AppButton className='vs-btnOptions' type="button" variant='secondary-ghost' label='Favoritos'></AppButton>
-            <AppButton className='vs-btnOptions' type="button" variant='secondary-ghost' label='Mejor Calificación'></AppButton>
-            <AppButton className='vs-btnOptions' type="button" variant='secondary-ghost' label='Promociones'></AppButton>
-            <AppButton className='vs-btnOptions' type="button" variant='secondary-ghost' label='Todos'></AppButton>
+            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Favoritos'></AppButton>
+            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Mejor Calificación'></AppButton>
+            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Promociones'></AppButton>
+            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Todos'></AppButton>
           </div>
         </div>
       </article>
