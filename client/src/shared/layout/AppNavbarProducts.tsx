@@ -35,8 +35,6 @@ const AppNavbarProducts: React.FC = () => {
           </div>
           <div className="vs-nav-links">
 
-            <AppButton className='closeNavbar' href='/register' label='Registro'></AppButton>
-
             <a className="vs-nav-link vs-nav-categories" href="#">
               <AppIcon className="vs-nav-icon" icon="fa-list"></AppIcon>
               Categorias
@@ -81,7 +79,7 @@ const AppNavbarProducts: React.FC = () => {
       </div>
       <div className="vs-navbar-right">
         <AppButton label="Ingresar" to='login'/>
-        <AppButton label="Registrarme" to='register' variant='light' shadow='sm'/>
+        <AppButton to='register' label='Registrarme' variant='light' shadow='sm'></AppButton>
         <AppButton variant="primary" icon="fa-user"></AppButton>
         <AppButton icon="fa-cart-shopping"></AppButton>
       </div>
