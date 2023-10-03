@@ -1,5 +1,49 @@
 .vs-form-register {
-    margin: 0 auto ;
+    border-radius: var( --radius-1);
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+    margin: 2rem auto ;
     padding: var(--p-8);
-    width: 400px;
+    width: 350px;
+    color: #fff;
+}
+.vs-form-title {
+    color: rgb(38, 39, 54);
+}
+.vs-form-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+.vs-form-field {
+    margin-bottom: 0.75rem;
+}
+.vs-form-label {
+    color: #555;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 0.25rem;
+}
+.vs-form-input {
+    display: block;
+    width: 100%;
+    padding: var(--p-2) var(--p-3);
+    border-radius: var( --radius-1);
+    background-color: rgba(85, 85, 85, 0.04);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgb(68, 68, 68);
+    outline: none;
+}
+.vs-form-input:focus {
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 1px 3px rgba(var(--color-primary-rgb), 0.3);
+}
+@media (min-width: 768px) {
+    .vs-form-register {
+        width: 400px;
+    }
+    
+}
+@media (min-width: 992px) {
+    
 }

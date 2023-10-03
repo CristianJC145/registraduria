@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AppButton from '../components/Buttons/AppButton';
-import './AppNavbarProducts.css'
+import './css/AppNavbarProducts.css'
 import AppIcon from '../components/AppIcon';
 
 const AppNavbarProducts: React.FC = () => {

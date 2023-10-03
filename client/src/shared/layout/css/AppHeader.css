@@ -1,0 +1,19 @@
+.vs-header {
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: var(--p-3);
+}
+
+.vs-header-container {
+    margin: 0 auto;
+    text-decoration: none;
+}
+.vs-header-title {
+    color: #555;
+    font-size: 16px;
+    font-weight: bold;
+}
+.vs-header-logo {
+    height: 40px;
+    margin-right: 0.5rem;
+}

@@ -14,7 +14,6 @@ const AppButton: React.FC<ButtonProps> = ({
   shadow, 
   icon, 
   to, 
-  params,
   className 
 }) => {
 

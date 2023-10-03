@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import { registerUser } from '../vshowcase/services/createUser.service';
 
@@ -32,24 +32,24 @@ const Register: React.FC = () => {
   return (
     <div className='vs-form-register'>
       <h2 className='vs-form-title'>Crear Cuenta</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nombre:</label>
-          <input className='form-control' type="text" name="name" value={formData.name} onChange={handleChange} required />
+      <form className='vs-form-content' onSubmit={handleSubmit}>
+        <div className='vs-form-field'>
+          <label className='vs-form-label'>Nombre</label>
+          <input className='vs-form-input' type="text" name="name" value={formData.name} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Email:</label>
-          <input className='form-control' type="email" name='email' value={formData.email} onChange={handleChange} required />
+        <div className='vs-form-field'>
+          <label className='vs-form-label'>E-mail</label>
+          <input className='vs-form-input' type="email" name='email' value={formData.email} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Phone:</label>
-          <input className='form-control' type="text" name="phone" value={formData.phone} onChange={handleChange} required />
+        <div className='vs-form-field'>
+          <label className='vs-form-label'>Celular</label>
+          <input className='vs-form-input' type="text" name="phone" value={formData.phone} onChange={handleChange} required />
         </div>
-        <div>
-          <label>Contraseña:</label>
-          <input className='form-control' type="password" name="password" value={formData.password} onChange={handleChange} required />
+        <div className='vs-form-field'>
+          <label className='vs-form-label'>Contraseña</label>
+          <input className='vs-form-input' type="password" name="password" value={formData.password} onChange={handleChange} required />
         </div>
-        <AppButton label='Guardar'></AppButton>
+        <AppButton className='mt-3' label='Guardar' shadow='sm'></AppButton>
       </form>
     </div>
   );
