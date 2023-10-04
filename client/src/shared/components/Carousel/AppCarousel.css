@@ -25,7 +25,7 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    color: #555;
+    color: var(--color-gray-400);
 }
   
 .vs-carousel-items button:focus {

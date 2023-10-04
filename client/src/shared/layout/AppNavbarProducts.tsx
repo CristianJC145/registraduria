@@ -66,7 +66,7 @@ const AppNavbarProducts: React.FC = () => {
           </div>
         </div>
 
-        <section>
+        <section className="vs-section-search-bar">
           <div className="vs-search-bar">
             <div className="vs-logo">
                 <img src="src/assets/images/logo_2.png" alt="Logo"/>

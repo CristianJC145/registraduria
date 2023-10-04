@@ -10,7 +10,7 @@ footer {
 .vs-footer-left {
     margin-left: 0;
     font-weight: 600;
-    color: #555;
+    color: var(--color-gray-400);
 }
 .vs-footer-right {
     margin-right: 0;

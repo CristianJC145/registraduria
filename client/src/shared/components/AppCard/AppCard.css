@@ -20,7 +20,6 @@
   
 .vs-card-description {
   color: rgba(35, 44, 65, 0.83);
-  font-size: 14px;
   font-weight: bold;
   margin-bottom: 1rem;
 }
@@ -42,7 +41,6 @@
 }
 .vs-card-shipping {
   margin-top: 1rem;
-  font-size: 14px;
   font-weight: bold;
   color: #42AB49;
 }

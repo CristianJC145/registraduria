@@ -20,7 +20,7 @@
     max-height: 30px;
 }
 .vs-navbar-logo span {
-    color: #555;
+    color: var(--color-gray-400);
     font-weight: 600;
 }
 .vs-navbar-left {
@@ -73,7 +73,7 @@
     align-items: center;
     gap: 1rem;
     text-decoration: none;
-    color: #555;
+    color: var(--color-gray-400);
     padding: var(--p-4) var(--p-4) ;
 }
 .vs-nav-link:hover {
@@ -88,7 +88,7 @@
 .closeNavbar {
     margin: 0.5rem;
 }
-section {
+.vs-section-search-bar {
     display: flex;
     flex: 1 1 auto;
     justify-content: space-between;
@@ -126,14 +126,14 @@ section {
 
 button {
     padding: 5px 10px;
-    background-color: #555;
+    background-color: var(--color-primary);
     border: none;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
 
 button img {
-    height: 20px; /* Ajusta el tamaño del icono de búsqueda según sea necesario */
+    height: 20px;
 }
 
 .vs-search-bar input[type="text"]::placeholder {
@@ -207,7 +207,6 @@ button img {
         padding: 0;
     }
     .vs-navbar-logo span {
-        font-size: 520;
         color: rgb(255, 255, 255);
     }
     .vs-nav-link {
