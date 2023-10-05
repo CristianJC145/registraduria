@@ -34,7 +34,7 @@ const AppCarousel: React.FC<CarouselProps> = ({ images, interval  }) => {
 
   return (
     <div className="vs-carousel">
-        <AppButton variant="dark" type="button" icon="angle-left" onClick={prevSlide} ></AppButton>
+        <AppButton variant="dark" icon="angle-left" onClick={prevSlide} ></AppButton>
         <div className="vs-carousel-items">
             {images.map((image, index) => (
                 <img
@@ -45,7 +45,7 @@ const AppCarousel: React.FC<CarouselProps> = ({ images, interval  }) => {
                 />
             ))}
         </div>
-        <AppButton variant="dark" type="button" icon="angle-right" onClick={nextSlide} ></AppButton>
+        <AppButton variant="dark" icon="angle-right" onClick={nextSlide} ></AppButton>
     </div>
   );
 };

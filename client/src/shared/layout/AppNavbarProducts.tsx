@@ -2,17 +2,29 @@ import React, { useState, useEffect } from 'react';
 import AppButton from '../components/Buttons/AppButton';
 import './css/AppNavbarProducts.css'
 import AppIcon from '../components/AppIcon';
+import { settings } from '../constant/settings.constants';
 
 const AppNavbarProducts: React.FC = () => {
+  const appLogo = settings.appLogo;
   const[isOpen, setIsOpen] = useState(false);
   const toogleNavbar = () =>{
     setIsOpen(!isOpen);
+    if(!isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
   }
   const handleOutsideClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     if (isOpen && !target.closest('.vs-navbar-nav')) {
       setIsOpen(false);
+      document.body.classList.remove('no-scroll');
     }
+  };
+  const handleItemClick = () => {
+    setIsOpen(false);
+    document.body.classList.remove('no-scroll');
   };
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -23,15 +35,23 @@ const AppNavbarProducts: React.FC = () => {
   }, [isOpen]);
   return (
     <nav className="vs-navbar">
+      {isOpen && <div className="overlay"></div>}
       <div className="vs-navbar-left">
         <AppButton className="openNavbar" icon="fa-bars" onClick={toogleNavbar}></AppButton>
         <div className={`vs-navbar-nav ${isOpen ? 'is-active' : ''}`}>
           <div className="vs-nav-header">
-            <a className="vs-navbar-logo" href="/">
-              <img src="src/assets/images/logo_2.png" alt="" />
-              <span>VSHOWCASE</span>
-            </a>
-            <AppButton className='closeNavbar' variant='dark' icon="fa-times" onClick={toogleNavbar}></AppButton>
+            <div className="vs-header-top">
+              <a className="vs-navbar-logo" href="/">
+                <img src={appLogo} alt="" />
+                <span>VSHOWCASE</span>
+              </a>
+              <AppButton className='closeNavbar' variant='white' icon="fa-times" onClick={toogleNavbar}></AppButton>
+            </div>
+            <div className="vs-header-actions">
+              <AppButton variant='light' outlined className='vs-btn-login' to="/login" label="Ingresar" shadow='sm' onClick={handleItemClick}></AppButton>
+              <AppButton variant='light' className='vs-btn-register' to="/register/landing" label="Registrarme" shadow='sm' onClick={handleItemClick}></AppButton>
+            </div>
+
           </div>
           <div className="vs-nav-links">
 
@@ -79,10 +99,10 @@ const AppNavbarProducts: React.FC = () => {
       </div>
       <div className="vs-navbar-right">
         <AppButton label="Ingresar" to='login'/>
-        <AppButton to='register' label='Registrarme' variant='light' shadow='sm'></AppButton>
-        <AppButton variant="primary" icon="fa-user"></AppButton>
+        <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
         <AppButton icon="fa-cart-shopping"></AppButton>
       </div>
+
     </nav>
   );
 };

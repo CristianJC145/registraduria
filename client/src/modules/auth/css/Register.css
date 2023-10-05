@@ -1,47 +1,43 @@
 .vs-section-form {
     margin: 2rem auto ;
     width: 350px;
-}
-.vs-form-register {
     border-radius: var( --radius-1);
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.2);
     padding: var(--p-8);
-    color: #fff;
+}
+.vs-form-register {
+    margin-bottom: 25px;
 }
 .vs-form-title {
     color: var( --color-gray-800);
+    padding-bottom: var(--p-1) ;
 }
 .vs-form-content {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
 }
-.vs-form-field {
-    margin-bottom: 0.75rem;
-}
-.vs-form-label {
-    color: var(--color-gray-400);
-    font-weight: bold;
+
+.vs-section-terms {
     font-size: 12px;
-    margin-bottom: 0.25rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+    white-space: unset;
 }
-.vs-form-input {
-    display: block;
-    width: 100%;
-    padding: var(--p-2) var(--p-3);
-    border-radius: var( --radius-1);
-    background-color: rgba(85, 85, 85, 0.04);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: var(--color-gray-700);
-    outline: none;
+.vs-section-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    justify-content: center;
+    padding-top: var(--p-7);
+    font-size: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-.vs-form-input:focus {
-    border: 1px solid var(--color-primary);
-    box-shadow: 0 0 1px 3px rgba(var(--color-primary-rgb), 0.3);
+.vs-actions-label {
+    color: var(--color-gray-800);
 }
 @media (min-width: 768px) {
-    .vs-form-register {
+    .vs-section-form {
         width: 400px;
     }
     

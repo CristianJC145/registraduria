@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import AppCard from '../../../shared/components/AppCard/AppCard';
 import AppButton from '../../../shared/components/Buttons/AppButton';
 import AppCarousel from '../../../shared/components/Carousel/AppCarousel';

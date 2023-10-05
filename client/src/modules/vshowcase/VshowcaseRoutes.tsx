@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/Home';
 import VshowcaseLayout from '../../shared/layout/VshowcaseLayout';
 import RegisterUser from '../auth/Register';
+import RegisterLanding from './pages/Register'
 import AppEmptyLayout from '../../shared/layout/AppEmptyLayout';
 
 const VshowcaseRoutes: React.FC = () => {
@@ -18,7 +19,8 @@ const VshowcaseRoutes: React.FC = () => {
           <Route path="/register/*" element={ 
             <AppEmptyLayout>
               <Routes>
-                <Route index element = {<RegisterUser/>}/>
+                <Route path='landing/' element= {<RegisterLanding/>} />
+                <Route path='count/normal' element = {<RegisterUser/>}/>
               </Routes>
             </AppEmptyLayout>
           } />

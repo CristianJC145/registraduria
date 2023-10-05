@@ -19,12 +19,21 @@ const AppButton: React.FC<ButtonProps> = ({
 
   const baseClassName = "vs-btn";
   const variantClassName = `vs-btn--${variant ?? 'primary'}`;
-  const outlinedClassName = outlined ? `vs-outlined--${variant}` : '';
+  const outlinedClassName = outlined ? `vs-outlined--${variant ?? 'primary'}` : '';
   const shadowClassName =  shadow ? `vs-shadow--${shadow}` : '';
   const iconClassName = icon ? `vs-btn--icon` : '';
   const classNameCustom = className ? className : '';
   const classNames = [baseClassName, variantClassName, outlinedClassName, shadowClassName, iconClassName, classNameCustom].filter(Boolean).join(' ');
-  
+
+  if (onClick && to) {
+    return (
+      <Link to={`${to}`} onClick={onClick} className={classNames}>
+        {label}
+        {icon && <AppIcon icon={icon}></AppIcon>}
+      </Link>
+    )
+  }
+
   if (onClick) {
     return (
       <button type="button" className={classNames} onClick={onClick}>

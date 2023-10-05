@@ -1,1 +1,1 @@
-export type VariantsConstant = 'primary' | 'secondary' | 'secondary-ghost'| 'success' | 'danger' | 'warning' | 'info' | 'light' | 'ghost' | 'white'| 'blur' | 'transparent' |'dark'
+export type VariantsConstant = 'primary' | 'secondary' | 'secondary-ghost'| 'success' | 'danger' | 'warning' | 'info' | 'light' | 'ghost' | 'white'| 'blur' | 'transparent' |'dark' | 'link'

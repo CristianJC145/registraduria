@@ -1,3 +1,15 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 5; 
+}
+.no-scroll {
+    overflow: hidden;
+}
 .vs-navbar {
     display: flex;
     align-items: center;
@@ -5,6 +17,8 @@
     height: var(--navbar-height);
     background-color: var(--color-primary); 
     padding: 0 var(--p-3);
+    position: relative;
+    z-index: 6; 
 }
 
 .vs-navbar-logo {
@@ -12,7 +26,7 @@
     align-items: center;
     text-decoration: none;
     margin-right: 1rem;
-    padding: 1.5rem 2rem;
+    padding: var(--p-7) var(--p-4);
 }
 .vs-navbar-logo img {
     margin-right: 0.5rem;
@@ -20,7 +34,7 @@
     max-height: 30px;
 }
 .vs-navbar-logo span {
-    color: var(--color-gray-400);
+    color: #fff;
     font-weight: 600;
 }
 .vs-navbar-left {
@@ -42,7 +56,7 @@
     margin-top: 10px;
     flex-direction: column;
     width: 100%;
-    max-width: 250px;
+    max-width: 280px;
     background-color: #F5F7FA;
     border-radius: 20px;
     transition: all 0.4s ease;
@@ -60,12 +74,27 @@
 }
 .vs-nav-header {
     display: flex;
-    justify-content: space-between
+    flex-direction: column;
+    background-color: var(--color-primary);
+    border-radius: 16px 16px 0 0;
+}
+.vs-header-top {
+    display: flex;
+    justify-content: space-between;
+}
+.vs-header-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 20px;
+    padding: 0 var(--p-4);
+}
+.vs-btn-login {
+    flex: 1 1 auto;
 }
 .vs-nav-links {
     display: flex;
     flex-direction: column;
-    padding: 0 var(--p-5);
+    padding: 0 var(--p-4);
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 .vs-nav-link {
@@ -74,7 +103,7 @@
     gap: 1rem;
     text-decoration: none;
     color: var(--color-gray-400);
-    padding: var(--p-4) var(--p-4) ;
+    padding: var(--p-4) var(--p-2) ;
 }
 .vs-nav-link:hover {
     color: rgba(255, 255, 255, 0.8);
@@ -145,11 +174,27 @@ button img {
     color: #fff;
 }
 
+.vs-user-menu {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    padding: var(--p-4);
+    background-color: var(--color-body);
+    border-radius: var(--radius-1);
+    position: absolute;
+    right: 1rem;
+    top: calc(var(--navbar-height) - 1rem);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.vs-menu-item {
+    text-decoration: none;
+    color: #fff;
+}
 @media (min-width: 768px) {
     .vs-navbar-right > a {
         display: inline-block;
     }
-    .vs-navbar-right > button {
+    .vs-header-actions, .vs-navbar-right > button {
         display: none;
     }
 }
@@ -197,12 +242,6 @@ button img {
         border: unset;
         padding: 0;
     }
-    .vs-nav-show {
-        display: none;
-    }
-    .vs-nav-link .vs-nav-icon {
-        display: none;
-    }
     .vs-navbar-logo { 
         padding: 0;
     }
@@ -234,11 +273,11 @@ button img {
         position: absolute;
         padding: 2px;
     }
-    .closeNavbar {
+    .closeNavbar, .openNavbar, .vs-nav-show, .overlay, .vs-nav-link .vs-nav-icon {
         display: none;
     }
-    .openNavbar {
-        display: none;
+    .no-scroll {
+        overflow: initial;
     }
     
 }
