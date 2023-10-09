@@ -13,7 +13,7 @@ function RegisterLanding() {
                     title="Crear Cuenta Empresarial"
                     description="Vende y administra tus productos con un dashboard para las empresas."
                 >
-                    <AppButton to='/register/count/normal' label='Continuar'></AppButton>
+                    <AppButton to={`/register/count/business?type=business`} label='Continuar'></AppButton>
                 </CardComponent>
 
                 <CardComponent
@@ -21,7 +21,7 @@ function RegisterLanding() {
                     title="Crear Cuenta Personal"
                     description="Compra tus productos con una amplia gama de facilidades de pago."
                 >
-                   <AppButton to='/register/count/normal' label='Continuar'></AppButton>
+                   <AppButton to={`/register/count/personal?type=personal`} label='Continuar'></AppButton>
                 </CardComponent>
             </div>
         </div>

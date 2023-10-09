@@ -20,7 +20,8 @@ const VshowcaseRoutes: React.FC = () => {
             <AppEmptyLayout>
               <Routes>
                 <Route path='landing/' element= {<RegisterLanding/>} />
-                <Route path='count/normal' element = {<RegisterUser/>}/>
+                <Route path='count/personal' element = {<RegisterUser/>}/>
+                <Route path='count/business' element = {<RegisterUser/>}/>
               </Routes>
             </AppEmptyLayout>
           } />
