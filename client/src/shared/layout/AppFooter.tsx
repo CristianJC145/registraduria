@@ -11,9 +11,9 @@ const AppFooter:React.FC = () => {
             </div>
 
             <div className="vs-footer-right" >
-                <AppButton icon="fa-brands fa-instagram" variant='dark'></AppButton>
-                <AppButton icon="fa-brands fa-youtube" variant='dark'></AppButton>
-                <AppButton icon="fa-brands fa-twitter" variant='dark'></AppButton>
+                <AppButton icon="fa-brands fa-instagram" variant='dark' ariaLabel='Instagram'></AppButton>
+                <AppButton icon="fa-brands fa-youtube" variant='dark' ariaLabel='Youtube'></AppButton>
+                <AppButton icon="fa-brands fa-twitter" variant='dark' ariaLabel='X'></AppButton>
             </div>
         </footer>
     )

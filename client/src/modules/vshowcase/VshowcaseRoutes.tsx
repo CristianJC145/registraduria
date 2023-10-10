@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/Home';
+import HomePage from './pages/HomePage';
 import VshowcaseLayout from '../../shared/layout/VshowcaseLayout';
 import RegisterUser from '../auth/Register';
-import RegisterLanding from './pages/Register'
+import RegisterLanding from './pages/RegisterPage'
 import AppEmptyLayout from '../../shared/layout/AppEmptyLayout';
 
 const VshowcaseRoutes: React.FC = () => {

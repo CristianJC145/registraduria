@@ -5,6 +5,7 @@ import AppIcon from '../../components/AppIcon';
 import { Link } from 'react-router-dom';
 
 const AppButton: React.FC<ButtonProps> = ({ 
+  ariaLabel,
   label, 
   outlined, 
   href,
@@ -36,7 +37,7 @@ const AppButton: React.FC<ButtonProps> = ({
 
   if (onClick) {
     return (
-      <button type="button" className={classNames} onClick={onClick}>
+      <button type="button" className={classNames} onClick={onClick} aria-label={ariaLabel}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
       </button>
@@ -62,7 +63,7 @@ const AppButton: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button type="submit" className={classNames}>
+    <button type="submit" className={classNames} aria-label={ariaLabel}>
       {label}
       {icon && <AppIcon icon={icon}></AppIcon>}
     </button>

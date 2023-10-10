@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
 import { registerUser } from '../vshowcase/services/createUser.service';
+import { validatePassword } from './logic/validatePassword';
 
 import './css/Register.css'
 
@@ -11,29 +12,35 @@ const Register: React.FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const typeAccount = searchParams.get('type');
-  console.log(typeAccount);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        password: '',
-        account_type_id: '',
-    });    
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            await registerUser(formData);
-        } catch (error) {
-        console.log(error);
-        }
-    };
+  const account_type_id = 1;
+  console.log(account_type_id);
+  const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      password: '',
+      account_type_id: account_type_id,
+  });    
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      console.log(validatePassword(formData.password));
+      if (!validatePassword(formData.password)) {
+        alert('La contraseña debe tener al menos 8 caracteres.');
+        return;
+      }
+      try {
+          await registerUser(formData);
+      } catch (error) {
+      console.log(error);
+      }
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-        ...formData,
-        [e.target.name]: e.target.value,
-        });
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+      });
+  };
 
 
   return (
@@ -49,16 +56,7 @@ const Register: React.FC = () => {
         </form>
       </div>
 
-      <div className='vs-section-terms'>
-        <span>Al registrate aceptas nuestros</span>
-        <AppButton variant='link' to="/" label=' Terminos y condiciones '></AppButton>
-        <span>&</span>
-        <AppButton variant='link' to="/" label=' Políticas de Privacidad'></AppButton>
-      </div>
-      <div className="vs-section-actions">
-        <span className='vs-actions-label'>¿Ya tienes cuenta?</span>
-        <AppButton variant='link' to="/login" label='Iniciar Sesión'></AppButton>
-      </div>
+     
 
     </section>
   );

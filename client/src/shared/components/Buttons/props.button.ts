@@ -2,6 +2,7 @@ import { VariantsConstant } from "../../constant/variants.constant";
 import { ShadowsConstant } from "../../constant/shadows.const";
 
 export interface ButtonProps {
+    ariaLabel?: string;
     label?: string ;
     href? : string;
     to? : string;

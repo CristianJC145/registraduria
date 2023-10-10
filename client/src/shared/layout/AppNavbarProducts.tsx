@@ -37,7 +37,7 @@ const AppNavbarProducts: React.FC = () => {
     <nav className="vs-navbar">
       {isOpen && <div className="overlay"></div>}
       <div className="vs-navbar-left">
-        <AppButton className="openNavbar" icon="fa-bars" onClick={toogleNavbar}></AppButton>
+        <AppButton className="openNavbar" icon="fa-bars" onClick={toogleNavbar} ariaLabel='Open Navbar'></AppButton>
         <div className={`vs-navbar-nav ${isOpen ? 'is-active' : ''}`}>
           <div className="vs-nav-header">
             <div className="vs-header-top">
@@ -45,7 +45,7 @@ const AppNavbarProducts: React.FC = () => {
                 <img src={appLogo} alt="" />
                 <span>VSHOWCASE</span>
               </a>
-              <AppButton className='closeNavbar' variant='white' icon="fa-times" onClick={toogleNavbar}></AppButton>
+              <AppButton className='closeNavbar' variant='white' icon="fa-times" onClick={toogleNavbar} ariaLabel='Clase Navbar'></AppButton>
             </div>
             <div className="vs-header-actions">
               <AppButton variant='light' outlined className='vs-btn-login' to="/login" label="Ingresar" shadow='sm' onClick={handleItemClick}></AppButton>
@@ -92,7 +92,7 @@ const AppNavbarProducts: React.FC = () => {
                 <img src="src/assets/images/logo_2.png" alt="Logo"/>
             </div>
             <input type="text" placeholder="Buscar..."/>
-            <AppButton variant='dark' icon="fa-search"></AppButton>
+            <AppButton variant='dark' icon="fa-search" ariaLabel='Search'></AppButton>
 
           </div>
         </section>
@@ -100,7 +100,7 @@ const AppNavbarProducts: React.FC = () => {
       <div className="vs-navbar-right">
         <AppButton label="Ingresar" to='login'/>
         <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
-        <AppButton icon="fa-cart-shopping"></AppButton>
+        <AppButton icon="fa-cart-shopping" ariaLabel='Cart Shopping'></AppButton>
       </div>
 
     </nav>
