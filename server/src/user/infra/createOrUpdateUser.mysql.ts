@@ -1,3 +1,4 @@
+import { hashPassword } from '../../auth/bcrypt.config';
 import { executeQuery } from '../../shared/infra/mysql/db.mysql';
 import { CreateOrUpdateUserDto } from '../domain/dtos/createOrUpdateUser.dto';
 import { CreateOrUpdateUserRepository } from '../domain/repositories/createOrUpdateUser.repository';
@@ -8,9 +9,9 @@ export class CreateOrUpdateUserMySql implements CreateOrUpdateUserRepository {
     if (id) {
       sql = 'UPDATE user SET name=?, phone=? WHERE id = ?';
     } else {
-      sql = 'INSERT INTO user (name, phone) VALUES (?, ?)';
+      sql = 'INSERT INTO user (name, password, email, phone, account_type_id) VALUES (?, ?, ?, ?, ?)';
     }
-
-    return executeQuery(sql, [data.user.name, data.user.phone, id]);
+    const hashedPassword = await hashPassword(data.user.password);
+    return executeQuery(sql, [data.user.name, hashedPassword, data.user.email, data.user.phone, data.user.account_type_id, id]);
   }
 }
