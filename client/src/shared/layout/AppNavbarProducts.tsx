@@ -98,7 +98,7 @@ const AppNavbarProducts: React.FC = () => {
         </section>
       </div>
       <div className="vs-navbar-right">
-        <AppButton label="Ingresar" to='login'/>
+        <AppButton  to='auth/login' label="Ingresar"/>
         <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
         <AppButton icon="fa-cart-shopping" ariaLabel='Cart Shopping'></AppButton>
       </div>

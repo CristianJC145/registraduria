@@ -5,6 +5,7 @@ import VshowcaseLayout from '../../shared/layout/VshowcaseLayout';
 import RegisterUser from '../auth/Register';
 import RegisterLanding from './pages/RegisterPage'
 import AppEmptyLayout from '../../shared/layout/AppEmptyLayout';
+import Login from '../auth/Login';
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -22,6 +23,13 @@ const VshowcaseRoutes: React.FC = () => {
                 <Route path='landing/' element= {<RegisterLanding/>} />
                 <Route path='count/personal' element = {<RegisterUser/>}/>
                 <Route path='count/business' element = {<RegisterUser/>}/>
+              </Routes>
+            </AppEmptyLayout>
+          } />
+          <Route path="/auth/*" element={
+            <AppEmptyLayout>
+              <Routes>
+                <Route path='login' element = {<Login/>} />
               </Routes>
             </AppEmptyLayout>
           } />

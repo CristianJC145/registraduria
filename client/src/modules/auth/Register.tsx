@@ -12,8 +12,7 @@ const Register: React.FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const typeAccount = searchParams.get('type');
-  const account_type_id = 1;
-  console.log(account_type_id);
+  const account_type_id = typeAccount === 'business' ? 1 : 2;
   const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -23,7 +22,6 @@ const Register: React.FC = () => {
   });    
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      console.log(validatePassword(formData.password));
       if (!validatePassword(formData.password)) {
         alert('La contraseña debe tener al menos 8 caracteres.');
         return;
@@ -56,6 +54,17 @@ const Register: React.FC = () => {
         </form>
       </div>
 
+      <div className='vs-section-terms'>
+        <span>Al registrate aceptas nuestros</span>
+        <AppButton variant='link' to="/" label=' Terminos y condiciones '></AppButton>
+        <span>&</span>
+        <AppButton variant='link' to="/" label=' Políticas de Privacidad'></AppButton>
+      </div>
+
+      <div className="vs-section-actions">
+        <span className='vs-actions-label'>¿Ya tienes cuenta?</span>
+        <AppButton variant='link' to="/auth/login" label='Iniciar Sesión'></AppButton>
+      </div>
      
 
     </section>
