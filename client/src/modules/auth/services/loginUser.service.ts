@@ -15,6 +15,6 @@ export const loginUser = async (formData: { email: string, password: string }) =
     tokenService.set(token);
     return response.data;
   } catch (error) {
-    console.error('Error al iniciar:', error);
+    throw error;
   }
 };

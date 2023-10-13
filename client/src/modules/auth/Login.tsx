@@ -5,34 +5,51 @@ import { loginUser } from './services/loginUser.service';
 import './css/Register.css'
 
 const Login: React.FC = () => {
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     email: '',
     password: '',
+    errors: {
+      email: '',
+      password: '',
+    }
   });  
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      try {
-          await loginUser(formData);
-      } catch (error) {
-      console.log(error);
-      }
+    const handleSubmit = async (e: React.FormEvent) => {
+    const requiredFields = ['email', 'password'];
+
+    e.preventDefault();
+    try {
+        for (const field of requiredFields) {
+          if (!formData[field]) {
+            setErrorMessage(`Por favor, completa el campo ${field}.`);
+            return;
+          }
+        }
+        await loginUser(formData);
+    } catch (error: any) {
+      setErrorMessage(error.response?.data?.message);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevState: { errors: any; }) => ({
+    ...prevState,
+    [name]: e.target.value,
+    errors: {
+      ...prevState.errors,
+      [name]: value.trim() ? '' : `Por favor, completa el campo ${name}.`,
+    }
+    }));
   };
   return (
     <div className="vs-section-form">
       <div className="vs-form-register">
         <h2 className="vs-form-title">Iniciar Sesión</h2>
         <form className="vs-form-content" onSubmit={handleSubmit}>
-          <AppFormField label="E-mail" name='email' type="text" value={formData.email} onChange={handleChange}></AppFormField>
-          <AppFormField label="Contraseña" name='password' type="password" value={formData.password} onChange={handleChange}></AppFormField>
+          <AppFormField label="E-mail" name='email' type="text" value={formData.email} onChange={handleChange} errorMessage={errorMessage}></AppFormField>
+          <AppFormField label="Contraseña" name='password' type="password" value={formData.password} onChange={handleChange} errorMessage={errorMessage}></AppFormField>
           <AppButton className='mt-3' label='Guardar' shadow='sm'></AppButton>
         </form>
       </div>

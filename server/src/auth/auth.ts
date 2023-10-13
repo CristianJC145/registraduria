@@ -12,8 +12,11 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     const userCredentials = await getUserAndPassword.run(email);
+    if (!userCredentials) {
+      return res.status(401).json({ message: 'Credenciales inválidas' });
+    }
     const isPasswordValid = await comparePassword(password, userCredentials.password);
-    if (!userCredentials || !isPasswordValid) {
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
     const token = jwt.sign({ email: userCredentials.email }, SECRET_KEY, { expiresIn: '1h' });
