@@ -13,13 +13,13 @@ export const login = async (req: Request, res: Response) => {
   try {
     const userCredentials = await getUserAndPassword.run(email);
     if (!userCredentials) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+      return res.status(401).json({ message: 'No hay ninguna cuenta asociada con este correo electronico ingresado, porfavor ingresa un correo valido' });
     }
     const isPasswordValid = await comparePassword(password, userCredentials.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
+      return res.status(401).json({ message: 'La contraseña ingresada no es correcta' });
     }
-    const token = jwt.sign({ email: userCredentials.email }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ id: userCredentials.id, name: userCredentials.name, email: userCredentials.email }, SECRET_KEY, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     console.error(error);
