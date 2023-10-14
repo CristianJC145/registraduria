@@ -17,6 +17,11 @@
     flex-direction: column;
     margin-top: 1rem;
 }
+.vs-form-box-error {
+    background-color: rgba(var(--color-pastel-red-rgb), 0.2);
+    border-radius: 7px;
+    padding: var(--p-1) var(--p-6) var(--p-3) var(--p-6);
+}
 
 .vs-section-terms {
     font-size: 12px;
@@ -40,7 +45,6 @@
     .vs-section-form {
         width: 400px;
     }
-    
 }
 @media (min-width: 992px) {
     

@@ -15,7 +15,8 @@ const AppButton: React.FC<ButtonProps> = ({
   shadow, 
   icon, 
   to, 
-  className 
+  className,
+  children, 
 }) => {
 
   const baseClassName = "vs-btn";
@@ -31,6 +32,7 @@ const AppButton: React.FC<ButtonProps> = ({
       <Link to={`${to}`} onClick={onClick} className={classNames}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
       </Link>
     )
   }
@@ -49,6 +51,7 @@ const AppButton: React.FC<ButtonProps> = ({
       <Link to={`${to}`} className={classNames}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
       </Link>
     );
   }
@@ -58,6 +61,7 @@ const AppButton: React.FC<ButtonProps> = ({
       <a className={classNames} target={target} href={href}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
       </a>
     );
   }

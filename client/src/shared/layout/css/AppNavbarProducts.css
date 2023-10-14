@@ -45,8 +45,13 @@
 .vs-navbar-right > a {
     display: none;
 }
+.vs-right-cart-shopping {
+    margin-left: 1rem;
+    padding-left: var(--p-2);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
 .vs-navbar-nav {
-    display: flex;
+    display: flex; 
     position: fixed;
     top: 0;
     left: -300px;
@@ -85,8 +90,32 @@
 .vs-header-actions {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 20px;
-    padding: 0 var(--p-4);
+    padding: var(--p-4);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.vs-actions-profile {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.vs-profile-btn {
+    border: 2px solid var(--color-body);
+    border-radius: 999px;
+    padding: 0.125rem;
+}
+.vs-profile-img {
+    height: 35px;
+    width: 35px;
+    object-fit: cover;
+    border-radius: 999px;
+}
+.vs-profile-name {
+    color: var(--color-light);
+    margin-left: 10px;
+    letter-spacing: 1px;
+}
+.vs-profile-name span {
+    font-weight: bold;
 }
 .vs-btn-login {
     flex: 1 1 auto;
@@ -192,9 +221,9 @@ button img {
 }
 @media (min-width: 768px) {
     .vs-navbar-right > a {
-        display: inline-block;
+        display: inline-flex;
     }
-    .vs-header-actions, .vs-navbar-right > button {
+    .vs-header-actions{
         display: none;
     }
 }

@@ -3,8 +3,13 @@ import AppButton from '../components/Buttons/AppButton';
 import './css/AppNavbarProducts.css'
 import AppIcon from '../components/AppIcon';
 import { settings } from '../constant/settings.constants';
+import { TokenService } from '../services/token.service';
+
+const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
 
 const AppNavbarProducts: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(tokenService.isAuthenticated());
+  const dataToken = tokenService.isAuthenticated();
   const appLogo = settings.appLogo;
   const[isOpen, setIsOpen] = useState(false);
   const toogleNavbar = () =>{
@@ -48,13 +53,26 @@ const AppNavbarProducts: React.FC = () => {
               <AppButton className='closeNavbar' variant='white' icon="fa-times" onClick={toogleNavbar} ariaLabel='Clase Navbar'></AppButton>
             </div>
             <div className="vs-header-actions">
-              <AppButton variant='light' outlined className='vs-btn-login' to="/login" label="Ingresar" shadow='sm' onClick={handleItemClick}></AppButton>
-              <AppButton variant='light' className='vs-btn-register' to="/register/landing" label="Registrarme" shadow='sm' onClick={handleItemClick}></AppButton>
+              {isLoggedIn? (
+                <>
+                  <div className='vs-actions-profile'>
+                      <AppButton className='vs-profile-btn' to="/user/profile" onClick={handleItemClick} ariaLabel='Button Profile'>
+                        <img className='vs-profile-img' src="src/assets/images/1.png" alt="" />
+                      </AppButton>
+                      <span className='vs-profile-name'>Hola, <span>{dataToken.name}</span> </span>
+                  </div>
+                </>
+              ) : (
+                 <>
+                  <AppButton variant='light' outlined className='vs-btn-login' to="/auth/login" label="Ingresar" shadow='sm' onClick={handleItemClick}></AppButton>
+                  <AppButton variant='light' className='vs-btn-register' to="/register/landing" label="Registrarme" shadow='sm' onClick={handleItemClick}></AppButton>
+                </>
+              )
+            }
             </div>
 
           </div>
           <div className="vs-nav-links">
-
             <a className="vs-nav-link vs-nav-categories" href="#">
               <AppIcon className="vs-nav-icon" icon="fa-list"></AppIcon>
               Categorias
@@ -98,9 +116,19 @@ const AppNavbarProducts: React.FC = () => {
         </section>
       </div>
       <div className="vs-navbar-right">
-        <AppButton  to='auth/login' label="Ingresar"/>
-        <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
-        <AppButton icon="fa-cart-shopping" ariaLabel='Cart Shopping'></AppButton>
+        {isLoggedIn ? (
+            <AppButton className='vs-profile-btn' to="/user/profile" onClick={handleItemClick} ariaLabel='Button Profile'>
+              <img className='vs-profile-img' src="src/assets/images/1.png" alt="" />
+            </AppButton>
+        ) : (
+            <>
+              <AppButton  to='auth/login' label="Ingresar"/>
+              <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
+            </>
+        )}
+        <div className='vs-right-cart-shopping'>
+          <AppButton icon="fa-cart-shopping" ariaLabel='Cart Shopping'></AppButton>
+        </div>
       </div>
 
     </nav>
