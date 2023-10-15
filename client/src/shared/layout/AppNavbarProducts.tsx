@@ -1,24 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext  } from 'react';
 import AppButton from '../components/Buttons/AppButton';
 import './css/AppNavbarProducts.css'
 import AppIcon from '../components/AppIcon';
 import { settings } from '../constant/settings.constants';
 import { TokenService } from '../services/token.service';
+import { useNavigate } from 'react-router-dom';
+import  { useAuth }  from '../contexts/AuthContext';
 
 const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
 
 const AppNavbarProducts: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(tokenService.isAuthenticated());
-  const dataToken = tokenService.isAuthenticated();
+  const navigate = useNavigate();
   const appLogo = settings.appLogo;
+  const dataToken = tokenService.isAuthenticated();
+  const authContext = useAuth();
+  const [isLoggedIn] = useState(tokenService.isAuthenticated());
   const[isOpen, setIsOpen] = useState(false);
-  const toogleNavbar = () =>{
+  const [dropdown, setDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdown(!dropdown);
+  };
+  const closeDropdown = () => {
+    setDropdown(false);
+  };
+  const toogleNavbar = () => {
     setIsOpen(!isOpen);
     if(!isOpen) {
       document.body.classList.add('no-scroll');
     } else {
       document.body.classList.remove('no-scroll');
     }
+  }
+  const handleLogout  = () => {
+    tokenService.delete();
+    closeDropdown();
+    authContext.logout();
+    navigate('/');
+    window.location.reload();
   }
   const handleOutsideClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
@@ -117,9 +136,23 @@ const AppNavbarProducts: React.FC = () => {
       </div>
       <div className="vs-navbar-right">
         {isLoggedIn ? (
-            <AppButton className='vs-profile-btn' to="/user/profile" onClick={handleItemClick} ariaLabel='Button Profile'>
+          <div className='vs-navbar-profile'>
+            <AppButton className='vs-profile-btn' to="" onClick={toggleDropdown} ariaLabel='Button Profile'>
               <img className='vs-profile-img' src="src/assets/images/1.png" alt="" />
             </AppButton>
+            {dropdown && (
+              <div className='vs-profile-dropdown'>
+                <div className='vs-dropdown-header'>
+                  <span>Cristian Jamioy</span>
+                </div>
+                <AppButton variant='link' subvariant="dark" to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
+                {dataToken.account_type_id === 2 && (
+                  <AppButton variant='link' subvariant="dark" to='dashboard/home' label="Dashboard" onClick={closeDropdown} ariaLabel='Button Dashboard'/>
+                )}
+              <AppButton variant='link' subvariant="dark" href='#' label="Cerrar Sesion" onClick={handleLogout} ariaLabel='Button Sign off'/>
+              </div>
+            )}
+          </div>
         ) : (
             <>
               <AppButton  to='auth/login' label="Ingresar"/>

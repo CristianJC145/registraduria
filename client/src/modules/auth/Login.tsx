@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, redirect  } from 'react-router-dom';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
 import { loginUser } from './services/loginUser.service';
 import './css/Register.css'
 import AppIcon from '../../shared/components/AppIcon';
+import { useAuth } from '../../shared/contexts/AuthContext';
+import { TokenService } from '../../shared/services/token.service';
+
+const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
 
 const Login: React.FC = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const { isLoggedIn, login } = useAuth();
+  
+  useEffect(() =>{
+    if (isLoggedIn) {
+      let dataToken = tokenService.isAuthenticated();
+      let url = dataToken.account_type_id === 2 ? '/dashboard/home' : '/';
+      navigate(url);
+    }
+  }, [isLoggedIn]);
+
   const [formData, setFormData] = useState<any>({
     email: '',
     password: '',
@@ -37,7 +51,10 @@ const Login: React.FC = () => {
           }
         }
         await loginUser(formData);
-        navigate('/dashboard');
+        let dataToken = tokenService.isAuthenticated();
+        let urlLogin = dataToken.account_type_id === 2 ? '/dashboard/home' : '/';
+        login();
+        navigate(urlLogin);
     } catch (error: any) {
       setServerErrorMensage(error.response?.data?.message);
     }

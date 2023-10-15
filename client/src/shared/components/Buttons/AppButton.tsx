@@ -17,6 +17,7 @@ const AppButton: React.FC<ButtonProps> = ({
   to, 
   className,
   children, 
+  subvariant
 }) => {
 
   const baseClassName = "vs-btn";
@@ -25,7 +26,7 @@ const AppButton: React.FC<ButtonProps> = ({
   const shadowClassName =  shadow ? `vs-shadow--${shadow}` : '';
   const iconClassName = icon ? `vs-btn--icon` : '';
   const classNameCustom = className ? className : '';
-  const classNames = [baseClassName, variantClassName, outlinedClassName, shadowClassName, iconClassName, classNameCustom].filter(Boolean).join(' ');
+  const classNames = [baseClassName, variantClassName, subvariant, outlinedClassName, shadowClassName, iconClassName, classNameCustom].filter(Boolean).join(' ');
 
   if (onClick && to) {
     return (
@@ -37,11 +38,31 @@ const AppButton: React.FC<ButtonProps> = ({
     )
   }
 
+  if (href && onClick) {
+    return (
+      <a className={classNames} target={target} href={href} onClick={onClick} aria-label={ariaLabel}>
+        {label}
+        {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
+      </a>
+    );
+  }
+  if (href) {
+    return (
+      <a className={classNames} target={target} href={href}>
+        {label}
+        {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
+      </a>
+    );
+  }
+  
   if (onClick) {
     return (
       <button type="button" className={classNames} onClick={onClick} aria-label={ariaLabel}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {children}
       </button>
     );
   }
@@ -56,20 +77,12 @@ const AppButton: React.FC<ButtonProps> = ({
     );
   }
 
-  if (href) {
-    return (
-      <a className={classNames} target={target} href={href}>
-        {label}
-        {icon && <AppIcon icon={icon}></AppIcon>}
-        {children}
-      </a>
-    );
-  }
 
   return (
     <button type="submit" className={classNames} aria-label={ariaLabel}>
       {label}
       {icon && <AppIcon icon={icon}></AppIcon>}
+      {children}
     </button>
   );
 };

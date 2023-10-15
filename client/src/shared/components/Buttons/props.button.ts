@@ -9,6 +9,7 @@ export interface ButtonProps {
     href? : string;
     to? : string;
     variant?: VariantsConstant;
+    subvariant?: string;
     shadow?:ShadowsConstant;
     className?: string;
     target?: string;
