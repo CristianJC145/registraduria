@@ -19,7 +19,9 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'La contraseña ingresada no es correcta' });
     }
-    const token = jwt.sign({ id: userCredentials.id, name: userCredentials.name, email: userCredentials.email }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({
+      id: userCredentials.id, name: userCredentials.name, email: userCredentials.email, account_type_id: userCredentials.account_type_id,
+    }, SECRET_KEY, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     console.error(error);

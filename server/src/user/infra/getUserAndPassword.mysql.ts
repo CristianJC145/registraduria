@@ -14,6 +14,7 @@ export class GetUserAndPasswordMySql {
       name: rows.name as string,
       email: rows.email as string,
       password: rows.password as string,
+      account_type_id: rows.account_type_id as number,
     };
   }
 }
