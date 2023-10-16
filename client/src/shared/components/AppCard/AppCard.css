@@ -4,6 +4,7 @@
   border-radius: 8px;
   background-color: #fff;
   width: 100%;
+  box-shadow: 0 0 3px rgba(41, 41, 42, 0.25);
 }
 .vs-card-content-image {
   display: flex;
@@ -28,11 +29,11 @@
   
 .vs-card-info {
   padding: var(--p-1) var(--p-4) var(--p-5);
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }
   
 .vs-card-description {
-  color: rgba(35, 44, 65, 0.83);
+  color: var(--color-gray-900);
   font-weight: 500;
   margin-bottom: 0.75rem;
 }
@@ -40,7 +41,7 @@
 .vs-card-price {
   font-size: 18px;
   font-weight: 500;
-  color: rgba(27, 39, 79, 0.95)
+  color: var(--color-gray-900);
 }
 
 .vs-card-seller {
@@ -60,7 +61,7 @@
 }
 @media (min-width: 768px) {
   .vs-card {
-    box-shadow: 0 6px 6px rgba(41, 41, 42, 0.25);
+    box-shadow: 0 0 8px rgba(41, 41, 42, 0.25);
   }
   .vs-card-image {
     width: 100%;
@@ -71,6 +72,19 @@
 @media (min-width: 992px) {
   .vs-card-info {
     padding: var(--p-1) var(--p-6) var(--p-5);
+  }
+  .vs-card-price {
+    line-height: 1.5rem;
+    font-size: 20px;
+  }
+  .vs-card-seller {
+    margin: 0.5rem 0;
+    font-size: 12px;
+  }
+
+  .vs-card-shipping  {
+    font-weight: 600;
+    font-size: 13px;
   }
     
 }

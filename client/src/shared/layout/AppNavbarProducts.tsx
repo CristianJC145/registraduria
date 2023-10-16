@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import AppButton from '../components/Buttons/AppButton';
 import './css/AppNavbarProducts.css'
 import AppIcon from '../components/AppIcon';
@@ -6,6 +6,7 @@ import { settings } from '../constant/settings.constants';
 import { TokenService } from '../services/token.service';
 import { useNavigate } from 'react-router-dom';
 import  { useAuth }  from '../contexts/AuthContext';
+import LazyImage from '../components/LazyImage';
 
 const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
 
@@ -66,7 +67,7 @@ const AppNavbarProducts: React.FC = () => {
           <div className="vs-nav-header">
             <div className="vs-header-top">
               <a className="vs-navbar-logo" href="/">
-                <img src={appLogo} alt="" />
+                <LazyImage  src={appLogo} alt="Logo" />
                 <span>VSHOWCASE</span>
               </a>
               <AppButton className='closeNavbar' variant='white' icon="fa-times" onClick={toogleNavbar} ariaLabel='Clase Navbar'></AppButton>
@@ -76,7 +77,7 @@ const AppNavbarProducts: React.FC = () => {
                 <>
                   <div className='vs-actions-profile'>
                       <AppButton className='vs-profile-btn' to="/user/profile" onClick={handleItemClick} ariaLabel='Button Profile'>
-                        <img className='vs-profile-img' src="src/assets/images/1.webp" alt="" />
+                        <LazyImage className='vs-profile-img' src="src/assets/images/1.webp" alt="Profile" />
                       </AppButton>
                       <span className='vs-profile-name'>Hola, <span>{dataToken.name}</span> </span>
                   </div>
@@ -126,7 +127,7 @@ const AppNavbarProducts: React.FC = () => {
         <section className="vs-section-search-bar">
           <div className="vs-search-bar">
             <div className="vs-logo">
-                <img src="src/assets/images/logo_2.webp" alt="Logo"/>
+                <LazyImage src="src/assets/images/logo_2.webp" alt="Logo"/>
             </div>
             <input type="text" placeholder="Buscar..."/>
             <AppButton variant='dark' icon="fa-search" ariaLabel='Search'></AppButton>
@@ -138,7 +139,7 @@ const AppNavbarProducts: React.FC = () => {
         {isLoggedIn ? (
           <div className='vs-navbar-profile'>
             <AppButton className='vs-profile-btn' to="" onClick={toggleDropdown} ariaLabel='Button Profile'>
-              <img className='vs-profile-img' src="src/assets/images/1.png" alt="" />
+              <LazyImage className='vs-profile-img' src="src/assets/images/1.webp" alt="" />
             </AppButton>
             {dropdown && (
               <div className='vs-profile-dropdown'>

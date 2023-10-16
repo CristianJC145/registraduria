@@ -7,10 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/theme/index.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faHome, faHeart, faTag, faStar, faGem, faCartShopping, faBars, faUserTag, faTimes, faBell, faUser, faAngleRight, faAngleLeft, faSearch, faList, faTags, faClock, faUserAlt} from '@fortawesome/free-solid-svg-icons';
+import { faTwitter, faYoutube, faInstagram } from '@fortawesome/free-brands-svg-icons'
 
-library.add(fas, fab);
+library.add(faHome, faHeart, faTag, faStar, faGem, faCartShopping, faBars, faUserTag, faTimes, 
+  faBell, faUser, faTwitter, faYoutube, faInstagram, faAngleRight, faAngleLeft, faSearch, faList, faTags, faClock, faUserAlt);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

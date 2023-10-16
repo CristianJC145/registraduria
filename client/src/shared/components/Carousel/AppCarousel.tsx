@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppButton from '../../components/Buttons/AppButton';
 import './AppCarousel.css';
+import LazyImage from '../LazyImage';
 
 interface CarouselProps {
   images: string[];
@@ -37,7 +38,7 @@ const AppCarousel: React.FC<CarouselProps> = ({ images, interval  }) => {
         <AppButton variant="dark" icon="angle-left" onClick={prevSlide} ariaLabel='Back image'></AppButton>
         <div className="vs-carousel-items">
             {images.map((image, index) => (
-                <img
+                <LazyImage 
                 key={index}
                 src={image}
                 alt={`Imagen ${index + 1}`}

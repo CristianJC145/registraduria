@@ -31,7 +31,8 @@
 .vs-navbar-logo img {
     margin-right: 0.5rem;
     display: inline-block;
-    max-height: 30px;
+    height: 30px;
+    width: 30px;
 }
 .vs-navbar-logo span {
     color: #fff;
@@ -184,6 +185,7 @@
 
 .vs-logo img {
     height: 20px; 
+    width: 20px;
 }
 
 .vs-search-bar {

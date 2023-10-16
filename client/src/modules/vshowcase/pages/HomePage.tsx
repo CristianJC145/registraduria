@@ -1,6 +1,7 @@
 import AppCard from '../../../shared/components/AppCard/AppCard';
-import AppButton from '../../../shared/components/Buttons/AppButton';
 import AppCarousel from '../../../shared/components/Carousel/AppCarousel';
+import ButtonCategories from '../components/ButtonCategories';
+import { ButtonProvider } from '../../../shared/contexts/ButtonContext';
 import '../css/HomePage.css'
 function HomePage() {
   const dynamicImages = [
@@ -9,7 +10,7 @@ function HomePage() {
     'src/assets/images/3.webp',
   ];
   return (
-    <>
+    <ButtonProvider>
       <article>
         <AppCarousel interval={5000} images={dynamicImages} />
       </article>
@@ -17,10 +18,10 @@ function HomePage() {
         <div className="vs-menu-options">
           <h4 className="vs-menu-title">Recomendado para ti</h4>
           <div className="vs-options">
-            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Favoritos'></AppButton>
-            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Mejor Calificación'></AppButton>
-            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Promociones'></AppButton>
-            <AppButton className='vs-btnOptions' variant='secondary-ghost' label='Todos'></AppButton>
+            <ButtonCategories label="Todos" icon="fa-gem" ariaLabel="Button all"></ButtonCategories>
+            <ButtonCategories label="Favoritos" icon="fa-heart" ariaLabel="Button favorite"></ButtonCategories>
+            <ButtonCategories label="Mejor Calificacion" icon="fa-star" ariaLabel="Button best score "></ButtonCategories>
+            <ButtonCategories label="Promociones" icon="fa-tag" ariaLabel="Button promotions"></ButtonCategories>
           </div>
         </div>
       </article>
@@ -63,7 +64,7 @@ function HomePage() {
           />
         </div>
       </article>
-    </>
+    </ButtonProvider>
   );
 };
 

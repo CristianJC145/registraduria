@@ -1,7 +1,7 @@
 .vs-carousel {
     display: flex;
     align-items: center;
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 0;
 }
 .vs-carousel-items {
     display: flex;
@@ -40,7 +40,9 @@
         max-width: 100%;
         display: block;
     }
-
+    .vs-carousel {
+        margin: 0.5rem 1.5rem;
+    }
     .vs-carousel button {
         display: none; 
     }
