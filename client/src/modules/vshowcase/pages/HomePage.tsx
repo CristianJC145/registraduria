@@ -4,9 +4,9 @@ import AppCarousel from '../../../shared/components/Carousel/AppCarousel';
 import '../css/HomePage.css'
 function HomePage() {
   const dynamicImages = [
-    'src/assets/images/1.png',
-    'src/assets/images/2.png',
-    'src/assets/images/3.png',
+    'src/assets/images/1.webp',
+    'src/assets/images/2.webp',
+    'src/assets/images/3.webp',
   ];
   return (
     <>
@@ -27,35 +27,35 @@ function HomePage() {
       <article>
         <div className="vs-cards">
           <AppCard
-            imageSrc="src/assets/images/portatil 1.png"
+            imageSrc="src/assets/images/portatil-1.webp"
             description="Portatil Republic Games | Ryzen 7 7600x"
             price="1.700.000"
             sellerName="PCTELECOMPUTO"
             shippingPrice="Gratis"
           />
           <AppCard
-            imageSrc="src/assets/images/portatil 1.png"
+            imageSrc="src/assets/images/iphone.webp"
+            description="iPhone 15 Pro Max 1TB - Gris Espacial"
+            price="7.600.000"
+            sellerName="APPLE STORE"
+            shippingPrice="Gratis"
+          />
+          <AppCard
+            imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"
             sellerName="Nombre del Vendedor"
             shippingPrice="Gratis"
           />
           <AppCard
-            imageSrc="src/assets/images/portatil 1.png"
+            imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"
             sellerName="Nombre del Vendedor"
             shippingPrice="Gratis"
           />
           <AppCard
-            imageSrc="src/assets/images/portatil 1.png"
-            description="Descripción del producto"
-            price="50.00"
-            sellerName="Nombre del Vendedor"
-            shippingPrice="Gratis"
-          />
-          <AppCard
-            imageSrc="src/assets/images/portatil 1.png"
+            imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"
             sellerName="Nombre del Vendedor"

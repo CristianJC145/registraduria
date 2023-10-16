@@ -76,7 +76,7 @@ const AppNavbarProducts: React.FC = () => {
                 <>
                   <div className='vs-actions-profile'>
                       <AppButton className='vs-profile-btn' to="/user/profile" onClick={handleItemClick} ariaLabel='Button Profile'>
-                        <img className='vs-profile-img' src="src/assets/images/1.png" alt="" />
+                        <img className='vs-profile-img' src="src/assets/images/1.webp" alt="" />
                       </AppButton>
                       <span className='vs-profile-name'>Hola, <span>{dataToken.name}</span> </span>
                   </div>
@@ -126,7 +126,7 @@ const AppNavbarProducts: React.FC = () => {
         <section className="vs-section-search-bar">
           <div className="vs-search-bar">
             <div className="vs-logo">
-                <img src="src/assets/images/logo_2.png" alt="Logo"/>
+                <img src="src/assets/images/logo_2.webp" alt="Logo"/>
             </div>
             <input type="text" placeholder="Buscar..."/>
             <AppButton variant='dark' icon="fa-search" ariaLabel='Search'></AppButton>

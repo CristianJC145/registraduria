@@ -14,7 +14,7 @@ const AppCard: React.FC<CardProps> = ({ imageSrc, description, price, sellerName
   return (
     <div className="vs-card">
       <div className="vs-card-content-image">
-        <img src={imageSrc} alt="Producto" className="vs-card-image" />
+        <img src={imageSrc} alt="Producto" width="150" height="150" className="vs-card-image" />
       </div>
       <div className="vs-card-info">
         <div className="vs-card-description">{description}</div>

@@ -18,12 +18,10 @@
     font-weight : 600;
 }
 .vs-cards {
-    display:flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    display:grid;
+    gap: .5rem;
+    grid-template-columns: repeat(auto-fill,minmax(min(100%, 40%), 1fr));
     padding-bottom: var(--p-6);
-    padding-left: var(--p-8);
-    padding-right: var(--p-8);
 }
 
 @media (min-width: 768px) {
@@ -40,4 +38,9 @@
         padding: 1.5rem
     }
     
+}
+@media (min-width: 1200px) {
+    .vs-cards {
+        grid-template-columns: repeat(auto-fill,minmax(min(100%, 18%), 1fr));
+    }
 }
