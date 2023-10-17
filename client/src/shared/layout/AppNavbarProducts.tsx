@@ -5,6 +5,7 @@ import AppIcon from '../components/AppIcon';
 import { settings } from '../constant/settings.constants';
 import { TokenService } from '../services/token.service';
 import { useNavigate } from 'react-router-dom';
+import { LogoutUser } from '../services/logout.service';
 import  { useAuth }  from '../contexts/AuthContext';
 import LazyImage from '../components/LazyImage';
 
@@ -12,6 +13,7 @@ const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3
 
 const AppNavbarProducts: React.FC = () => {
   const navigate = useNavigate();
+  const logout = new LogoutUser();
   const appLogo = settings.appLogo;
   const dataToken = tokenService.isAuthenticated();
   const authContext = useAuth();
@@ -33,8 +35,8 @@ const AppNavbarProducts: React.FC = () => {
       document.body.classList.remove('no-scroll');
     }
   }
-  const handleLogout  = () => {
-    tokenService.delete();
+  const handleLogout  = async () => {
+    await logout.run();
     closeDropdown();
     authContext.logout();
     navigate('/');

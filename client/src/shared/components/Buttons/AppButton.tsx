@@ -31,8 +31,8 @@ const AppButton: React.FC<ButtonProps> = ({
   if (onClick && to) {
     return (
       <Link to={`${to}`} onClick={onClick} className={classNames}>
-        {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {label}
         {children}
       </Link>
     )
@@ -50,8 +50,8 @@ const AppButton: React.FC<ButtonProps> = ({
   if (href) {
     return (
       <a className={classNames} target={target} href={href}>
-        {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {label}
         {children}
       </a>
     );
@@ -70,8 +70,8 @@ const AppButton: React.FC<ButtonProps> = ({
   if (to) {
     return (
       <Link to={`${to}`} className={classNames}>
-        {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
+        {label}
         {children}
       </Link>
     );
