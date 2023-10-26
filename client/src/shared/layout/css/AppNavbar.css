@@ -1,0 +1,40 @@
+.vs-AppNavbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--navbar-height);
+    background-color: #fff;
+    border-bottom: 1px solid rgba(var(--color-gray-900-rgb), 0.1);
+    padding: 0 var(--p-4);
+}
+.vs-left-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.vs-nav-breadcrumbs {
+    display: flex;
+    gap: .5rem;
+    text-transform: capitalize;
+}
+.vs-breadcrumbs-item svg {
+    margin-left: 0.5rem
+}
+.vs-breadcrumbs-item.active {
+    font-weight: bold;
+}
+.vs-item-link {
+    text-decoration: none;
+    color: var(--color-gray-300);
+}
+@media (min-width: 768px) {
+    
+}
+@media (min-width: 1200px) {
+    .vs-AppNavbar {
+        padding: 0 var(--p-6);
+    }
+    .vs-btn-openSidebar {
+        display: none
+    }
+}

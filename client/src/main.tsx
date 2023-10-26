@@ -9,13 +9,13 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHome, faHeart, faTag, faStar, faGem, faCartShopping, faBars, 
   faUserTag, faTimes, faBell, faUser, faAngleRight, faAngleLeft, faSearch, 
-  faList, faTags, faClock, faUserAlt, faStore, faSackDollar, faReceipt, faRightFromBracket, faTools} 
+  faList, faTags, faClock, faUserAlt, faStore, faSackDollar, faReceipt, faRightFromBracket, faTools, faBarsStaggered} 
 from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faYoutube, faInstagram } from '@fortawesome/free-brands-svg-icons'
 
 library.add(faHome, faHeart, faTag, faStar, faGem, faCartShopping, faBars, faUserTag, faTimes, 
   faBell, faUser, faTwitter, faYoutube, faInstagram, faAngleRight, faAngleLeft, faSearch, faList,
-  faTags, faClock, faUserAlt, faStore, faSackDollar, faReceipt, faRightFromBracket, faTools);
+  faTags, faClock, faUserAlt, faStore, faSackDollar, faReceipt, faRightFromBracket, faTools, faBarsStaggered);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

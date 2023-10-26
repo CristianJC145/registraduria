@@ -68,7 +68,8 @@
 }
 
 .vs-btn--primary:hover {
-  color: rgba(255, 254, 255, 0.8);
+  background-color: var(--color-primary-600);
+  color: #fff;
 }
 .vs-outlined--primary {
     border: 1px solid var(--color-primary);
@@ -76,6 +77,10 @@
     color: var(--color-primary);
     text-decoration: none;
     cursor: pointer;
+  }
+.vs-outlined--primary:hover {
+    color: var(--color-primary);
+    background-color: rgba(var(--color-primary-rgb), 0.1);
 }
 .vs-outlined--secondary {
     border: 1px solid var(--color-secondary);

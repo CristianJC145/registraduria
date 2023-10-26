@@ -16,14 +16,14 @@ const AppLinkNavigation : React.FC<AppLinkNavigationProps> =({icon, label, to, s
         return (
             <Link to={`${to}`} className={`vs-link-nav ${selected ? 'selected' : ''}`} onClick={onClick}>
                 <AppIcon icon={icon}></AppIcon>
-                {label}
+                <span>{label}</span>
             </Link>
         )
     }
     return (
         <button type="button" className="vs-link-nav" onClick={onClick}>
             <AppIcon icon={icon}></AppIcon>
-            {label}
+            <span>{label}</span>
         </button>
     )
 

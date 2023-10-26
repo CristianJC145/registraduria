@@ -2,10 +2,14 @@ import React from 'react';
 import './css/AppFooter.css'
 
 import AppButton from '../../shared/components/Buttons/AppButton';
+interface AppFooterProps {
+    style? : object
+}
 
-const AppFooter:React.FC = () => {
+
+const AppFooter:React.FC<AppFooterProps> = ({style}) => {
     return (
-        <footer>
+        <footer style={style}>
             <div className="vs-footer-left" >
                 <span>@ 2023 Vshowcase. Todos los derechos reservados</span>
             </div>

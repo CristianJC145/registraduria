@@ -64,7 +64,7 @@ const AppNavbarProducts: React.FC = () => {
     <nav className="vs-navbar">
       {isOpen && <div className="overlay"></div>}
       <div className="vs-navbar-left">
-        <AppButton className="openNavbar" icon="fa-bars" onClick={toogleNavbar} ariaLabel='Open Navbar'></AppButton>
+        <AppButton className="openNavbar" variant='dark' icon="fa-bars" onClick={toogleNavbar} ariaLabel='Open Navbar'></AppButton>
         <div className={`vs-navbar-nav ${isOpen ? 'is-active' : ''}`}>
           <div className="vs-nav-header">
             <div className="vs-header-top">
@@ -86,8 +86,8 @@ const AppNavbarProducts: React.FC = () => {
                 </>
               ) : (
                  <>
-                  <AppButton variant='light' outlined className='vs-btn-login' to="/auth/login" label="Ingresar" shadow='sm' onClick={handleItemClick}></AppButton>
-                  <AppButton variant='light' className='vs-btn-register' to="/register/landing" label="Registrarme" shadow='sm' onClick={handleItemClick}></AppButton>
+                  <AppButton variant='primary' className='vs-btn-login' to="/auth/login" label="Ingresar" onClick={handleItemClick}></AppButton>
+                  <AppButton variant='primary' outlined className='vs-btn-register' to="/register/landing" label="Registrarme" onClick={handleItemClick}></AppButton>
                 </>
               )
             }
@@ -159,11 +159,11 @@ const AppNavbarProducts: React.FC = () => {
         ) : (
             <>
               <AppButton  to='auth/login' label="Ingresar"/>
-              <AppButton to='register/landing' label='Registrarme' variant='light' shadow='sm'></AppButton>
+              <AppButton to='register/landing' label='Registrarme' variant='primary' outlined></AppButton>
             </>
         )}
         <div className='vs-right-cart-shopping'>
-          <AppButton icon="fa-cart-shopping" ariaLabel='Cart Shopping'></AppButton>
+          <AppButton icon="fa-cart-shopping" variant='dark' ariaLabel='Cart Shopping'></AppButton>
         </div>
       </div>
 

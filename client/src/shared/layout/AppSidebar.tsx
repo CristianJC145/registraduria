@@ -13,12 +13,23 @@ import AppButton from "../components/Buttons/AppButton";
 
 const logout = new LogoutUser();
 
-const AppSidebar : React.FC = () => {
+interface AppSidebarProps {
+    isOpen: boolean; 
+    onClose: () => void;
+}
+const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose}) => {
     const location = useLocation();
     const [selectedOption, setSelectedOption] = useState('/dashboard/home');
+    const [smallSidebar, setSmallSidebar] = useState(false);
     const appLogo = settings.appLogo;
     const authContext = useAuth();
     const navigate = useNavigate();
+    const classSmallSidebar = `${smallSidebar ? 'small-sidebar' : ''}`;
+    const handleSmallSidebar = () => {
+        setSmallSidebar(!smallSidebar);
+        console.log(smallSidebar);
+    }
+
     const handleLogout = async () => {
         await logout.run();
         authContext.logout();
@@ -30,26 +41,29 @@ const AppSidebar : React.FC = () => {
         setSelectedOption(location.pathname);
       }, [location.pathname]);
     return (
-        <div className="vs-sidebar">
-            <a className="vs-sidebar--header" href="/">
-                <LazyImage className="vs-header--logo" src={appLogo} alt="Logo" />
-                <span className="vs-header--title">VSHOWCASE</span>
-            </a>
-            <div className="vs-sidebar-content">
+        <aside className={`vs-sidebar ${isOpen ? 'open' : ''} ${classSmallSidebar}`}>
+            <div className={`vs-sidebar--header ${smallSidebar ? 'small-sidebar' : ''}`}>
+                <a href="/" className="vs-header--logo">
+                    <LazyImage className="vs-logo--img" src={appLogo} alt="Logo" />
+                    <span className="vs-logo--title">VSHOWCASE</span>
+                </a>
+                <AppButton className="vs-btn-closeSidebar" icon="fa-times" variant="dark" onClick={onClose}></AppButton>
+                <AppButton className="vs-btn-miniSidebar" icon={`${smallSidebar ? 'bars' : 'bars-staggered'}`} variant="dark" onClick={handleSmallSidebar}></AppButton>
+            </div>
+            <div className={`vs-sidebar-content ${classSmallSidebar}`}>
                 <AppLinkNavigation to="/dashboard/home" icon="home" label="Home" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
                 <AppLinkNavigation to="/dashboard/products" icon="store" label="Productos" selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
-                <AppLinkNavigation to="/dashboard/orders" icon="receipt" label="Ordenes" selected={selectedOption === "/dashboard/orders"}></AppLinkNavigation>
+                <AppLinkNavigation to="/dashboard/orders" icon="receipt" label="Ordenes"  selected={selectedOption === "/dashboard/orders"}></AppLinkNavigation>
                 <AppLinkNavigation to="/dashboard/finance" icon="sack-dollar" label="Financiero" selected={selectedOption === "/dashboard/finance"}></AppLinkNavigation>
                 <AppLinkNavigation to="/dashboard/sales" icon="tags" label="Ventas" selected={selectedOption === "/dashboard/sales"}></AppLinkNavigation>
                 <AppLinkNavigation to="/dashboard/record" icon="clock" label="Historial" selected={selectedOption === "/dashboard/record"}></AppLinkNavigation>
                 <AppLinkNavigation to="/dashboard/account" icon="user" label="Mi cuenta" selected={selectedOption === "/dashboard/account"}></AppLinkNavigation>
             </div>
-            <div className="vs-sidebar-actions">
-                <AppButton icon="right-from-bracket" onClick={handleLogout}></AppButton>
+            <div className={`vs-sidebar-actions ${classSmallSidebar}`}>
+                <AppButton icon="right-from-bracket" onClick={handleLogout} variant="dark"></AppButton>
                 <span>Cerrar Sesion</span>
-               
             </div>
-        </div>
+        </aside>
     )
 }
 export default AppSidebar

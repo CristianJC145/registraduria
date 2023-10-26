@@ -1,20 +1,31 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import AppSidebar from './AppSidebar';
 import AppFooter from './AppFooter';
-import AppHeader from './AppHeader';
+import AppNavbar from './AppNavbar';
+import './css/DashboardLayout.css'
 interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const handleSidebarClose = () => {
+    setIsSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
+  console.log(isSidebarOpen);
   return (
     <>
-      <AppHeader></AppHeader>
-      <AppSidebar></AppSidebar>
-      <main style={{marginLeft: '230px'}}>
+      <AppSidebar isOpen={isSidebarOpen} onClose={handleSidebarClose}></AppSidebar>
+      <main className="vs-main-content">
+        <AppNavbar toggleSidebar={toggleSidebar}></AppNavbar>
         {children}
+        <AppFooter></AppFooter>
       </main>
-      <AppFooter></AppFooter>
     </>
   );
 };
