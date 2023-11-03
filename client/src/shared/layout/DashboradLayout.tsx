@@ -27,7 +27,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <AppSidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} onSmallSidebar={onSmallSidebar}></AppSidebar>
       <main className={`vs-main-content ${smallSidebar ? 'small-sidebar' : ''}`}>
         <AppNavbar toggleSidebar={toggleSidebar}></AppNavbar>
-        {children}
+        <div className="vs-content">
+          {children}
+        </div>
         <AppFooter></AppFooter>
       </main>
     </>

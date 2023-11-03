@@ -3,6 +3,11 @@
     flex-direction: column;
     min-height: 100vh;
 }
+.vs-content {
+    padding: var(--p-6);
+    flex-grow: 1;
+    background-color: #fff;
+}
 @media (min-width: 992px) {
     .vs-main-content{
         margin-left: 220px;

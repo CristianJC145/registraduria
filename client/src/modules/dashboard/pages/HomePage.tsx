@@ -141,7 +141,7 @@ function HomePage() {
   }, []);
 
   return (
-      <div className="vs-homePage">
+      <>
         <div className="vs-general-statistics">
           <CardStatistic label="Clientes" icon="users" value="8"></CardStatistic>
           <CardStatistic label="Productos" icon="shopping-bag" value="20"></CardStatistic>
@@ -212,7 +212,7 @@ function HomePage() {
             }
           />
         </div>
-      </div>
+      </>
   );
 };
 

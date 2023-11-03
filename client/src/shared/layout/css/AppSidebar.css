@@ -118,7 +118,7 @@
         display: inherit;
         position: absolute;
         right: 0;
-        margin: var(--p-5) var(--p-4);
+        margin: var(--p-4) var(--p-3);
     }
     .vs-sidebar.small-sidebar {
         width: 75px;

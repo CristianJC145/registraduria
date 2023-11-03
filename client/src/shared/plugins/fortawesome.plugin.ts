@@ -35,7 +35,10 @@ import {
     faBarsStaggered,
     faCoins,
     faShoppingBag,
-    faPieChart
+    faPieChart,
+    faPlus,
+    faCheckSquare,
+    faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -70,5 +73,8 @@ library.add(
     faUsers,
     faCoins,
     faShoppingBag,
-    faPieChart
+    faPieChart,
+    faPlus,
+    faCheckSquare,
+    faTrash,
     );
