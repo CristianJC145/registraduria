@@ -1,4 +1,4 @@
-import AppCard from '../../../shared/components/AppCard/AppCard';
+import CardProducts from '../components/CardProducts';
 import AppCarousel from '../../../shared/components/Carousel/AppCarousel';
 import ButtonCategories from '../components/ButtonCategories';
 import { ButtonProvider } from '../../../shared/contexts/ButtonContext';
@@ -27,35 +27,35 @@ function HomePage() {
       </article>
       <article>
         <div className="vs-cards">
-          <AppCard
+          <CardProducts
             imageSrc="src/assets/images/portatil-1.webp"
             description="Portatil Republic Games | Ryzen 7 7600x"
             price="1.700.000"
             sellerName="PCTELECOMPUTO"
             shippingPrice="Gratis"
           />
-          <AppCard
+          <CardProducts
             imageSrc="src/assets/images/iphone.webp"
             description="iPhone 15 Pro Max 1TB - Gris Espacial"
             price="7.600.000"
             sellerName="APPLE STORE"
             shippingPrice="Gratis"
           />
-          <AppCard
+          <CardProducts
             imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"
             sellerName="Nombre del Vendedor"
             shippingPrice="Gratis"
           />
-          <AppCard
+          <CardProducts
             imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"
             sellerName="Nombre del Vendedor"
             shippingPrice="Gratis"
           />
-          <AppCard
+          <CardProducts
             imageSrc="src/assets/images/portatil-1.webp"
             description="Descripción del producto"
             price="50.00"

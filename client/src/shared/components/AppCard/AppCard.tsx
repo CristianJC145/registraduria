@@ -1,30 +1,19 @@
-import React from 'react';
-import './AppCard.css'; 
-import LazyImage from '../LazyImage';
-
-interface CardProps {
-  imageSrc: string;
-  description: string;
-  price: string;
-  sellerName: string;
-  shippingPrice: string;
+import { ReactNode } from 'react'
+import './AppCard.css'
+interface AppCardProps {
+    header?: ReactNode,   
+    body?: ReactNode,
+    footer?: ReactNode,
+    children?: ReactNode;
 }
-
-const AppCard: React.FC<CardProps> = ({ imageSrc, description, price, sellerName, shippingPrice }) => {
-    const shipments = shippingPrice == 'Gratis' || 0 ? `Envío Gratis` : `Envío $${shippingPrice}`
-  return (
-    <div className="vs-card">
-      <div className="vs-card-content-image">
-        <LazyImage  src={imageSrc} alt="Product" className="vs-card-image" />
-      </div>
-      <div className="vs-card-info">
-        <div className="vs-card-description">{description}</div>
-        <div className="vs-card-price">${price}</div>
-        <div className="vs-card-seller"><span>By</span>{sellerName}</div>
-        <div className="vs-card-shipping">{shipments}</div>
-      </div>
-    </div>
-  );
-};
-
-export default AppCard;
+const AppCard: React.FC<AppCardProps>  = ({header, body, footer, children}) => {
+    return (
+        <div className="vs-card">
+            {header && <div className="vs-card__header">{header}</div>}
+            {body && <div className="vs-card__body">{body}</div>}
+            {footer && <div className="vs-card__footer">{footer}</div>}
+            {children}
+        </div>
+    )
+}
+export default AppCard

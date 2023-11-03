@@ -4,7 +4,7 @@
     justify-content: space-between;
     height: var(--navbar-height);
     background-color: #fff;
-    border-bottom: 1px solid rgba(var(--color-gray-900-rgb), 0.1);
+    border-bottom: 2px solid var(--color-body);
     padding: 0 var(--p-4);
 }
 .vs-left-nav {
@@ -27,14 +27,22 @@
     text-decoration: none;
     color: var(--color-gray-300);
 }
+.vs-right-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
 @media (min-width: 768px) {
     
 }
-@media (min-width: 1200px) {
-    .vs-AppNavbar {
-        padding: 0 var(--p-6);
-    }
+@media (min-width: 992px) {
     .vs-btn-openSidebar {
         display: none
     }
+}
+@media (min-width: 1200px) {
+    .vs-AppNavbar {
+        padding-left: var(--p-8);
+    }
+   
 }

@@ -1,90 +1,9 @@
 .vs-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  background-color: #fff;
-  width: 100%;
-  box-shadow: 0 0 3px rgba(41, 41, 42, 0.25);
-}
-.vs-card-content-image {
-  display: flex;
-  align-items: center;
-  min-height: 150px;
-  min-width: 150px;
-  justify-content: center;
-  overflow: hidden;
-  aspect-ratio: 1 / 1;
-  flex: 0 1 auto;
-  background-color: rgba(var(--color-primary-rgb), .02);
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-}
-.vs-card-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: top;
-}
-  
-.vs-card-info {
-  padding: var(--p-1) var(--p-4) var(--p-5);
-  margin: 1rem 0;
-}
-  
-.vs-card-description {
-  color: var(--color-gray-900);
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-}
-  
-.vs-card-price {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--color-gray-900);
-}
-
-.vs-card-seller {
-  font-size: 10px;
-  font-weight: normal;
-  color: #F45572;
-}
-.vs-card-seller span {
-  color: rgba(27, 39, 79, 0.95);
-  margin-right: 0.5rem;
-}
-.vs-card-shipping {
-  margin-top: 1rem;
-  font-weight: 500;
-  color: var(--color-pastel-green);
-  font-size: 12px;
-}
-@media (min-width: 768px) {
-  .vs-card {
-    box-shadow: 0 0 8px rgba(41, 41, 42, 0.25);
-  }
-  .vs-card-image {
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, .05);
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+    overflow: auto;
+    padding: var(--p-8);
 }
-@media (min-width: 992px) {
-  .vs-card-info {
-    padding: var(--p-1) var(--p-6) var(--p-5);
-  }
-  .vs-card-price {
-    line-height: 1.5rem;
-    font-size: 20px;
-  }
-  .vs-card-seller {
-    margin: 0.5rem 0;
-    font-size: 12px;
-  }
 
-  .vs-card-shipping  {
-    font-weight: 600;
-    font-size: 13px;
-  }
-    
-}

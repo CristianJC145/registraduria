@@ -9,6 +9,11 @@ interface DashboardLayoutProps {
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [smallSidebar, setSmallSidebar] = useState<any>();
+
+  const onSmallSidebar = (value: any) => {
+    setSmallSidebar(value)
+  }
 
   const handleSidebarClose = () => {
     setIsSidebarOpen(false);
@@ -17,11 +22,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);
   };
-  console.log(isSidebarOpen);
   return (
     <>
-      <AppSidebar isOpen={isSidebarOpen} onClose={handleSidebarClose}></AppSidebar>
-      <main className="vs-main-content">
+      <AppSidebar isOpen={isSidebarOpen} onClose={handleSidebarClose} onSmallSidebar={onSmallSidebar}></AppSidebar>
+      <main className={`vs-main-content ${smallSidebar ? 'small-sidebar' : ''}`}>
         <AppNavbar toggleSidebar={toggleSidebar}></AppNavbar>
         {children}
         <AppFooter></AppFooter>
