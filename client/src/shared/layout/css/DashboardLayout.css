@@ -4,11 +4,14 @@
     min-height: 100vh;
 }
 .vs-content {
-    padding: var(--p-6);
+    padding: var(--p-6) var(--p-6);
     flex-grow: 1;
     background-color: #fff;
 }
 @media (min-width: 992px) {
+    .vs-content{
+        padding: var(--p-6) var(--p-8);
+    }
     .vs-main-content{
         margin-left: 220px;
         transition: all .3s ease;

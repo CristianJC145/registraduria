@@ -38,7 +38,15 @@ import {
     faPieChart,
     faPlus,
     faCheckSquare,
-    faTrash
+    faTrash,
+    faTrashAlt,
+    faEdit,
+    faAngleDown,
+    faSort,
+    faSortUp,
+    faSortDown,
+    faAngleDoubleLeft,
+    faAngleDoubleRight
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -59,6 +67,7 @@ library.add(
     faAngleRight, 
     faAngleLeft, 
     faAngleUp,
+    faAngleDown,
     faSearch, 
     faList,
     faTags, 
@@ -76,5 +85,11 @@ library.add(
     faPieChart,
     faPlus,
     faCheckSquare,
-    faTrash,
+    faTrashAlt,
+    faEdit, 
+    faSort,
+    faSortUp,
+    faSortDown,
+    faAngleDoubleLeft,
+    faAngleDoubleRight
     );

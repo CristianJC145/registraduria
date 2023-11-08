@@ -17,7 +17,8 @@ const AppButton: React.FC<ButtonProps> = ({
   to, 
   className,
   children, 
-  subvariant
+  subvariant,
+  disabled
 }) => {
 
   const baseClassName = "vs-btn";
@@ -59,7 +60,7 @@ const AppButton: React.FC<ButtonProps> = ({
   
   if (onClick) {
     return (
-      <button type="button" className={classNames} onClick={onClick} aria-label={ariaLabel}>
+      <button type="button" className={classNames} onClick={onClick} aria-label={ariaLabel} disabled={disabled}>
         {label}
         {icon && <AppIcon icon={icon}></AppIcon>}
         {children}
@@ -79,7 +80,7 @@ const AppButton: React.FC<ButtonProps> = ({
 
 
   return (
-    <button type="submit" className={classNames} aria-label={ariaLabel}>
+    <button type="submit" className={classNames} aria-label={ariaLabel} disabled={disabled}>
       {label}
       {icon && <AppIcon icon={icon}></AppIcon>}
       {children}
