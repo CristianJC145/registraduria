@@ -38,7 +38,7 @@ const AppNavbar :React.FC <AppNavbarProps> = ({toggleSidebar}) => {
     return (
         <nav className="vs-AppNavbar">
             <div className="vs-left-nav">
-                <AppButton variant="dark" icon="bars" className="vs-btn-openSidebar" onClick={toggleSidebar}></AppButton>
+                <AppButton variant="dark" icon="bars" className="vs-btn-openSidebar" onClick={toggleSidebar} ariaLabel="Button Open Sidebar"></AppButton>
                 <div className="vs-nav-breadcrumbs">
                     {pathnames.map((name, index) => {
                         const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;

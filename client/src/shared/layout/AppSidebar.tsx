@@ -51,7 +51,7 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
                     <LazyImage className="vs-logo--img" src={appLogo} alt="Logo" />
                     <span className="vs-logo--title">VSHOWCASE</span>
                 </a>
-                <AppButton className="vs-btn-closeSidebar" icon="fa-times" variant="dark" onClick={onClose}></AppButton>
+                <AppButton className="vs-btn-closeSidebar" icon="fa-times" variant="dark" onClick={onClose} ariaLabel="Button Close Sidebar"></AppButton>
                 <AppButton className="vs-btn-miniSidebar" icon={`${smallSidebar ? 'bars' : 'bars-staggered'}`} variant="dark" onClick={handleSmallSidebar} ariaLabel="Small Sidebar"></AppButton>
             </div>
             <div className="vs-sidebar-content">

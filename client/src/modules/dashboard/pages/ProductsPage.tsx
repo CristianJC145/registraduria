@@ -82,7 +82,7 @@ import '../css/ProductsPage.css'
         <>
             <h4 className="fw-bold mt-2 mb-4">Lista de Productos</h4>
             <div className="d-flex align-items-center mb-3">
-                <AppButton label="Agregar Producto" to={'/dashboard/product/edit'}></AppButton>
+                <AppButton label="Agregar Producto" to={'/dashboard/products/create'}></AppButton>
             </div>
             <AppDataTable columns={columns} data={data}></AppDataTable>
         </>

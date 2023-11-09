@@ -74,7 +74,7 @@ const AppDataTable: React.FC<AppDataTableProps> = ({columns, data, className}) =
                     <select
                         value={pageSize}
                         onChange={(e) => setPageSize(Number(e.target.value))}
-                        className='form-select ms-4 ms-sm-0'
+                        className='form-select ms-4 ms-sm-0 me-1 me-sm-0'
                         style={{padding : '0.675rem var(--p-8) 0.675rem var(--p-4)' }}
                         >
                         {[10, 20, 30, 40, 50].map((pageSize) => (

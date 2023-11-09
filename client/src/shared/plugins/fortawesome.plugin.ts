@@ -46,7 +46,8 @@ import {
     faSortUp,
     faSortDown,
     faAngleDoubleLeft,
-    faAngleDoubleRight
+    faAngleDoubleRight,
+    faImage
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -91,5 +92,6 @@ library.add(
     faSortUp,
     faSortDown,
     faAngleDoubleLeft,
-    faAngleDoubleRight
+    faAngleDoubleRight,
+    faImage
     );
