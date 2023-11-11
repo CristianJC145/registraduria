@@ -5,6 +5,7 @@
     background-color: #fff;
     border-radius: 16px;
     box-shadow: 1px 9px 20px rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(var(--color-gray-300-rgb), 0.1);
 }
 .vs-statistic-label {
     color: var(--color-gray-800);

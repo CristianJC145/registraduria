@@ -41,10 +41,9 @@
   background-color: #fff;
 }
 .vs-btn--dark {
-  color: #4c4c4c;
-  background-color: #4c4c4c48;
+  color: rgb(77, 77, 77);
+  background-color: rgba(77, 77, 77, 0.282)
 }
-
 .vs-btn--icon {
   width: var(--width-btn-icon);
   height: var(--height-btn-icon);
@@ -75,7 +74,19 @@
     color: var(--color-primary);
     text-decoration: none;
     cursor: pointer;
-  }
+}
+.vs-outlined--dark {
+  border: 1px solid rgba(var(--color-gray-300-rgb), 0.5);
+  background-color: transparent;
+  color: var(--color-gray-400);
+  cursor: pointer;
+}
+
+.vs-outlined--dark:hover {
+  color: var(--color-gray-400);
+  background-color: rgba(var(--color-gray-400-rgb), 0.1);
+}
+
 .vs-outlined--primary:hover {
     color: var(--color-primary);
     background-color: rgba(var(--color-primary-rgb), 0.1);

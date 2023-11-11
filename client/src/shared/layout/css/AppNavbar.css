@@ -32,6 +32,12 @@
     align-items: center;
     gap: 1.5rem;
 }
+.vs-dropdown-link {
+    display: flex;
+    padding: var(--p-4);
+    border-radius: 8px;
+    justify-content: start;
+}
 @media (min-width: 768px) {
     
 }

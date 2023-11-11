@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTable, useSortBy, usePagination, useGlobalFilter  } from 'react-table';
+import styled from 'styled-components';
 
 import AppIcon from '../AppIcon';
 import AppButton from '../Buttons/AppButton';
@@ -56,15 +57,15 @@ const AppDataTable: React.FC<AppDataTableProps> = ({columns, data, className}) =
     }, [search, setGlobalFilter]);
     
     return (
-        <>
-            <div className="d-flex align-items-center justify-content-between">
+        <AppDataTableStyle>
+            <div className="d-flex align-items-center justify-content-between gap-md-4">
                 <section className="vs-section-search-bar px-0">
-                    <div className='vs-search-bar py-0 shadow-sm col-12 col-sm-6 col-lg-3'>
+                    <div className='vs-search-bar py-0 shadow-sm col-12 col-sm-6 col-xl-3'>
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search..."
+                            placeholder="Buscar..."
                         />
                         <AppButton icon="search" variant='dark' className='cursor-pointer'></AppButton>
                     </div>
@@ -74,7 +75,7 @@ const AppDataTable: React.FC<AppDataTableProps> = ({columns, data, className}) =
                     <select
                         value={pageSize}
                         onChange={(e) => setPageSize(Number(e.target.value))}
-                        className='form-select ms-4 ms-sm-0 me-1 me-sm-0'
+                        className='form-select ms-4 ms-lg-0 me-1 me-sm-0'
                         style={{padding : '0.675rem var(--p-8) 0.675rem var(--p-4)' }}
                         >
                         {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -168,7 +169,37 @@ const AppDataTable: React.FC<AppDataTableProps> = ({columns, data, className}) =
                     Mostrando {firstRecord} de {lastRecord} de {rows.length}
                 </span>    
             </div>
-        </>
+        </AppDataTableStyle>
     )
 }
 export default AppDataTable;
+
+const AppDataTableStyle = styled.div`
+.vs-section-search-bar {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--p-2) var(--p-4);
+    color: #fff;
+    background-color: transparent;
+}
+.vs-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: var(--p-1) var(--p-3);
+    border-radius: 6px;
+}
+.vs-search-bar input[type="text"] {
+    padding: 0 var(--p-3);
+    border: none;
+    flex-grow: 1;
+    width: 100%;
+    background-color: transparent;
+    color: rgb(110, 110, 110);
+}
+.vs-search-bar input[type="text"]:focus-visible {
+    outline: none;
+}
+`

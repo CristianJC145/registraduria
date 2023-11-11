@@ -29,6 +29,9 @@
     margin-bottom: 25px;
     white-space: unset;
 }
+.vs-section-terms > div {
+    display: inline;
+}
 .vs-section-actions {
     display: flex;
     flex-direction: row;

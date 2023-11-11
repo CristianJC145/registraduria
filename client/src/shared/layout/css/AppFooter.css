@@ -2,10 +2,11 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 2px solid var(--color-body);
     padding: var(--p-8);
     flex-direction: column;
     gap: 1rem;
+    background-color: #fff;
 }
 .vs-footer-left {
     margin-left: 0;

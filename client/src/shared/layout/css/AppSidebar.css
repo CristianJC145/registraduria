@@ -76,13 +76,10 @@
 
 .vs-sidebar-actions {
     display: flex;
-    gap: 1rem;
     align-items: center;
-    width: 100%;
     cursor: pointer;
-    color: var(--color-gray-400);
     position: inherit;
-    padding: 0 var(--p-8);
+    padding: 0 var(--p-4);
     margin-bottom: 1rem ;
     bottom: 0;
     text-wrap: nowrap;
@@ -91,8 +88,6 @@
     color: var(--color-gray-400);
     width: initial;
 }
-
-
 
 .vs-sidebar-actions:hover > span, .vs-sidebar-actions:hover > button {
     color: var(--color-gray-800);

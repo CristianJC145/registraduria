@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import './css/AppNavbar.css'
+import styled from "styled-components";
+// import './css/AppNavbar.css'
 import AppButton from "../components/Buttons/AppButton";
 import AppIcon from "../components/AppIcon";
 import LazyImage from "../components/LazyImage";
@@ -36,46 +37,140 @@ const AppNavbar :React.FC <AppNavbarProps> = ({toggleSidebar}) => {
         window.location.reload();
     }
     return (
-        <nav className="vs-AppNavbar">
-            <div className="vs-left-nav">
-                <AppButton variant="dark" icon="bars" className="vs-btn-openSidebar" onClick={toggleSidebar} ariaLabel="Button Open Sidebar"></AppButton>
-                <div className="vs-nav-breadcrumbs">
-                    {pathnames.map((name, index) => {
-                        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-                        const isLast = index === pathnames.length - 1;
-                        const isActive = isLast && pathnames.length > 1;
-                        if (index >= 1){
-                            return (
-                                <span key={name} className={`vs-breadcrumbs-item ${isActive ? "active" : ""}`}>
-                                {isLast ? name : <>
-                                    <Link className="vs-item-link" to={routeTo}>{name}</Link>
-                                    <AppIcon icon="angle-right"></AppIcon>
-                                </>}
-                                </span>
-                            );
+        <AppNavbarStyle>
+            <nav className="vs-AppNavbar">
+                <div className="vs-left-nav">
+                    <AppButton variant="dark" icon="bars" className="vs-btn-openSidebar" onClick={toggleSidebar} ariaLabel="Button Open Sidebar"></AppButton>
+                    <div className="vs-nav-breadcrumbs">
+                        {pathnames.map((name, index) => {
+                            const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+                            const isLast = index === pathnames.length - 1;
+                            const isActive = isLast && pathnames.length > 1;
+                            if (index >= 1){
+                                return (
+                                    <span key={name} className={`vs-breadcrumbs-item ${isActive ? "active" : ""}`}>
+                                    {isLast ? name : <>
+                                        <Link className="vs-item-link" to={routeTo}>{name}</Link>
+                                        <AppIcon icon="angle-right"></AppIcon>
+                                    </>}
+                                    </span>
+                                );
+                                }
                             }
-                        }
-                    )}
-                </div>
-            </div>
-            <div className="vs-right-nav">
-                <AppButton icon="bell" variant="dark" ariaLabel="Notifications"></AppButton>
-                <div className='vs-navbar-profile'>
-                    <AppButton className='vs-profile-btn' to="" onClick={toggleDropdown} ariaLabel='Button Profile'>
-                    <LazyImage className='vs-profile-img' src={appLogo} alt="" />
-                    </AppButton>
-                    {dropdown && (
-                    <div className='vs-profile-dropdown'>
-                        <div className='vs-dropdown-header'>
-                        <span>Cristian Jamioy</span>
-                        </div>
-                        <AppButton variant='link' subvariant="dark" to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
-                        <AppButton variant='link' subvariant="dark" href='#' label="Cerrar Sesion" onClick={handleLogout} ariaLabel='Button Sign off'/>
+                        )}
                     </div>
-                    )}
                 </div>
-            </div>
-        </nav>
+                <div className="vs-right-nav">
+                    <AppButton icon="bell" variant="dark" ariaLabel="Notifications"></AppButton>
+                    <div className='vs-navbar-profile'>
+                        <button className='vs-profile-btn' onClick={toggleDropdown} aria-label='Button Profile'>
+                        <LazyImage className='vs-profile-img' src={appLogo} alt="" />
+                        </button>
+                        {dropdown && (
+                        <div className='vs-profile-dropdown'>
+                            <div className='vs-dropdown-header'>
+                                <span>Cristian Jamioy</span>
+                            </div>
+                            <AppButton className="vs-dropdown-link" variant='link' to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
+                            <AppButton className="vs-dropdown-link" variant='link' href='#' label="Cerrar Sesion" onClick={handleLogout} ariaLabel='Button Sign off'/>
+                        </div>
+                        )}
+                    </div>
+                </div>
+            </nav>
+        </AppNavbarStyle>
     )
 }
 export default AppNavbar;
+
+const AppNavbarStyle = styled.div`
+.vs-AppNavbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--navbar-height);
+    background-color: #fff;
+    border-bottom: 2px solid var(--color-body);
+    padding: 0 var(--p-4);
+}
+.vs-left-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.vs-nav-breadcrumbs {
+    display: flex;
+    gap: .5rem;
+    text-transform: capitalize;
+}
+.vs-breadcrumbs-item svg {
+    margin-left: 0.5rem
+}
+.vs-breadcrumbs-item.active {
+    font-weight: bold;
+}
+.vs-item-link {
+    text-decoration: none;
+    color: var(--color-gray-300);
+}
+.vs-right-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.vs-navbar-profile {
+    position: relative;
+}
+.vs-profile-dropdown {
+    position: absolute;
+    z-index: 2;
+    width: 15rem;
+    padding: var(--p-4);
+    border-radius: 10px;
+    background-color: var(--color-light);
+    box-shadow: 0 0 15px rgba(106, 106, 106, 0.6);
+    inset: 0px 0px auto auto;
+    transform: translate(0px, 45px);
+}
+.vs-dropdown-header {
+    padding: var(--p-4);
+    font-weight: bold;
+    border-bottom: 1px solid rgba(var(--color-gray-900-rgb), .1);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+.vs-profile-img {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 999px;
+}
+.vs-profile-btn {
+    border: 2px solid var(--color-body);
+    border-radius: 999px;
+    padding: 0.125rem;
+}
+.vs-dropdown-menu {
+}
+.vs-dropdown-link {
+    display: flex;
+    padding: var(--p-4);
+    border-radius: 8px;
+    justify-content: start;
+    color: var(--color-gray-800);
+}
+@media (min-width: 768px) {
+    
+}
+@media (min-width: 992px) {
+    .vs-btn-openSidebar {
+        display: none
+    }
+}
+@media (min-width: 1200px) {
+    .vs-AppNavbar {
+        padding-left: var(--p-8);
+    }
+   
+}
+`

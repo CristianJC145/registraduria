@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, redirect  } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
 import { loginUser } from './services/loginUser.service';
