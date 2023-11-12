@@ -55,11 +55,12 @@ const validationSchema = Yup.object().shape({
 const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
 
     const [switchValue, setSwitchValue] = useState(0);
+
     const handleSwitchChange = (value: number) => {
-        console.log('click');
+        console.log('Switch value changed to:', value);
         setSwitchValue(value);
     };
-    console.log(switchValue);
+    
     const initialValues = {
         id : data?.id,
         productName: data?.productName || '',
@@ -146,8 +147,14 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                                         required
                                     >
                                         <Field name="status">
-                                              
-                                                
+                                            {({ field, form }: any) => (
+                                                <div className="d-flex gap-3 align-items-center">
+                                                    <AppSwitch
+                                                        value={field.value ? 1 : 0} 
+                                                        onChange={(value: number) => form.setFieldValue('status', value)}
+                                                    />
+                                                </div>
+                                            )}
                                         </Field>
                                         <ErrorMessage className="vs-errorMensage" name="status" component="div" />
                                     </ProductField>
@@ -171,9 +178,6 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                     </Form>
                 </div>
             </Formik>
-            <AppSwitch
-                value={switchValue} onChange={handleSwitchChange}
-            />
         </ProductFormStyle>
     )
 }

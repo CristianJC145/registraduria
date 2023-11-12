@@ -5,22 +5,20 @@ interface AppSwitchProps {
     value: number;
     onChange: (value: number) => void;
 }
-const AppSwitch : React.FC<AppSwitchProps> = ({label, value, onChange}) => {
-    console.log(value);
+const AppSwitch : React.FC<AppSwitchProps> = ({ label, value, onChange }) => {
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log('click');
-        const { checked } = event.target;
-        const newValue = checked ? 1 : 0;
+        const newValue = event.target.checked ? 1 : 0;
+        console.log('New value:', newValue);
         onChange(newValue);
     };    
 
     return (
         <AppSwitchStyle>
             <div className="vs-form-switch">
-                <input className='vs-check-input' checked={ value===1 } type="checkbox" onChange={ handleInputChange } />
-                <span className="vs-slider"></span>
+                <input className="vs-switch-input"checked={ value===1 } type="checkbox" onChange={ handleInputChange } />
+                <label htmlFor="">{label}</label>
+                <label>{value === 1 ? 'Activo' : 'Desactivo'}</label>
             </div>
-            <label htmlFor="">{label}</label>
         </AppSwitchStyle>
     )
 }
@@ -28,17 +26,23 @@ export default AppSwitch
 
 const AppSwitchStyle = styled.div`
     .vs-form-switch {
+        display: flex;
+        align-items: center;
         position: relative;
-        display: inline-block;
-        width: 38px;
-        height: 24px;
+        gap: .5rem;
     }  
     .vs-form-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
+        position: relative;
+        width: 38px;
+        height: 24px;
     }
-    .vs-slider {
+    [type=checkbox] {
+        -webkit-appearance: none;
+        appearance: none;
+        border: 1px solid rgba(var(--color-gray-300-rgb), .3);
+        border-radius: 999px;
+    }
+    .vs-switch-input::after {
         position: absolute;
         cursor: pointer;
         top: 0;
@@ -46,13 +50,12 @@ const AppSwitchStyle = styled.div`
         right: 0;
         bottom: 0;
         background-color: #fff;
-        border: 1px solid rgba(var(--color-gray-400-rgb), 0.2);
         -webkit-transition: .4s;
         transition: .4s;
         border-radius: 34px;
     }
       
-    .vs-slider:before {
+    .vs-switch-input::before {
         position: absolute;
         content: "";
         height: 20px;
@@ -69,17 +72,19 @@ const AppSwitchStyle = styled.div`
         border-radius: 50%;
     }
     
-    input:checked + .vs-slider {
-        background-color: #2196F3;
+    input:checked {
+        background-color: var(--color-primary);
+        border: 1px solid var(--color-primary);
     }
     
-    input:focus + .vs-slider {
-        box-shadow: 0 0 1px #2196F3;
+    input:focus{
+        box-shadow: 0 0 1px 4px rgba(var(--color-primary-rgb), 0.5);
+        border: 1px solid var(--color-primary);
     }
     
-    input:checked + .vs-slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
+    input:checked:before {
+        -webkit-transform: translateX(15px);
+        -ms-transform: translateX(15px);
+        transform: translateX(15px);
     }
 `
