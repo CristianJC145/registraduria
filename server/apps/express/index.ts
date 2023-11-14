@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import './dotenv';
 import { userRouter } from './user';
 import { authRouter } from './auth';
+import { productRouter} from './product'
 
 const compression = require('compression');
 
@@ -16,13 +17,11 @@ const port = process.env.PORT ?? '3000';
 
 app.use(express.json());
 
-app.use(userRouter);
+app.use(userRouter, authRouter, productRouter);
 
 app.get('/', async (_req, res) => {
   res.json('vshowcase API');
 });
-
-app.use(authRouter);
 
 app.listen(port, () => {
   console.log(`Servidor Express iniciado en el puerto ${port}`);
