@@ -8,7 +8,6 @@ interface AppSwitchProps {
 const AppSwitch : React.FC<AppSwitchProps> = ({ label, value, onChange }) => {
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.checked ? 1 : 0;
-        console.log('New value:', newValue);
         onChange(newValue);
     };    
 

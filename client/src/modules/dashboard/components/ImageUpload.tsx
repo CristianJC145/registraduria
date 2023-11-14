@@ -14,7 +14,6 @@ const ImageUpload = ({ field, form }: any) => {
             const newImages = [...(field.value ?? []), ...acceptedFiles].slice(0, 5);
 
             if (invalidFiles.length > 0) {
-                console.log(invalidFiles);
                 toast.error('Solo se admiten archivos con las extensiones .jpg, .png y .webp');
               } else {
                 form.setFieldValue(field.name, newImages);

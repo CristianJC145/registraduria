@@ -11,7 +11,7 @@ interface ProductFieldProps {
 
 const ProductField : React.FC<ProductFieldProps> = ({title, required, tipDescription, children}) => {
     return (
-        <div className="d-flex flex-column flex-xl-row mt-3">
+        <div className="d-flex flex-column flex-xl-row mt-5">
             <div className="col-12 col-xl-4">
                 <div className="d-flex gap-2 align-items-center mb-3">
                     <h6 className="fw-bold mb-0">{title}</h6>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate  } from 'react-router-dom';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
-import { loginUser } from './services/loginUser.service';
+import { LoginUser } from './services/loginUser.service';
 import './css/Register.css'
 import AppIcon from '../../shared/components/AppIcon';
 import { useAuth } from '../../shared/contexts/AuthContext';
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
             return;
           }
         }
-        await loginUser(formData);
+        await LoginUser(formData);
         let dataToken = tokenService.isAuthenticated();
         let urlLogin = dataToken.account_type_id === 2 ? '/dashboard/home' : '/';
         login();
