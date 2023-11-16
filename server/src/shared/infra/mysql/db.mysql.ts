@@ -23,6 +23,119 @@ function executeQuery(sql: string, params: any[] = []): Promise<any> {
   });
 }
 
+function getAllByTable(table: string): Promise<any[]> {
+  const sql = `SELECT * FROM ${table}`;
+  return new Promise((resolve, reject) => {
+    connection.query(sql, [table], (error, rows) => {
+      if (error) reject(error);
+      resolve(rows);
+    });
+  });
+}
+
+function getByById(table: string, id: number): Promise<any[]> {
+  const sql = `SELECT * FROM ${table} WHERE id=?`;
+  const params = [table, id];
+  return new Promise((resolve, reject) => {
+    connection.query(sql, params, (error, rows) => {
+      if (error) reject(error);
+      resolve(rows);
+    });
+  });
+}
+
+function deleteRecord(table: string, id: number): Promise<any[]> {
+  const sql = 'DELETE FROM ? WHERE id=?';
+  const params = [table, id];
+  return new Promise((resolve, reject) => {
+    connection.query(sql, params, (error, rows) => {
+      if (error) reject(error);
+      resolve(JSON.parse(JSON.stringify(rows)));
+    });
+  });
+}
+
+function first(sql, params = []): Promise<any> {
+  return new Promise((resolve, reject) => {
+    connection.query(sql, params, (error, rows) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      if (rows.length > 0) {
+        resolve(JSON.parse(JSON.stringify(rows[0])));
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
+async function getDataWithPagination({
+  sql,
+  params,
+  paramsSQL,
+  columnsSearch,
+} : {
+  sql: string,
+  params: { search?: string, page, perPage, sort: string, order: string },
+  paramsSQL?: string[],
+  columnsSearch?: string[],
+}) {
+  const originalSQL = sql;
+  paramsSQL = paramsSQL && paramsSQL.length ? paramsSQL : [];
+
+  let { page, perPage, order } = params;
+  const { search, sort } = params;
+
+  order = order !== null && order !== 'null' ? order : 'asc';
+
+  const paramsSearch = [];
+
+  if (search && columnsSearch && columnsSearch.length) {
+    columnsSearch.forEach((col) => {
+      paramsSearch.push(`${col} LIKE ?`);
+      paramsSQL.push(`%${search}%`);
+    });
+    if (originalSQL.toLowerCase().includes('where')) {
+      sql += ` AND (${paramsSearch.join(' OR ')})`;
+    } else {
+      sql += ` WHERE ${paramsSearch.join(' OR ')}`;
+    }
+  }
+
+  if (sort) {
+    sql += ' ORDER BY ? ?';
+    paramsSQL.push(...[sort, order]);
+  }
+
+  page = typeof page === 'string' && page !== null && page !== 'null' ? parseInt(page, 10) : 1;
+  perPage = typeof perPage === 'string' && perPage !== null && perPage !== 'null' ? parseInt(perPage, 10) : 10;
+
+  let offset = 0;
+
+  if (page > 1) {
+    offset = (page - 1) * perPage;
+  }
+
+  sql += ` LIMIT ${perPage} OFFSET ${offset}`;
+
+  const countQuery = `SELECT COUNT(*) as total FROM (${originalSQL}) AS total`;
+
+  const totalCount = await first(countQuery, paramsSQL);
+  const { total } = totalCount;
+
+  const data = await executeQuery(sql, paramsSQL);
+
+  return {
+    total, page, perPage, data,
+  };
+}
 export {
   executeQuery,
+  getAllByTable,
+  getByById,
+  deleteRecord,
+  getDataWithPagination,
 };

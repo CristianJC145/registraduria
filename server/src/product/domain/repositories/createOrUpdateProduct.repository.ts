@@ -1,5 +1,5 @@
-import { CreateOrUpdateProductDto } from "../dtos/createOrUpdateUser.dto";
+import { CreateOrUpdateProductDto } from '../dtos/createOrUpdateUser.dto';
 
 export interface CreateOrUpdateProductRepository {
-    run(data : CreateOrUpdateProductDto, id?: number)
+  run(data : CreateOrUpdateProductDto, id?: number)
 }

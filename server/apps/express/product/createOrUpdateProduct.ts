@@ -2,32 +2,28 @@ import { Request, Response } from 'express';
 import { CreateOrUpdateProductApp } from '../../../src/product/app/createOrUpdateProduct.app';
 import { CreateOrUpdateProductDto } from '../../../src/product/domain/dtos/createOrUpdateUser.dto';
 
-const CreateOrUpdateProduct = async (req: Request, res: Response) =>{
+const CreateOrUpdateProduct = async (req: Request, res: Response) => {
   try {
     const request = req.body;
 
-    const images = req.body.images || [];
+    const files = req.files as any[];
+
+    const images = files.map((file) => file.path.replace('\\', '/'));
 
     const data : CreateOrUpdateProductDto = {
-      product : request,
-      images: images.map((image: any) => (
-        {
-          filename: image.path,
-          path: `../resources/images/${image.path}`,
-        }
-      )),
-    }
-    
-    const { id } = req.params
-    const createOrUpdateProductApp = new CreateOrUpdateProductApp(); 
-    const result = await createOrUpdateProductApp.run(data, parseInt(id, 10));
-    return res.json(id ?? result.insertId);
-  }
-  catch (e) {
+      product: request,
+      images,
+    };
+
+    const id = req.params.id ? parseInt(req.params.id, 10) : null;
+    const createOrUpdateProductApp = new CreateOrUpdateProductApp();
+    const result = await createOrUpdateProductApp.run(data, id);
+    return res.json(result);
+  } catch (e) {
     console.log(e);
-    return res.send(e);
+    return res.status(500).json({ error: 'Error interno en el servidor' });
   }
-}
+};
 export {
-  CreateOrUpdateProduct
+  CreateOrUpdateProduct,
 };

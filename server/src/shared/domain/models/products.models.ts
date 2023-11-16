@@ -1,18 +1,19 @@
 export class ProductModel {
   id: number = null;
 
-  productName: string = null;
+  images: string[];
+
+  name: string = null;
 
   stock: number = null;
 
   price: number = null;
 
   state: number = null;
-  
+
   description: string = null;
 
-  condition_product: string = null;
+  condition_id: string = null;
 
   product_category_id : number = null;
 }
-  
