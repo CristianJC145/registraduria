@@ -1,7 +1,8 @@
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import styled from "styled-components";
+import Select from "react-select";
 
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import ImageUpload from '../components/ImageUpload'
@@ -10,33 +11,36 @@ import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppSwitch from "../../../shared/components/AppSwitch";
 import RichTextEditor from "./RichTextEditor";
 
-import { CreateOrUpdateProductService } from '../services/CreateOrUpdateProduct.service'
-import { ProductsDto } from '../dtos/product.dto'
+import { CreateOrUpdateProductService } from '../services/createOrUpdateProduct.service'
+import { GetAllCategoriesService } from '../services/getAllCategories.service'
+import { CategoriesDto } from "../dtos/product.dto";
+
 
 const createOrUpdateProduct = new CreateOrUpdateProductService();
+const getAllCategoriesService = new GetAllCategoriesService();
 
 interface ProductFormProps {
-    data?: {
+    dataProduct?: {
         id: number;
         images: File[];
-        productName: string;
+        name: string;
         product_category_id: string;
         subCategory: string;
         stock: number;
         price : number;
         state: number;
         description: string;
-        condition: number;
+        condition_id: number;
     };
 }
 
 const validationSchema = Yup.object().shape({
-    productName: Yup.string().required('El nombre del producto es obligatorio'),
+    name: Yup.string().required('El nombre del producto es obligatorio'),
     product_category_id: Yup.string().required('La categoría es obligatoria'),
     // subCategory: Yup.string().required('Elige al menos una subcatería'),
     stock: Yup.number().required('El stock es obligatorio').min(0, 'El stock debe ser mayor o igual a 0'),
     state: Yup.string().required('El estado es obligatorio'),
-    condition: Yup.mixed().required('La condición del producto es obligatorio'),
+    condition_id: Yup.mixed().required('La condición del producto es obligatorio'),
     price : Yup.number().required('El precio es requerido'),
     images: Yup.array()
         .min(1, 'Debes subir al menos una imagen')
@@ -64,27 +68,54 @@ const validationSchema = Yup.object().shape({
     })
 });
 
-const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
+const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
+    const options = [
+        { value: "producto 1", label:"producto 1" },
+        { value: "producto 2", label:"producto 2" },
+        { value: "producto 3", label:"producto 3" },
+    ]
     const initialValues = {
-        id : data?.id ,
-        images: data?.images ?? '',
-        productName: data?.productName ?? '',
-        state: data?.state || 0,
-        subCategory: data?.subCategory ?? '',
-        stock: data?.stock ?? '',
-        price : data?.price ?? '',
-        description : data?.description ?? '',
-        product_category_id: data?.product_category_id ?? '',
-        condition: data?.condition || 1,
+        id : dataProduct?.id ,
+        images: dataProduct?.images ?? '',
+        name: dataProduct?.name ?? '',
+        state: dataProduct?.state || 0,
+        subCategory: dataProduct?.subCategory ?? '',
+        stock: dataProduct?.stock ?? '',
+        price : dataProduct?.price ?? '',
+        description : dataProduct?.description ?? '',
+        condition_id: dataProduct?.condition_id ?? '',
+        condition: dataProduct?.condition_id || 1,
     };
-    const productConditions = ['Nuevo', 'Usado', 'Reacondicionado'];
+
+    const [categories, setCategories] = useState<CategoriesDto[]>([]);
+    const [productConditions, setproductConditions] = useState([]);
+
+    const fethData = async () => {
+        try {
+            const result = await getAllCategoriesService.run();
+            setCategories(result);
+            console.log("categorias", result)
+        } catch (error) {
+            console.error('Error al obtener datos:', error);
+        }
+    }
+    useEffect(() =>{
+        fethData();
+    }, []);
 
     const handleSubmit = async (data : any)=> {
-        const dataSend : ProductsDto = data;
+        const dataSend =data?.id ? {
+            id: data.id,
+            data,
+            isFormData: true
+        } : 
+        {
+            data,
+            isFormData: true
+        }
 
-        console.log(dataSend);
         try {
-            await createOrUpdateProduct.run(dataSend, data?.id);     
+            await createOrUpdateProduct.run(dataSend);     
             handleGoBack(); 
         } catch (e) {
             console.log(e)
@@ -133,8 +164,8 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                                         tipDescription="Incluya almenos 20 caracteres para que su producto sea mas descriptivo y facil de buscar, inlcuya información relevante del producto como su color, material o tipo"
                                         required
                                     >
-                                        <Field type="text" className="form-control py-2" name='productName' placeholder="Nombre del Producto"/>
-                                        <ErrorMessage className="vs-errorMensage" name="productName" component="div" />
+                                        <Field type="text" className="form-control py-2" name='name' placeholder="Nombre del Producto"/>
+                                        <ErrorMessage className="vs-errorMensage" name="name" component="div" />
                                     </ProductField>
 
                                     <ProductField
@@ -143,10 +174,10 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                                         required
                                     >
                                         <Field as="select" className="form-select py-2" id="product-category" name='product_category_id'>
-                                            <option value="0">Categorias</option>
-                                            <option value="1">Categoria 1</option>
-                                            <option value="2">Categoria 2</option>
-                                            <option value="3">Categoria 3</option>
+                                            <option value="">Seleccione una Categoria</option>
+                                            {categories.map((category) => {
+                                                return <option key={category.id} value={category.id}>{category.name}</option>
+                                            })}
                                         </Field>
                                         <ErrorMessage className="vs-errorMensage" name="product_category_id" component="div" />
                                     </ProductField>
@@ -155,10 +186,15 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                                         tipDescription=" Selecciona la subcategoría que mejor describe tu producto. La subcategoría proporciona detalles adicionales y ayuda a los compradores a encontrar tu producto más fácilmente. Asegúrate de elegir la subcategoría más relevante para garantizar una clasificación precisa en la plataforma."
                                         required
                                     >
-                                        <Field as="select" className="form-select py-2" id="product-subCategory" name='subCategory'>
-                                            <option value="1">Categoria 1</option>
-                                            <option value="2">Categoria 2</option>
-                                            <option value="3">Categoria 3</option>
+                                        <Field className=" py-2" id="product-subCategory" name='subCategory'>
+                                            {({ field } : any) =>(
+                                                <Select 
+                                                    className="form-select" 
+                                                    isMulti 
+                                                    options={options}
+                                                    value={field.value}
+                                                />
+                                            )}
                                         </Field>
                                         <ErrorMessage className="vs-errorMensage" name="subCategory" component="div" />
                                     </ProductField>
@@ -217,16 +253,16 @@ const ProductForm : React.FC<ProductFormProps> = ({ data }) =>{
                                     >
                                         <Field
                                             as="select"
-                                            name="condition"
+                                            name="condition_id"
                                             className="form-select"
                                         >
                                             <option value="" disabled>Seleccione una condición</option>
-                                            {productConditions.map((condition, index) => (
-                                                <option key={index} value={condition}>{condition}</option>
-                                            ))}
+                                                <option value="1">Nuevo</option>
+                                                <option value="2">Usado</option>
+                                                <option value="3">Reacondicionado</option>
                                         </Field>
 
-                                        <ErrorMessage className="vs-errorMensage" name="condition" component="div" />
+                                        <ErrorMessage className="vs-errorMensage" name="condition_id" component="div" />
                                     </ProductField>
 
                                     <ProductField

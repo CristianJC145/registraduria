@@ -1,90 +1,60 @@
 import AppButton from "../../../shared/components/Buttons/AppButton"
 import AppDataTable from '../../../shared/components/DataTable/AppDataTable'
 import '../css/ProductsPage.css'
- const ProductsPage = () => {
+import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
+const ProductsPage = () => {
+    const getProductsWithPaginationService = new GetProductsWithPaginationService();
     const handleEdit = ((row: number) =>{
-        //editar tabla
+        console.log("editar producto con id: ", row)
     });
 
     const handleDelete = ((row: number) =>{
         //editar tabla
     });
     const columns = [
-        { Header: 'Imagen', accessor: 'imagen', disableSortBy : true, Cell: ({ row } : any) => <img src={row.original.imagen} width={45} height={45} className="object-fit-cover rounded-circle" alt="Imagen Producto"></img>},
-        { Header: 'Nombre', accessor: 'nombre'},
-        { Header: 'Stock', accessor: 'stock', HeaderClassName : 'text-center', className: 'text-center'},
-        { Header: 'Precio', accessor: 'precio', HeaderClassName : 'text-center', className: 'text-center'},
+        { 
+            Header: 'Imagenes', 
+            Cell: ({ value }: any) => {
+                const imagesArray = (value.images.toString()).split(',');
+                return (
+                    <div className="d-flex ms-4">
+                        {imagesArray.map((image: string) => 
+                            <div key={image} style={{marginLeft: '-1.75rem'}}>
+                                <img key={image} src={image} width={45} height={45} className="object-fit-cover rounded-circle" style={{boxShadow: '0 0 0 2px #fff'}} alt="Imagen Producto"/>                   
+                            </div>
+                        )}
+                    </div>
+                )
+            }
+        },
+        { Header: 'Nombre', accessor: 'name', columnClassName: 'text-center', HeaderClassName : 'text-center', truncate: true, maxChars : 40},
+        { Header: 'Stock', accessor: 'stock', HeaderClassName : 'text-center', columnClassName: 'text-center'},
+        { Header: 'Precio', accessor: 'price', HeaderClassName : 'text-center', columnClassName: 'text-center'},
         { 
             Header: 'Estado', 
-            accessor: 'estado', 
+            accessor: 'state', 
             HeaderClassName: 'text-center',
-            className: 'text-center'
+            columnClassName: 'text-center'
         },
         { 
             Header: 'Acciones', 
-            accessor: 'acciones', 
             HeaderClassName : 'text-center',
-            disableSortBy : true,
-            Cell: ({ row } : any) => (
+            Cell: ({ value } : any) => (
                 <div className="d-flex justify-content-center">
-                    <AppButton variant="dark" className="bg-transparent" icon="check-square" onClick={() => handleEdit(row)}>Editar</AppButton>
-                    <AppButton  className="text-danger bg-transparent" icon="trash-alt" onClick={() => handleDelete(row)}>Eliminar</AppButton>
+                    <AppButton variant="dark" className="bg-transparent" icon="check-square" onClick={() => handleEdit(value.id)}>Editar</AppButton>
+                    <AppButton  className="text-danger bg-transparent" icon="trash-alt" onClick={() => handleDelete(value.id)}>Eliminar</AppButton>
                 </div>
             )
         }
     ];
     
-      const data = [
-        { imagen: '../src/assets/images/portatil-1.webp', nombre: 'Computador Asus ryzen 7', stock : 4, precio: '2.300.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/1.webp', nombre: 'Reloj pulsera Sanda 739 de cuerpo color negro', stock : 12, precio: '730.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        { imagen: '../src/assets/images/iphone.webp', nombre: 'Iphone 15 Pro Max 1TB - Gris Espacial', stock : 5, precio: '7.600.000', estado: 'Activo'},
-        
-    ]
     return (
         <>
             <h4 className="fw-bold mt-2 mb-4">Lista de Productos</h4>
             <div className="d-flex align-items-center mb-3">
                 <AppButton label="Agregar Producto" to={'/dashboard/products/create'}></AppButton>
             </div>
-            <AppDataTable columns={columns} data={data}></AppDataTable>
+            <AppDataTable columns={columns} service={getProductsWithPaginationService}></AppDataTable>
         </>
     )
 }
