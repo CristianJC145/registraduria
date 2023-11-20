@@ -1,11 +1,21 @@
+import { useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import AppButton from "../../../shared/components/Buttons/AppButton"
 import AppDataTable from '../../../shared/components/DataTable/AppDataTable'
+import { useBreadcrumbs } from "../../../shared/contexts/BreadCrumbsContext";
 import '../css/ProductsPage.css'
+
 import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
+
+const getProductsWithPaginationService = new GetProductsWithPaginationService();
+
 const ProductsPage = () => {
-    const getProductsWithPaginationService = new GetProductsWithPaginationService();
+    const { updateBreadcrumbs } = useBreadcrumbs();
+    const navigate = useNavigate();
+
     const handleEdit = ((row: number) =>{
-        console.log("editar producto con id: ", row)
+        let url = `/dashboard/products/edit-product/${row}`
+        navigate(url)
     });
 
     const handleDelete = ((row: number) =>{
@@ -47,6 +57,17 @@ const ProductsPage = () => {
             )
         }
     ];
+
+    useEffect(() => {
+        updateBreadcrumbs(( prevBreadcrumbs ) => [
+          ...prevBreadcrumbs,
+          { name: 'Productos', route: '/dasboard/products', level: 2 },
+        ]);
+        
+        return () => {
+          updateBreadcrumbs(( prevBreadcrumbs ) => prevBreadcrumbs.slice(0, -3));
+        };
+      }, [updateBreadcrumbs]);
     
     return (
         <>

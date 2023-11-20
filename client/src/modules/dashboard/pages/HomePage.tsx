@@ -5,8 +5,10 @@ import '../css/HomePage.css'
 import AppButton from '../../../shared/components/Buttons/AppButton';
 import AppIcon from '../../../shared/components/AppIcon';
 import AppCard from '../../../shared/components/AppCard/AppCard';
+import { useBreadcrumbs } from '../../../shared/contexts/BreadCrumbsContext';
 
-function HomePage() {
+const HomePage = () => {
+  const { updateBreadcrumbs } = useBreadcrumbs();
   const chartRef = useRef<HTMLCanvasElement>(null);
   const charRefBar = useRef<HTMLCanvasElement>(null);
 
@@ -139,6 +141,17 @@ function HomePage() {
       }
     };
   }, []);
+  useEffect(() => {
+    updateBreadcrumbs((prevBreadcrumbs) => [
+      ...prevBreadcrumbs,
+      { name: 'Home', route: '/dasboard/home', level: 1 },
+      { name: 'Productos', route: '/dasboard/products', level: 1 },
+    ]);
+    
+    return () => {
+      updateBreadcrumbs((prevBreadcrumbs) => prevBreadcrumbs.slice(0, -2));
+    };
+  }, [updateBreadcrumbs]);
 
   return (
       <>

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Select from "react-select";
+import { toast } from 'react-toastify';
 
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import ImageUpload from '../components/ImageUpload'
@@ -13,34 +15,47 @@ import RichTextEditor from "./RichTextEditor";
 
 import { CreateOrUpdateProductService } from '../services/createOrUpdateProduct.service'
 import { GetAllCategoriesService } from '../services/getAllCategories.service'
+import { GetSubCategoriesByIdService } from "../services/getSubCategoriesById.service";
+import { GetConditionsService } from "../services/getConditions.service";
 import { CategoriesDto } from "../dtos/product.dto";
-
+import { TokenService } from "../../../shared/services/token.service";
+import { GetSubCategoriesByProductService } from "../services/getSubcategoriesByProduct.service"; 
 
 const createOrUpdateProduct = new CreateOrUpdateProductService();
 const getAllCategoriesService = new GetAllCategoriesService();
+const getSubCategoriesByIdService = new GetSubCategoriesByIdService();
+const getConditionsService = new GetConditionsService();
+const getSubCategoriesByProductService = new GetSubCategoriesByProductService();
+
+const tokenSertice = new TokenService('')
 
 interface ProductFormProps {
-    dataProduct?: {
-        id: number;
-        images: File[];
-        name: string;
-        product_category_id: string;
-        subCategory: string;
-        stock: number;
-        price : number;
-        state: number;
-        description: string;
-        condition_id: number;
-    };
+    dataProduct? : {
+        productData?: {
+            id: number;
+            images: [],
+            state: number;
+            stock: string;
+            user_id : number;
+            price: string;
+            name: string;
+            condition_id: string;
+            category_id: number;
+            description: string;
+        },
+        subcategoryData? : {
+            subcategory_id : number[];
+        }
+    }
 }
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre del producto es obligatorio'),
-    product_category_id: Yup.string().required('La categoría es obligatoria'),
-    // subCategory: Yup.string().required('Elige al menos una subcatería'),
+    productCategoryId: Yup.number().required('La categoría es obligatoria'),
+    subcategoryId: Yup.array().required('Elige al menos una subcatería'),
     stock: Yup.number().required('El stock es obligatorio').min(0, 'El stock debe ser mayor o igual a 0'),
     state: Yup.string().required('El estado es obligatorio'),
-    condition_id: Yup.mixed().required('La condición del producto es obligatorio'),
+    conditionId: Yup.string().required('La condición del producto es obligatorio'),
     price : Yup.number().required('El precio es requerido'),
     images: Yup.array()
         .min(1, 'Debes subir al menos una imagen')
@@ -52,81 +67,127 @@ const validationSchema = Yup.object().shape({
                 return !images || images.length <= 5;
             }
         })
-        .test({
-            name: 'fileType',
-            message: 'Solo se admiten archivos con las extensiones .jpg, .png y .webp',
-            test: (files) => {
-              if (!files) return true;
+    //     .test({
+    //         name: 'fileType',
+    //         message: 'Solo se admiten archivos con las extensiones .jpg, .png y .webp',
+    //         test: (files) => {
+    //           if (!files) return true;
 
-              const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    //           const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
-              return files.every((file) => {
-                const extension = (file.name || '').split('.').pop().toLowerCase();
-                return allowedExtensions.includes(extension);
-            });
-        },
-    })
+    //           return files.every((file) => {
+    //             const extension = (file.name || '').split('.').pop().toLowerCase();
+    //             return allowedExtensions.includes(extension);
+    //         });
+    //     },
+    // })
 });
 
 const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
-    const options = [
-        { value: "producto 1", label:"producto 1" },
-        { value: "producto 2", label:"producto 2" },
-        { value: "producto 3", label:"producto 3" },
-    ]
-    const initialValues = {
-        id : dataProduct?.id ,
-        images: dataProduct?.images ?? '',
-        name: dataProduct?.name ?? '',
-        state: dataProduct?.state || 0,
-        subCategory: dataProduct?.subCategory ?? '',
-        stock: dataProduct?.stock ?? '',
-        price : dataProduct?.price ?? '',
-        description : dataProduct?.description ?? '',
-        condition_id: dataProduct?.condition_id ?? '',
-        condition: dataProduct?.condition_id || 1,
-    };
-
+    const navigate = useNavigate();    
     const [categories, setCategories] = useState<CategoriesDto[]>([]);
-    const [productConditions, setproductConditions] = useState([]);
+    const [subcategories, setSubcategories] = useState<any[]>([]);
+    const [subcategoriesByProduct, setSubcategoriesByProduct] = useState<any[]>([]);
+    const [conditions, setConditions] = useState<any[]>([]);
+    const dataToken = tokenSertice.isAuthenticated();
+    const UserId = dataToken.id;
 
-    const fethData = async () => {
+
+    const initialValues = {
+        id : dataProduct?.productData?.id ?? '',
+        images: dataProduct?.productData?.images ?? [],
+        name: dataProduct?.productData?.name ?? '',
+        state: dataProduct?.productData?.state ?? 0,
+        productCategoryId: dataProduct?.productData?.category_id ?? 1,
+        subcategoryId: dataProduct?.subcategoryData ?? [],
+        stock: dataProduct?.productData?.stock ?? '',
+        price : dataProduct?.productData?.price ?? '',
+        description : dataProduct?.productData?.description ?? '',
+        conditionId: dataProduct?.productData?.condition_id ?? null,
+        userId: UserId,
+    };
+    const fetchCategories = async () => {
         try {
             const result = await getAllCategoriesService.run();
-            setCategories(result);
-            console.log("categorias", result)
+
+            if (Object.keys(result).length > 0 && result !== undefined) {
+                setCategories(result);
+            }
+            
         } catch (error) {
             console.error('Error al obtener datos:', error);
         }
     }
-    useEffect(() =>{
-        fethData();
-    }, []);
+    const fetchSubCategories = async (categoryId: number) => {
+        try {
+            const result = await getSubCategoriesByIdService.run(categoryId);
+            setSubcategories(result);
+        } catch (error) {
+            
+        }
+    }
+    
+    const fetchSubcategoriesByProduct = async (productId: number) => {
+        try {
+            const result = await getSubCategoriesByProductService.run(productId);
 
-    const handleSubmit = async (data : any)=> {
+            if(Object.keys(result).length > 0) {
+                setSubcategoriesByProduct(result);
+            } 
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchConditions = async () => {
+        try {
+            const conditions = await getConditionsService.run();
+            setConditions(conditions);
+        } catch (error) {
+            
+        }
+    }
+
+    const handleSubmit = async (data : any) => {
+        const selectedSubcategories = data.subcategoryId.map((subcategory : { value: any; }) => subcategory.value);
+        console.log(data);
         const dataSend =data?.id ? {
             id: data.id,
-            data,
+            data : {
+                ...data,
+                subcategoryId: selectedSubcategories,
+            },
             isFormData: true
         } : 
         {
-            data,
+            data: {
+                ...data,
+                subcategoryId: selectedSubcategories,
+            },
             isFormData: true
         }
 
         try {
             await createOrUpdateProduct.run(dataSend);     
-            handleGoBack(); 
+            toast.success('¡Producto creado con éxito!');
+            let url = '../products'
+            navigate(url);
         } catch (e) {
             console.log(e)
         }
     };
 
-    const handleGoBack = () => {
-        // Volver a la página anterior
-        console.log('Volver');
+    const GoBack = () => {
+        let url = '../products'
+        navigate(url);
     };
-
+    useEffect(() => {
+        fetchCategories();
+        fetchConditions();
+        if (initialValues.id) {
+            fetchSubcategoriesByProduct(initialValues.id as number)
+        }
+    }, []);
     return (
         <ProductFormStyle>
             <Formik
@@ -135,6 +196,9 @@ const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
+                {({ values, setFieldValue }) => ( 
+
+
                 <div>
                     <h4 className="fw-bold mt-2">Crear Productos</h4>
                     <Form className="d-flex flex-column gap-4 mt-4">
@@ -147,7 +211,21 @@ const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
                                         tipDescription="Los formatos admitidos para las imagenes son .jpg .png .webp y un tamaño minimo de 250 x 250 pixeles. Seleccione o arrastre hasta 5 imagenes del producto y procure que sean imagenes llamativas para que resalte su producto."
                                         required
                                     >
-                                    <Field name="images" component={ ImageUpload } />
+                                    <Field name="images">
+                                        {({field} : any) => (
+                                            <ImageUpload 
+                                            images={field.value} 
+                                            onRemoveImage={(index: number) => {
+                                                    const newImages = [...field.value];
+                                                    newImages.splice(index, 1);
+                                                    setFieldValue(field.name, newImages);
+                                                }}
+                                                onAddImages={(newImages: File[]) => {
+                                                    setFieldValue('images', newImages);
+                                                }}
+                                            />
+                                        )}
+                                    </Field>
                                     <ErrorMessage className="vs-errorMensage" name="images" component="div" />
                                     </ProductField>
                                 </div>
@@ -167,36 +245,91 @@ const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
                                         <Field type="text" className="form-control py-2" name='name' placeholder="Nombre del Producto"/>
                                         <ErrorMessage className="vs-errorMensage" name="name" component="div" />
                                     </ProductField>
-
                                     <ProductField
                                         title="Categoría"
                                         tipDescription="Recuerda seleccionar la caterogia correspondiente al producto"
                                         required
                                     >
-                                        <Field as="select" className="form-select py-2" id="product-category" name='product_category_id'>
-                                            <option value="">Seleccione una Categoria</option>
-                                            {categories.map((category) => {
-                                                return <option key={category.id} value={category.id}>{category.name}</option>
-                                            })}
-                                        </Field>
-                                        <ErrorMessage className="vs-errorMensage" name="product_category_id" component="div" />
+                                        {initialValues.id && initialValues.id != null ? (
+                                            <Field className="py-2" id="productCategoryId" name='productCategoryId'>
+                                                {() => (
+                                                    <>
+                                                        {Object.keys(categories).length && (
+                                                            <Select
+                                                                defaultValue={{ value : categories[values.productCategoryId as number - 1]?.id, label: categories[values.productCategoryId as number - 1]?.name }}
+                                                                className="py-2"
+                                                                options={categories.map(category => ({value: category.id , label: category.name}))}
+                                                                placeholder="Selecciona una Categoria"
+                                                                onChange={(selectedOption: any) => {
+                                                                    setFieldValue('subcategoryId', null);
+                                                                    fetchSubCategories(selectedOption?.value || '');
+                                                                    console.log(selectedOption);
+                                                                    setFieldValue('productCategoryId', selectedOption?.value || '');
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </>
+                                                )}
+                                            </Field>
+                                            ) : (
+                                            <Field className="py-2" id="productCategoryId" name='productCategoryId'>
+                                                {() => (
+                                                    <Select
+                                                        className="py-2"
+                                                        options={categories.map(category => ({value: category.id , label: category.name}))}
+                                                        placeholder="Selecciona una Categoria"
+                                                        onChange={(selectedOption: any) => {
+                                                            setFieldValue('subcategoryId', null);
+                                                            fetchSubCategories(selectedOption?.value || '');
+                                                            console.log(selectedOption);
+                                                            setFieldValue('productCategoryId', selectedOption?.value || '');
+                                                        }}
+                                                    />
+                                                )}
+                                            </Field>
+                                        )}
+                                        <ErrorMessage className="vs-errorMensage" name="productCategoryId" component="div" />
                                     </ProductField>
                                     <ProductField
                                         title="Subcategoria"
                                         tipDescription=" Selecciona la subcategoría que mejor describe tu producto. La subcategoría proporciona detalles adicionales y ayuda a los compradores a encontrar tu producto más fácilmente. Asegúrate de elegir la subcategoría más relevante para garantizar una clasificación precisa en la plataforma."
                                         required
                                     >
-                                        <Field className=" py-2" id="product-subCategory" name='subCategory'>
-                                            {({ field } : any) =>(
-                                                <Select 
-                                                    className="form-select" 
-                                                    isMulti 
-                                                    options={options}
-                                                    value={field.value}
-                                                />
-                                            )}
-                                        </Field>
-                                        <ErrorMessage className="vs-errorMensage" name="subCategory" component="div" />
+                                        {Object.keys(subcategoriesByProduct).length > 0 ? (
+                                            <Field className=" py-2" id="subcategoryId" name='subcategoryId'>
+                                                {() => (
+                                                    <Select 
+                                                        className="py-2" 
+                                                        defaultValue={subcategoriesByProduct ? subcategoriesByProduct.map(subcategory => ({value : subcategory.id, label: subcategory.name})) : null}
+                                                        placeholder="Selecciona Subcategorias"
+                                                        isMulti 
+                                                        options={subcategories.map(subCategory => ({value : subCategory.id, label: subCategory.name}))}
+                                                        onChange={(selectedOption: any) => {
+                                                            setFieldValue('subcategoryId', selectedOption);
+                                                        }}
+                                                        // value={values.subcategoryId}
+                                                    />
+                                                )}
+                                            </Field>
+                                        ) : (
+                                            <>
+                                                <Field className=" py-2" id="subcategoryId" name='subcategoryId'>
+                                                    {() => (
+                                                        <Select 
+                                                            className="py-2" 
+                                                            placeholder="Selecciona Subcategorias"
+                                                            isMulti 
+                                                            options={subcategories.map(subCategory => ({value : subCategory.id, label: subCategory.name}))}
+                                                            onChange={(selectedOption: any) => {
+                                                                setFieldValue('subcategoryId', selectedOption);
+                                                            }}
+                                                            value={values.subcategoryId}
+                                                        />
+                                                    )}
+                                                </Field>
+                                            </>
+                                        )}
+                                        <ErrorMessage className="vs-errorMensage" name="subcategoryId" component="div" />
                                     </ProductField>
                                 </div>
                             }
@@ -252,17 +385,25 @@ const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
                                         required
                                     >
                                         <Field
-                                            as="select"
-                                            name="condition_id"
+                                            name="conditionId"
                                             className="form-select"
                                         >
-                                            <option value="" disabled>Seleccione una condición</option>
-                                                <option value="1">Nuevo</option>
-                                                <option value="2">Usado</option>
-                                                <option value="3">Reacondicionado</option>
+                                        {() => (
+                                            <Select
+                                                className="z-3"
+                                                placeholder="Selecciona una Condicion"
+                                                options={conditions.map(condition => ({value : condition.id, label: condition.name}))}
+                                                onChange={(conditionId: any) => {
+                                                    console.log(conditionId);
+                                                    console.log(conditionId.value)
+                                                    setFieldValue('conditionId', conditionId?.value ?? '');
+                                                }}
+
+                                            />
+                                        )}
                                         </Field>
 
-                                        <ErrorMessage className="vs-errorMensage" name="condition_id" component="div" />
+                                        <ErrorMessage className="vs-errorMensage" name="conditionId" component="div" />
                                     </ProductField>
 
                                     <ProductField
@@ -277,13 +418,13 @@ const ProductForm : React.FC<ProductFormProps> = ({ dataProduct }) =>{
                             }
                         >
                         </AppCard>
-                        <div className="d-flex gap-3 justify-content-end">
-                            <AppButton className="mt-3" variant="dark" outlined label="Cancelar" onClick={() => handleGoBack()}></AppButton>
-                            <AppButton className="mt-3" outlined label="Guardar y Añadir Nuevo"></AppButton>
-                            <AppButton className="mt-3" label="Guardar"></AppButton>
+                        <div className="d-flex flex-column flex-sm-row gap-sm-3 justify-content-sm-end">
+                            <AppButton className="mt-3 px-5" variant="dark" outlined label="Cancelar" onClick={() => GoBack()}></AppButton>
+                            <AppButton className="mt-3 px-5" label="Guardar"></AppButton>
                         </div>
                     </Form>
                 </div>
+                )}
             </Formik>
         </ProductFormStyle>
     )

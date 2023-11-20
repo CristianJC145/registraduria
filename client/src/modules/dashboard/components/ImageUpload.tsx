@@ -1,36 +1,42 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 import AppIcon from '../../../shared/components/AppIcon';
 import AppButton from '../../../shared/components/Buttons/AppButton';
 
-const ImageUpload = ({ field, form }: any) => {
+interface ImageUploadProps {
+    images: [];
+    onRemoveImage: (index: number) => void;
+    onAddImages: (newImages: File[]) => void;
+}
+
+const ImageUpload :  React.FC<ImageUploadProps>= ({ images, onRemoveImage, onAddImages }) => {
     const onDrop = useCallback(
         (acceptedFiles: File[]) => {
             const invalidFiles = acceptedFiles.filter(file => !isValidImageType(file));
-            const newImages = [...(field.value ?? []), ...acceptedFiles].slice(0, 5);
-
+            const totalImages = images.length + acceptedFiles.length;
+            const newImages = [...images, ...acceptedFiles].slice(0, 5);
             if (invalidFiles.length > 0) {
+                console.log('error')
+
                 toast.error('Solo se admiten archivos con las extensiones .jpg, .png y .webp');
-              } else {
-                form.setFieldValue(field.name, newImages);
+            } else {
+                if (totalImages > 5) {
+                    toast.warn('Solo puedes subir maximo 5 archivos');
+                } else {
+                    onAddImages(newImages);
+                }
             }
         },
-        [form, field.name]
+        [images, onAddImages]
     );
     const isValidImageType = (file: File) => {
         const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
         const extension = (file.name || '').split('.').pop()?.toLowerCase();
         return extension !== undefined && file.type.startsWith('image/') && allowedExtensions.includes(extension);
     };    
-    const handleRemoveImage = (index: number) => {
-        const newImages = [...field.value];
-        newImages.splice(index, 1);
-        form.setFieldValue(field.name, newImages);
-    };
     
     const { getRootProps, getInputProps } = useDropzone({
         // accept: 'image/*' as any,
@@ -41,22 +47,21 @@ const ImageUpload = ({ field, form }: any) => {
   
     return (
         <StyleImageUpload>
-            <ToastContainer />
-            {field.value && field.value.length > 0 && (
+            {images  && images.length > 0 && (
                 <div className='vs-updateImage-container'>
-                    {field.value.map((file: File, index: number) => (
-                        <div className='vs-container-image' key={file.name}>
-                            {file.type.startsWith('image/') && (      
-                                <>                     
-                                    <img 
-                                        src={URL.createObjectURL(file)}
-                                        alt={file.name} 
-                                    />
-                                    <button className='vs-btnDelete-image' type="button" onClick={() => handleRemoveImage(index)}>
-                                        <AppIcon icon="times"></AppIcon>
-                                    </button>
-                                </> 
+                    {images.map((image : string, index: number) => (
+                        <div className='vs-container-image' key={index}>
+                            {typeof image === 'string' ? (
+                                <img src={image} alt={`Image ${index + 1}`} />
+                            ) : (
+                                <img 
+                                    src={URL.createObjectURL(image)}
+                                    alt={`Image ${index + 1}`} 
+                                />
                             )}
+                            <button className='vs-btnDelete-image' type="button" onClick={() => onRemoveImage(index)}>
+                                <AppIcon icon="times"></AppIcon>
+                            </button>
                         </div>
                     ))}
                 </div>

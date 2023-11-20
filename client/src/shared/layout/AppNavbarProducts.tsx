@@ -148,7 +148,7 @@ const AppNavbarProducts: React.FC = () => {
               {dropdown && (
                 <div className='vs-profile-dropdown'>
                   <div className='vs-dropdown-header'>
-                    <span>Cristian Jamioy</span>
+                    <span>{dataToken.name}</span>
                   </div>
                   <AppButton variant='link' subvariant="dark" to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
                   {dataToken.account_type_id === 2 && (

@@ -1,13 +1,15 @@
-export interface ProductsDto{
+export interface ProductsDto {
     id? : number;
-    images: number;
+    images: File[];
     name: string ;
     stock: number ;
     price: number;
     state: number;
     description: string;
-    product_category_id : number;
-    condition_id: number;
+    productCategoryId : number;
+    subcategoryId: number[];
+    userId: number
+    conditionId: number;
 }
 
 export interface CategoriesDto {
