@@ -33,9 +33,20 @@ function getAllByTable(table: string): Promise<any[]> {
   });
 }
 
-function getByById(table: string, id: number): Promise<any[]> {
-  const sql = `SELECT * FROM ${table} WHERE id=?`;
+function getByIdTable(table: string, id: number): Promise<any[]> {
+  const sql = `SELECT * FROM ${table} WHERE id=${id}`;
   const params = [table, id];
+  return new Promise((resolve, reject) => {
+    connection.query(sql, params, (error, rows) => {
+      if (error) reject(error);
+      resolve(rows);
+    });
+  });
+}
+
+function getByByTable(field: string, table: string, row : string, id: number): Promise<any[]> {
+  const sql = `SELECT ${field} FROM ${table} WHERE ${row}= ${id}`;
+  const params = [field, table, row, id];
   return new Promise((resolve, reject) => {
     connection.query(sql, params, (error, rows) => {
       if (error) reject(error);
@@ -135,7 +146,8 @@ async function getDataWithPagination({
 export {
   executeQuery,
   getAllByTable,
-  getByById,
+  getByIdTable,
   deleteRecord,
   getDataWithPagination,
+  getByByTable,
 };

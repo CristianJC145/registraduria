@@ -6,7 +6,7 @@ export class GetAllCategoriesApp {
     const getAllCategoriesService = new GetAllRecodsService(
       new GetAllRecordsMySql(),
     );
-    const categories = await getAllCategoriesService.run('products_category');
+    const categories = await getAllCategoriesService.run('categories');
 
     return categories;
   }

@@ -1,7 +1,8 @@
+/* eslint-disable max-classes-per-file */
 export class ProductModel {
   id: number = null;
 
-  images: string[];
+  images: string[] = null;
 
   name: string = null;
 
@@ -13,7 +14,17 @@ export class ProductModel {
 
   description: string = null;
 
-  condition_id: string = null;
+  conditionId: number = null;
 
-  product_category_id : number = null;
+  productCategoryId : number = null;
+
+  subcategoriesId : number[] = null;
+
+  userId: number = null;
+}
+
+export class SubCategoryModel {
+  id: number = null;
+
+  name: string = null;
 }
