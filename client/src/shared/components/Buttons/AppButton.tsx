@@ -139,6 +139,10 @@ const AppButtonStyles = styled.div `
   color: rgb(77, 77, 77);
   background-color: rgba(77, 77, 77, 0.282)
 }
+.vs-btn--danger {
+  color: #fff;
+  background-color: var(--color-danger);
+}
 .vs-btn--icon {
   width: var(--width-btn-icon);
   height: var(--height-btn-icon);
@@ -161,6 +165,10 @@ const AppButtonStyles = styled.div `
 
 .vs-btn--primary:hover {
   background-color: var(--color-primary-600);
+  color: #fff;
+}
+.vs-btn--danger:hover {
+  background-color: var(--color-danger-600);
   color: #fff;
 }
 .vs-outlined--primary {

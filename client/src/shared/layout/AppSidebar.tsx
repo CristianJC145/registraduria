@@ -80,7 +80,7 @@ const AppSidebarStyle = styled.div`
 .vs-sidebar {
     position: fixed;
     width: 220px;
-    z-index: 10;
+    z-index: 0;
     bottom: 0;
     top: 0;
     background-color: #fff;

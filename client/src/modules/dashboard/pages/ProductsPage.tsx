@@ -1,15 +1,26 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+
 import AppButton from "../../../shared/components/Buttons/AppButton"
 import AppDataTable from '../../../shared/components/DataTable/AppDataTable'
+
 import { useBreadcrumbs } from "../../../shared/contexts/BreadCrumbsContext";
+import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
+import {DeleteProductByIdService } from "../services/deleteProductById.service"
+
 import '../css/ProductsPage.css'
 
-import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
+import AppModal from '../../../shared/components/Modal/AppModal';
+import { UpdateDatatableService } from '../../../shared/services/updateDatatable.service';
 
 const getProductsWithPaginationService = new GetProductsWithPaginationService();
+const deleteProductByIdService = new DeleteProductByIdService();
+const updateDatatableService = new UpdateDatatableService();
 
 const ProductsPage = () => {
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [idDataDelete, setIdDataDelete] = useState<number>()
     const { updateBreadcrumbs } = useBreadcrumbs();
     const navigate = useNavigate();
 
@@ -18,9 +29,22 @@ const ProductsPage = () => {
         navigate(url)
     });
 
-    const handleDelete = ((row: number) =>{
-        //editar tabla
+    const handleDelete = ((id: number) =>{
+        setIsDeleteModalOpen(true);
+        setIdDataDelete(id);
     });
+
+    const handleCancelDelete = () => {
+        setIsDeleteModalOpen(false);
+    };
+
+    const handleConfirmDelete = async() => {
+        if (idDataDelete) {
+            await deleteProductByIdService.run(idDataDelete);
+        }
+        toast.success('¡Producto eliminado correctamente!');
+        setIsDeleteModalOpen(false);
+    };
     const columns = [
         { 
             Header: 'Imagenes', 
@@ -76,6 +100,12 @@ const ProductsPage = () => {
                 <AppButton label="Agregar Producto" to={'/dashboard/products/create'}></AppButton>
             </div>
             <AppDataTable columns={columns} service={getProductsWithPaginationService}></AppDataTable>
+            
+            <AppModal
+                isOpen={isDeleteModalOpen}
+                onCancel={handleCancelDelete}
+                onConfirm={handleConfirmDelete}
+            ></AppModal>
         </>
     )
 }
