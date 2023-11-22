@@ -55,13 +55,13 @@ function getByByTable(field: string, table: string, row : string, id: number): P
   });
 }
 
-function deleteRecord(table: string, id: number): Promise<any[]> {
-  const sql = 'DELETE FROM ? WHERE id=?';
-  const params = [table, id];
+function deleteRecord(table: string, field : string, id: number): Promise<any[]> {
+  const sql = `DELETE FROM ${table} WHERE ${field}=${id}`;
+  const params = [table, field, id];
   return new Promise((resolve, reject) => {
-    connection.query(sql, params, (error, rows) => {
+    connection.query(sql, params, (error, results) => {
       if (error) reject(error);
-      resolve(JSON.parse(JSON.stringify(rows)));
+      resolve(results);
     });
   });
 }
