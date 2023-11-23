@@ -7,6 +7,7 @@ import { GetProductConditions } from './getProductConditions';
 import { GetSubCategoriesById } from './getSubCategoriesById';
 import { GetProductById } from './getProductById';
 import { GetSubcategoriesByProduct } from './getSubcategoriesByProduct';
+import { GetAllProductsWithSeller } from './getAllProductsWithSeller';
 
 import upload from '../../../src/shared/domain/services/multer.service';
 import { DeleteProductById } from './deleteProductById';
@@ -16,6 +17,7 @@ const productRouter = Router();
 const basePathApi = '/api/products';
 
 productRouter.get(`${basePathApi}`, GetAllProducts);
+productRouter.get(`${basePathApi}/product-seller`, GetAllProductsWithSeller);
 productRouter.get(`${basePathApi}/list`, GetProductsWithPagination);
 productRouter.get(`${basePathApi}/categories`, GetAllCategories);
 productRouter.get(`${basePathApi}/sub-categories/:id`, GetSubCategoriesById);
