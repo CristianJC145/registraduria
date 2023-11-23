@@ -88,6 +88,13 @@ CREATE TABLE `product_subcategories` (
 
 /*Data for the table `product_subcategories` */
 
+insert  into `product_subcategories`(`product_id`,`subcategory_id`) values 
+(80,1),
+(82,2),
+(83,4),
+(84,1),
+(85,1);
+
 /*Table structure for table `products` */
 
 DROP TABLE IF EXISTS `products`;
@@ -97,7 +104,7 @@ CREATE TABLE `products` (
   `images` text NOT NULL,
   `name` varchar(200) NOT NULL,
   `stock` varchar(10) NOT NULL,
-  `price` varchar(30) NOT NULL,
+  `price` double NOT NULL,
   `state` int(1) NOT NULL,
   `description` text DEFAULT NULL,
   `condition_id` int(11) NOT NULL,
@@ -110,9 +117,16 @@ CREATE TABLE `products` (
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`condition_id`) REFERENCES `conditions` (`id`),
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `products_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 /*Data for the table `products` */
+
+insert  into `products`(`id`,`images`,`name`,`stock`,`price`,`state`,`description`,`condition_id`,`user_id`,`category_id`) values 
+(80,'uploads/images-1700720737096-125337296.webp,uploads/images-1700720737096-836092445.webp,uploads/images-1700720737097-614696910.webp,uploads/images-1700720737098-837837531.webp','Portátil gamer Asus TUF Gaming F15 FX506HC eclipse gray 15.6\", Intel Core i5 11400H 16GB de RAM 1512GB SSD, NVIDIA GeForce RTX 3050 144 Hz 1920x1080px Windows 10 Home','3',3999900,1,'<h2>Descripción</h2><p>Disfruta de la perfecta combinación de rendimiento y diseño con este ordenador Asus TUF Gaming F15 FX506HC. Encontrarás en él una excelente herramienta para tus trabajos de todos los días y para tus momentos de entretenimiento. Aprovecha la experiencia extraordinaria que la marca tiene para ofrecerte y optimiza la calidad de tus imágenes y videos.<br><br>Pantalla con gran impacto visual<br>Su pantalla IPS de 15.6\" y 1920x1080&nbsp;px de resolución te brindará colores más vivos y definidos. Tus películas y series preferidas cobrarán vida, ya que ganarán calidad y definición en cada detalle.<br><br>Eficiencia a tu alcance<br>Su procesador Intel Core i5 de 6 núcleos, está pensado para aquellas personas generadoras y consumidoras de contenidos. Con esta unidad central, la máquina llevará a cabo varios procesos de forma simultánea, desde edición de videos hasta retoques fotográficos con programas profesionales.<br><br>Potente disco sólido<br>El disco sólido de 1512 GB hace que el equipo funcione a gran velocidad y por lo tanto te brinda mayor agilidad para operar con diversos programas.<br><br>Un procesador exclusivo para los gráficos<br>Su tarjeta gráfica NVIDIA GeForce RTX 3050 convierte a este dispositivo en una gran herramienta de trabajo para cualquier profesional del diseño. Te permitirá lograr una gran performance en todos tus juegos y en otras tareas cotidianas que impliquen procesamiento gráfico.</p>',1,53,1),
+(82,'uploads/images-1700768405575-238110142.webp','Apple iPhone 14 Pro (128 GB) - Negro espacial','5',5096200,1,'<p>El iPhone 14 Pro te permite captar detalles increíbles gracias a su cámara gran angular de 48 MP. Además, trae la Dynamic Island y una pantalla siempre activa, para que puedas interactuar con tu iPhone de una forma completamente nueva. Y viene con Detección de Choques(1), una funcionalidad de seguridad que pide ayuda cuando no estás en condiciones de hacerlo.<br><br>Aviso legal<br>(1) La funcionalidad Emergencia SOS usa conexión celular o llamadas por Wi-Fi.<br>(2) La pantalla tiene las esquinas redondeadas. Si se mide en forma de rectángulo, la pantalla tiene 6.69 pulgadas en diagonal. El área real de visualización es menor.<br>(3) La duración de la batería varía según el uso y la configuración.<br>(4) Se requiere un plan de datos. 5G está disponible en algunos mercados y a través de operadores específicos. Las velocidades varían según las condiciones del lugar y el operador.<br>(5) El iPhone 14 Pro es resistente a las salpicaduras, al agua y al polvo, y fue probado en condiciones de laboratorio controladas, con una clasificación IP68 según la norma IEC 60529 (hasta 30 minutos a una profundidad máxima de 6 metros). La resistencia a las salpicaduras, al agua y al polvo no es una condición permanente, y podría disminuir como consecuencia del uso normal. No intentes cargar un iPhone mojado; consulta el manual del usuario para ver las instrucciones de limpieza y secado. La garantía no cubre daños producidos por líquidos.<br>(6) Algunas funcionalidades podrían no estar disponibles en todos los países o áreas.</p>',1,57,1),
+(83,'uploads/images-1700774714619-842549275.webp,uploads/images-1700774714619-949871470.webp,uploads/images-1700774714619-480667874.webp','Apple AirPods Pro (2ª generación) 1.1','6',999999,1,'<h2>Descripción</h2><p>Los AirPods Pro vienen con hasta 2 veces más Cancelación Activa de Ruido(1), modo Ambiente adaptable y audio espacial personalizado con seguimiento dinámico de la cabeza para que disfrutes un sonido inmersivo(2). Y ahora con distintos tamaños de almohadillas (XS, S, M, L) y hasta 6 horas de reproducción de audio(3).<br><br>Aviso legal<br>(1) En comparación con los AirPods Pro (primera generación).<br>(2) El audio espacial funciona con películas, programas de TV y videos en apps compatibles. Se requiere un iPhone con cámara TrueDepth para crear un perfil personalizado.<br>(3) La duración de la batería varía según el uso y la configuración.<br>(4) Los AirPods Pro y el estuche de carga son resistentes al agua y al sudor al hacer ejercicio o practicar deportes no acuáticos, y tienen una clasificación IPX4. La resistencia al agua y al sudor no es una condición permanente.<br>(5) Siri puede no estar disponible en todos los idiomas y áreas, y las funcionalidades pueden variar según el área. Se requiere acceso a Internet. Puede estar sujeto a cargos por uso de datos celulares.<br>(6) Requiere una cuenta de iCloud y un dispositivo Apple compatible con la última versión del software del sistema operativo.<br>(7) Funciona con el iPhone 8 o posterior y el iPod touch (séptima generación) con la última versión de iOS; y el iPad Pro de 12.9 pulgadas (segunda generación o posterior), iPad Pro de 11 pulgadas, iPad Pro de 10.5 pulgadas, iPad (quinta generación o posterior), iPad Air (tercera generación o posterior) y iPad mini (quinta generación o posterior) con la última versión de iPadOS.<br>(8) La funcionalidad Encontrar requiere iOS 16 o posterior, y estará disponible para iPadOS y macOS más adelante.</p>',1,57,1),
+(84,'uploads/images-1700776156803-54816681.webp,uploads/images-1700776156803-938568041.webp,uploads/images-1700776156804-919510732.webp','Apple Macbook Air (13 pulgadas, 2020, Chip M1, 256 GB de SSD, 8 GB de RAM) - Gris espacial','5',3872000,1,'<h2>Descripción</h2><p>La notebook más delgada y ligera de Apple viene con los superpoderes del chip M1. Termina todos tus proyectos mucho más rápido con el CPU de 8 núcleos y disfruta como nunca antes de apps y juegos con gráficos avanzados gracias al GPU de hasta 8 núcleos. Además, el Neural Engine de 16 núcleos se encarga de acelerar todos los procesos de aprendizaje automático. Todo en un diseño silencioso sin ventilador que te ofrece la mayor duración de batería en una MacBook Air: hasta 18 horas. (1) Portátil como siempre, más poderosa que nunca.<br><br><br>Avisos Legales<br>No todos los recursos y configuraciones están disponibles en todos los países.<br>(1) La duración de la batería varía según el uso y la configuración.<br>(2) Comparado con la generación anterior.<br>(3) El tamaño de la pantalla se mide en diagonal.</p>',1,57,1),
+(85,'uploads/images-1700775584774-475123963.webp,uploads/images-1700775584774-347856784.webp,uploads/images-1700775584774-252517149.webp','Portátil Asus Rog/g513rc-hn057w/amd Ryzen 7 6800h/15.3/fhd/','7',5527900,1,'<h2>Descripción</h2><p>La CPU AMD RyzenTM 9 6900HX y la GPU NVIDIA® 3080 para portátiles con TGP máximo de 150 W y MUX Switch forman la columna vertebral del flamante Strix G de 2022. La memoria DDR5 de última generación permite que la CPU ofrezca la mejor respuesta y la compatibilidad con unidades SSD PCIe® 4.0 evita que tengas que esperar a las transferencias de archivos o a que carguen los juegos.</p>',1,53,1);
 
 /*Table structure for table `saledetails` */
 
@@ -225,12 +239,14 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `account_type_id` (`account_type_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`account_type_id`) REFERENCES `account_type` (`account_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`name`,`password`,`email`,`phone`,`account_type_id`,`img_background`) values 
-(53,'Cristian Jamioy','$2b$10$u/tXUFvIX51unfkR1eAqteaAHFZuByzO55RMDeKU5NhYwskaIwTcq','test@test.com','3123798206',2,NULL);
+(53,'ASUS','$2b$10$u/tXUFvIX51unfkR1eAqteaAHFZuByzO55RMDeKU5NhYwskaIwTcq','test@test.com','3123798206',2,NULL),
+(56,'Test cliente','$2b$10$Tuo32v68jiEzMz6Hc0c.RuAbVpn4iEEfV7Bk8objqTp43wWP2pIy2','test@cliente.com','32132132',1,NULL),
+(57,'Apple','$2b$10$4G50evDFrLwMEOgA/IAlvencPFwP4ST7kmMs0qZVFb.86RxSTIKXG','test@apple.com','12332112',2,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
