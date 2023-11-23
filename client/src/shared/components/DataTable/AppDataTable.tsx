@@ -14,11 +14,15 @@ interface Column {
 }
 
 interface AppDataTableProps {
-    columns: Column[];
-    service: any;
+        columns: Column[];
+        service: any;
+        params? : {
+            id: number,
+        };
+
     }
 
-const AppDataTable: React.FC<AppDataTableProps> = ({ columns, service }) => {
+const AppDataTable: React.FC<AppDataTableProps> = ({ columns, service, params }) => {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [pagination, setPagination] = useState({
@@ -40,10 +44,12 @@ const AppDataTable: React.FC<AppDataTableProps> = ({ columns, service }) => {
         try {
         setLoading(true);
         const result = await service.run({
+            ...params,
             page: pagination.page,
             perPage: pagination.perPage,
             search,
         });
+
         const {data, page, perPage, total} = result;
         let products = data;
         products.map((product: any) => {

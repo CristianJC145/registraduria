@@ -3,7 +3,8 @@
     align-items: center;
     text-decoration: none;
     border-radius: 40px ;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+    border: 2px solid var(--color-body);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.01);
     padding: var(--p-2);
     cursor: pointer;
     background-color: #fff;

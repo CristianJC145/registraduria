@@ -11,9 +11,7 @@ export class CreateOrUpdateBaseService<T extends Record<string, any>> {
   }): Promise<void> {
     let newData: any = data;
 
-    if (isFormData) {
-      console.log('isformdata');
-      
+    if (isFormData) {      
       newData = await JsonToFormDataService(data as Record<string, any>); // Inst
     }
 

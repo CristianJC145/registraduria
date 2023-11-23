@@ -21,7 +21,6 @@ const ButtonCategories: React.FC<ButtonCategoriesProps>= ({icon, label, ariaLabe
     const handleClick = () => {
         setSelectedButton(label);
         // Llamar a la función de filtro aquí con el parámetro de categoría
-        // Ejemplo: filterItemsByCategory(category);
     };
 
     return (

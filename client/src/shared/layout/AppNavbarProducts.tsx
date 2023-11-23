@@ -1,14 +1,15 @@
 import React, { useState, useEffect  } from 'react';
 import AppButton from '../components/Buttons/AppButton';
 import styled from 'styled-components';
-// import './css/AppNavbarProducts.css'
+
 import AppIcon from '../components/AppIcon';
+import LazyImage from '../components/LazyImage';
+
 import { settings } from '../constant/settings.constants';
 import { TokenService } from '../services/token.service';
 import { useNavigate } from 'react-router-dom';
 import { LogoutUser } from '../services/logout.service';
 import  { useAuth }  from '../contexts/AuthContext';
-import LazyImage from '../components/LazyImage';
 
 const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
 
@@ -268,9 +269,14 @@ const AppNavbarProductsStyle = styled.div`
   width: 100%;
 }
 .vs-profile-btn {
-  border: 2px solid var(--color-body);
+  background-color : #fff;
+  border: 2px solid rgba(var(--color-gray-400-rgb), 0.075);
   border-radius: 999px;
-  padding: 0.125rem;
+  padding: 0.225rem;
+}
+.vs-profile-btn: hover {
+  background-color : rgba(var(--color-gray-400-rgb), 0.05);
+  border-color : rgba(var(--color-gray-400-rgb), 0.1);
 }
 .vs-profile-dropdown {
   position: absolute;
@@ -360,9 +366,9 @@ const AppNavbarProductsStyle = styled.div`
 .vs-search-bar {
   display: flex;
   align-items: center;
-  background-color: #fff;
-  padding: var(--p-1) var(--p-3);
-  border-radius: 6px;
+  background-color: var(--color-body);
+  padding: 0 var(--p-3);
+  border-radius: 8px;
   width: 100%;
 }
 
@@ -372,7 +378,7 @@ const AppNavbarProductsStyle = styled.div`
   flex-grow: 1;
   width: 100%;
   background-color: transparent;
-  color: rgb(110, 110, 110);
+  color: var(--color-gray-700);
 }
 
 .vs-search-bar input[type="text"]:focus-visible {
@@ -392,8 +398,9 @@ button img {
 }
 
 .vs-search-bar input[type="text"]::placeholder {
-  color: #ccc;
+  color: var(--color-gray-300);
   margin-left: 10px;
+  font-weight: bold;
 }
 
 .vs-user-menu {

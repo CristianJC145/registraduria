@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
@@ -7,12 +7,14 @@ import { registerUser } from '../vshowcase/services/createUser.service';
 import { validatePassword } from './logic/validatePassword';
 
 import './css/Register.css'
+import { toast } from 'react-toastify';
 
 const Register: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate()
   const searchParams = new URLSearchParams(location.search);
   const typeAccount = searchParams.get('type');
-  const account_type_id = typeAccount === 'business' ? 1 : 2;
+  const account_type_id = typeAccount === 'business' ? 2 : 1;
   const [formData, setFormData] = useState({
       name: '',
       email: '',
@@ -28,6 +30,10 @@ const Register: React.FC = () => {
       }
       try {
           await registerUser(formData);
+          let url = '/auth/login'
+          toast.success('Te has registrado exitosamente');
+          navigate(url);
+          
       } catch (error) {
       console.log(error);
       }

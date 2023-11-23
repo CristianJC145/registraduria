@@ -1,28 +1,34 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 
 import AppButton from "../../../shared/components/Buttons/AppButton"
 import AppDataTable from '../../../shared/components/DataTable/AppDataTable'
 
 import { useBreadcrumbs } from "../../../shared/contexts/BreadCrumbsContext";
 import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
-import {DeleteProductByIdService } from "../services/deleteProductById.service"
+import { DeleteProductByIdService } from "../services/deleteProductById.service"
+import { TokenService } from '../../../shared/services/token.service';
 
 import '../css/ProductsPage.css'
 
 import AppModal from '../../../shared/components/Modal/AppModal';
 import { UpdateDatatableService } from '../../../shared/services/updateDatatable.service';
+import AppIcon from '../../../shared/components/AppIcon';
 
 const getProductsWithPaginationService = new GetProductsWithPaginationService();
 const deleteProductByIdService = new DeleteProductByIdService();
 const updateDatatableService = new UpdateDatatableService();
+const tokenService = new TokenService('');
 
 const ProductsPage = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [idDataDelete, setIdDataDelete] = useState<number>()
     const { updateBreadcrumbs } = useBreadcrumbs();
     const navigate = useNavigate();
+    const dataToken = tokenService.isAuthenticated()
+    console.log(dataToken.id);
 
     const handleEdit = ((row: number) =>{
         let url = `/dashboard/products/edit-product/${row}`
@@ -41,10 +47,15 @@ const ProductsPage = () => {
     const handleConfirmDelete = async() => {
         if (idDataDelete) {
             await deleteProductByIdService.run(idDataDelete);
+            updateDatatableService.run();
         }
         toast.success('¡Producto eliminado correctamente!');
         setIsDeleteModalOpen(false);
     };
+
+    const params = {
+        id: dataToken.id
+    }
     const columns = [
         { 
             Header: 'Imagenes', 
@@ -66,9 +77,23 @@ const ProductsPage = () => {
         { Header: 'Precio', accessor: 'price', HeaderClassName : 'text-center', columnClassName: 'text-center'},
         { 
             Header: 'Estado', 
-            accessor: 'state', 
             HeaderClassName: 'text-center',
-            columnClassName: 'text-center'
+            columnClassName: 'text-center',
+            Cell: ({ value } : any) =>{
+                const stateMap : {[key: number]: string} = {
+                    0: 'Inactivo',
+                    1: 'Activo',
+                }
+                const className = `${stateMap[value.state] === 'Activo' ? 'vs-active' : 'vs-inactive'}`
+                return (
+                    <ProductsPageStyles>
+                        <div className={`${className} d-flex align-items-center justify-content-center gap-2`}>
+                            <AppIcon icon="square-check"></AppIcon>
+                            <span>{stateMap[value.state] || 'Desconocido'}</span>
+                        </div>
+                    </ProductsPageStyles>
+                )
+            }
         },
         { 
             Header: 'Acciones', 
@@ -99,7 +124,7 @@ const ProductsPage = () => {
             <div className="d-flex align-items-center mb-3">
                 <AppButton label="Agregar Producto" to={'/dashboard/products/create'}></AppButton>
             </div>
-            <AppDataTable columns={columns} service={getProductsWithPaginationService}></AppDataTable>
+            <AppDataTable columns={columns} params={params} service={getProductsWithPaginationService}></AppDataTable>
             
             <AppModal
                 isOpen={isDeleteModalOpen}
@@ -110,3 +135,12 @@ const ProductsPage = () => {
     )
 }
 export default ProductsPage
+
+const ProductsPageStyles = styled.span`
+    .vs-active {
+        color : var(--color-sucess);
+    }
+    .vs-inactive {
+        color : var(--color-danger);
+    }
+`
