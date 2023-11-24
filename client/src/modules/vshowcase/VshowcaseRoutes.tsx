@@ -6,6 +6,7 @@ import RegisterUser from '../auth/Register';
 import RegisterLanding from './pages/RegisterPage'
 import AppEmptyLayout from '../../shared/layout/AppEmptyLayout';
 import Login from '../auth/Login';
+import ProductPage from './pages/ProductPage';
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const VshowcaseRoutes: React.FC = () => {
             <VshowcaseLayout>
               <Routes>
                 <Route index element= {<HomePage/>}/>
+                <Route path=':id' element = {<ProductPage/>}></Route>
               </Routes>
             </VshowcaseLayout>
           } />

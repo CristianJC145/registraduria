@@ -151,11 +151,11 @@ const AppNavbarProducts: React.FC = () => {
                   <div className='vs-dropdown-header'>
                     <span>{dataToken.name}</span>
                   </div>
-                  <AppButton variant='link' subvariant="dark" to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
+                  <AppButton variant='link' className='vs-dropdown-link' to='user/profile' label="Mi perfil" onClick={closeDropdown} ariaLabel='Button Profile'/>
                   {dataToken.account_type_id === 2 && (
-                    <AppButton variant='link' subvariant="dark" to='dashboard/home' label="Dashboard" onClick={closeDropdown} ariaLabel='Button Dashboard'/>
+                    <AppButton variant='link' className='vs-dropdown-link' to='dashboard/home' label="Dashboard" onClick={closeDropdown} ariaLabel='Button Dashboard'/>
                   )}
-                <AppButton variant='link' subvariant="dark" href='#' label="Cerrar Sesion" onClick={handleLogout} ariaLabel='Button Sign off'/>
+                <AppButton variant='link' className='vs-dropdown-link' href='#' label="Cerrar Sesion" onClick={handleLogout} ariaLabel='Button Sign off'/>
                 </div>
               )}
             </div>
@@ -296,12 +296,15 @@ const AppNavbarProductsStyle = styled.div`
   letter-spacing: 0.5px;
   margin-bottom: 0.5rem;
 }
-.vs-profile-dropdown a {
+
+.vs-dropdown-link {
   display: flex;
   padding: var(--p-4);
   border-radius: 8px;
   justify-content: start;
+  color: var(--color-gray-800);
 }
+
 .vs-navbar-profile {
   position: relative;
 }
@@ -337,7 +340,7 @@ const AppNavbarProductsStyle = styled.div`
   padding: var(--p-4) var(--p-2) ;
 }
 .vs-nav-link:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-gray-300);
 }
 .vs-nav-link:focus {
   color: var(--color-primary);
@@ -489,7 +492,7 @@ button img {
       padding: 0 var(--p-4);
   }
   .vs-nav-link:focus {
-      color: var(--color-light);
+      color: var(--color-gray-400);
   }
   .vs-nav-categories {
       position: relative;

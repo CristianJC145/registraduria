@@ -8,7 +8,7 @@ import { ButtonProvider } from '../../../shared/contexts/ButtonContext';
 import { GetAllProductsService } from '../services/getAllProducts.service';
 import { services } from '../../../shared/constant/services';
 
-const getAllProductsService = new GetAllProductsService()
+const getAllProductsService = new GetAllProductsService();
 
 function HomePage() {
   const [products, setProducts] = useState<any>({});
@@ -63,6 +63,7 @@ function HomePage() {
             {Object.keys(products).length > 0 && (
               <>
                 {products.map((product: any, index: number) => (
+                  console.log("data product: ",product),
                   <CardProducts
                     key={index + 1}
                     imageSrc={product.images[0]}
@@ -70,7 +71,7 @@ function HomePage() {
                     price={formattedPrice(product.price)}
                     sellerName={product.seller.name}
                     shippingPrice="Gratis"
-                    url= "/"
+                    url={`/products/${product.id}, state: { product }`}
                   />
                 ))}
               </>
