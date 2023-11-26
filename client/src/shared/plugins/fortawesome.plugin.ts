@@ -49,7 +49,13 @@ import {
     faAngleDoubleRight,
     faImage,
     faCloudUploadAlt,
-    faWarning
+    faWarning,
+    faCertificate,
+    faCheck,
+    faExpandAlt,
+    faExchangeAlt,
+    faLevelDownAlt,
+    faShield
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -88,6 +94,7 @@ library.add(
     faPieChart,
     faPlus,
     faCheckSquare,
+    faCheck,
     faTrashAlt,
     faEdit, 
     faSort,
@@ -97,5 +104,8 @@ library.add(
     faAngleDoubleRight,
     faImage,
     faCloudUploadAlt,
-    faWarning
+    faWarning,
+    faCertificate,
+    faLevelDownAlt,
+    faShield,
     );

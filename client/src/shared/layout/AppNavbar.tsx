@@ -54,23 +54,6 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ toggleSidebar }) => {
             ariaLabel="Button Open Sidebar"
           ></AppButton>
           <div className="vs-nav-breadcrumbs">
-            {/* {pathnames.map((name, index) => {
-                            const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-                            const isLast = index === pathnames.length - 1;
-                            const isActive = isLast && pathnames.length > 1;
-                            if (index >= 1){
-                                return (
-                                    <span key={name} className={`vs-breadcrumbs-item ${isActive ? "active" : ""}`}>
-                                    {isLast ? name : <>
-                                        <Link className="vs-item-link" to={routeTo}>{name}</Link>
-                                        <AppIcon icon="angle-right"></AppIcon>
-                                    </>}
-                                    </span>
-                                );
-                                }
-                            }
-                        )} */}
-
             {pathnames.map((name, index) => {
               const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
               const isLast = index === pathnames.length - 1;
