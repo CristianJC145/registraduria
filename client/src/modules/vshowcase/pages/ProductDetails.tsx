@@ -4,10 +4,13 @@ import AppButton from "../../../shared/components/Buttons/AppButton";
 import DOMPurify from "dompurify";
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
+import { useShoppingCart } from "../../../shared/contexts/ShoppingCartContext";
+import { ProductDto } from "../../../shared/dtos/products.dto";
 
 const ProductDetails = () => {
+  const { addToCart } = useShoppingCart();
+
   const data = useLocation().state.product;
-  console.log(data);
   const sanitizedHTML = DOMPurify.sanitize(data.description);
   const condition =
     data.condition_id === 1
@@ -20,6 +23,14 @@ const ProductDetails = () => {
     { value: 2, label: "2" },
     { value: 3, label: "3" },
   ];
+
+  const handleBuyNow = (product: string) => {
+    console.log(product);
+  };
+  const handleAddCartShopping = (product: ProductDto) => {
+    addToCart(product);
+  };
+
   function formattedPrice(price: number | bigint) {
     return new Intl.NumberFormat("es-ES").format(price);
   }
@@ -96,8 +107,15 @@ const ProductDetails = () => {
                   </div>
                 </div>
                 <div className="vs-widgets-actions">
-                  <AppButton label="Comprar Ahora"></AppButton>
-                  <AppButton outlined label="Agregar al Carrito"></AppButton>
+                  <AppButton
+                    label="Comprar Ahora"
+                    onClick={() => handleBuyNow(data)}
+                  ></AppButton>
+                  <AppButton
+                    outlined
+                    label="Agregar al Carrito"
+                    onClick={() => handleAddCartShopping(data)}
+                  ></AppButton>
                 </div>
                 <div className="d-flex gap-1 my-4">
                   <span>Vendido por </span>
@@ -166,7 +184,8 @@ const ProductPageStyles = styled.div`
   .vs-container-left__col,
   .vs-container-right__col,
   .vs-containter-description__col {
-    padding: var(--p-2);
+    border-top: 1px solid rgba(var(--color-gray-300-rgb), 0.3);
+    padding: var(--p-4) var(--p-2);
   }
   .vs-row-image_container {
     display: flex;
@@ -260,6 +279,9 @@ const ProductPageStyles = styled.div`
       padding: var(--p-8);
     }
     .vs-containter-description {
+      border-top: 1px solid rgba(var(--color-gray-300-rgb), 0.3);
+      margin-top: 2rem;
+      padding-top: var(--p-8);
       display: inline-block;
     }
     .vs-containter-description__col {
