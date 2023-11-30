@@ -37,8 +37,8 @@ import {
     faShoppingBag,
     faPieChart,
     faPlus,
+    faMinus,
     faCheckSquare,
-    faTrash,
     faTrashAlt,
     faEdit,
     faAngleDown,
@@ -52,8 +52,6 @@ import {
     faWarning,
     faCertificate,
     faCheck,
-    faExpandAlt,
-    faExchangeAlt,
     faLevelDownAlt,
     faShield
 } from '@fortawesome/free-solid-svg-icons';
@@ -108,4 +106,5 @@ library.add(
     faCertificate,
     faLevelDownAlt,
     faShield,
+    faMinus
     );

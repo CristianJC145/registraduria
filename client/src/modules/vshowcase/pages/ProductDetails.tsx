@@ -184,26 +184,25 @@ const ProductPageStyles = styled.div`
   .vs-container-left__col,
   .vs-container-right__col,
   .vs-containter-description__col {
-    border-top: 1px solid rgba(var(--color-gray-300-rgb), 0.3);
     padding: var(--p-4) var(--p-2);
   }
   .vs-row-image_container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column-reverse;
   }
   .vs-container-list-gallery {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.5rem;
-    width: 100px;
+    width: 100%;
   }
   .vs-list-gallery_thumbnail {
     display: flex;
     align-items: center;
     border: 2px solid var(--color-body);
     border-radius: 8px;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   .vs-list-gallery_thumbnail img {
     object-fit: contain;
@@ -211,8 +210,8 @@ const ProductPageStyles = styled.div`
     height: 100%;
   }
   .vs-container-main-image {
-    width: 700px;
-    height: 450px;
+    width: 100%;
+    height: 100%;
   }
   .vs-container-main-image img {
     object-fit: contain;
@@ -259,6 +258,14 @@ const ProductPageStyles = styled.div`
     transform: rotate(90deg);
   }
   @media (min-width: 768px) {
+    .vs-container-list-gallery {
+      flex-direction: column;
+      width: 100px;
+    }
+    .vs-row-image_container {
+      display: flex;
+      flex-direction: row;
+    }
   }
   @media (min-width: 992px) {
     .vs-product-container {
@@ -266,7 +273,7 @@ const ProductPageStyles = styled.div`
       flex-direction: row;
     }
     .vs-container-main-image {
-      width: 700px;
+      width: 100%;
       height: 450px;
     }
     .vs-col-widgets {

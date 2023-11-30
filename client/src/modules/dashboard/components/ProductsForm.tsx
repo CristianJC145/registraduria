@@ -327,7 +327,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                               onChange={(selectedOption: any) => {
                                 setFieldValue("subcategoryId", null);
                                 fetchSubCategories(selectedOption?.value || "");
-                                console.log(selectedOption);
                                 setFieldValue(
                                   "productCategoryId",
                                   selectedOption?.value || ""

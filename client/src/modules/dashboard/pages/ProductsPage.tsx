@@ -26,8 +26,6 @@ const ProductsPage = () => {
   const [idDataDelete, setIdDataDelete] = useState<number>();
   const navigate = useNavigate();
   const dataToken = tokenService.isAuthenticated();
-  console.log(dataToken.id);
-
   const handleEdit = (row: number) => {
     let url = `/dashboard/products/edit-product/${row}`;
     navigate(url);

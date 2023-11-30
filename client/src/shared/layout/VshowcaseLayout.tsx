@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import AppFooter from "./AppFooter";
 import AppNavbarProducts from "./AppNavbarProducts";
 import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
@@ -8,10 +8,28 @@ interface VshowcaseLayoutProps {
 }
 
 const VshowcaseLayout: React.FC<VshowcaseLayoutProps> = ({ children }) => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (isCartOpen && !target.closest(".vs-cart-container, .vs-navbar")) {
+      setIsCartOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isCartOpen]);
+  const toggleCart = () => {
+    setIsCartOpen((prev) => !prev);
+  };
   return (
     <ShoppingCartProvider>
-      <AppNavbarProducts></AppNavbarProducts>
-      <AppshoppingCart></AppshoppingCart>
+      <AppNavbarProducts toggleCart={toggleCart}></AppNavbarProducts>
+      <AppshoppingCart isOpen={isCartOpen}></AppshoppingCart>
       <main className="mainContent">{children}</main>
       <AppFooter></AppFooter>
     </ShoppingCartProvider>

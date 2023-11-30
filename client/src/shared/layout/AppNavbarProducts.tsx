@@ -15,7 +15,13 @@ const tokenService = new TokenService(
   "%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9="
 );
 
-const AppNavbarProducts: React.FC = () => {
+interface AppNavbarProductsProps {
+  toggleCart: () => void;
+}
+
+const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
+  toggleCart,
+}) => {
   const navigate = useNavigate();
   const logout = new LogoutUser();
   const appLogo = settings.appLogo;
@@ -240,6 +246,7 @@ const AppNavbarProducts: React.FC = () => {
               icon="fa-cart-shopping"
               variant="dark"
               ariaLabel="Cart Shopping"
+              onClick={toggleCart}
             ></AppButton>
           </div>
         </div>
@@ -252,13 +259,13 @@ export default AppNavbarProducts;
 
 const AppNavbarProductsStyle = styled.div`
   .vs-navbar {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: #fff;
     height: var(--navbar-height);
-    /* background-color: var(--color-primary);  */
     padding: 0 var(--p-3);
-    position: relative;
     z-index: 6;
     border-bottom: 2px solid rgba(var(--color-gray-900-rgb), 0.05);
   }
@@ -492,6 +499,11 @@ const AppNavbarProductsStyle = styled.div`
     color: #fff;
   }
   @media (min-width: 768px) {
+    .vs-navbar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+    }
     .vs-navbar-right a {
       display: inline-flex;
     }
@@ -508,16 +520,16 @@ const AppNavbarProductsStyle = styled.div`
   }
 
   @media (min-width: 1200px) {
-    .vs-navbar-left {
-      flex: 1 1 auto;
-      margin-right: 2rem;
-    }
     .vs-navbar {
       flex-direction: row;
       justify-content: space-between;
-      position: sticky;
       flex-wrap: wrap;
       padding: 0 var(--p-4);
+    }
+
+    .vs-navbar-left {
+      flex: 1 1 auto;
+      margin-right: 2rem;
     }
 
     .vs-navbar-nav {

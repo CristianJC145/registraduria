@@ -1,3 +1,4 @@
 export const settings = {
-    appLogo: import.meta.env.VITE_APP_LOGO
+    appLogo: import.meta.env.VITE_APP_LOGO,
+    appCartEmpty: import.meta.env.VITE_APP_IMG_CART_EMPTY
 }

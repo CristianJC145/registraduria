@@ -2,7 +2,6 @@ const JsonToFormDataService = async (jsonData: Record<string, any>) => {
     const formData = new FormData();
 
     Object.entries(jsonData).forEach(([key, value]) => {
-    console.log("data json", value)
     if (Array.isArray(value)) {
         value.forEach((element, index) => {
             if (key === 'images') {

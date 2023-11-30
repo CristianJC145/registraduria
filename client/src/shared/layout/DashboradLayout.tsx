@@ -12,12 +12,7 @@ interface DashboardLayoutProps {
   level?: number;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({
-  children,
-  namePage,
-  routePage,
-  level = 1,
-}) => {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [smallSidebar, setSmallSidebar] = useState<any>();
 

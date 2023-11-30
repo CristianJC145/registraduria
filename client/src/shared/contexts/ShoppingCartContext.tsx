@@ -1,18 +1,19 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, ReactNode, useReducer } from "react";
 import { ProductDto } from "../dtos/products.dto";
+import {
+  CartItem,
+  cartReducer,
+  initialState,
+} from "../reducers/shoppingCartReduce";
 import { toast } from "react-toastify";
 
 interface ShoppingCartContextProps {
-  cart: ProductDto[];
+  cart: CartItem[];
   addToCart: (product: ProductDto) => void;
-  removeFromCart: (productId: number) => void;
-  clearCart: () => void;
+  decrementQuantity: (productId: number) => void;
+  incrementQuantity: (productId: number) => void;
+  clearCart: (productId: number) => void;
+  completePurchase: () => void;
 }
 
 const ShoppingCartContext = createContext<ShoppingCartContextProps | undefined>(
@@ -36,48 +37,46 @@ interface ShoppingCartProviderProps {
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
   children,
 }) => {
-  const storedCartItems = localStorage.getItem("cartItems");
-  const initialCartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
-  const [cart, setCart] = useState<any[]>(initialCartItems);
-  const addToCart = (product: any) => {
-    const existingItem = cart.find((item) => item.id === product.id);
-    if (existingItem) {
-      setCart((prevItems) =>
-        prevItems.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCart((prevItems) => [
-        ...prevItems,
-        { productId: product.id, quantity: 1 },
-      ]);
-    }
-    let nameProducto =
-      product.name.length > 40
-        ? `${product.name.slice(0, 40)}...`
-        : product.name;
-    setCart((prevCart) => [...prevCart, product]);
-    toast.info(`Se agregó ${nameProducto} al carrito`);
-  };
+  const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cart));
-  }, [cart]);
+  const addToCart = (product: ProductDto) =>
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: product,
+    });
 
-  const removeFromCart = (productId: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
+  const decrementQuantity = (productId: number) =>
+    dispatch({
+      type: "DECREMENT_QUANTITY",
+      payload: productId,
+    });
 
-  const clearCart = () => {
-    setCart([]);
-  };
+  const incrementQuantity = (productId: number) =>
+    dispatch({
+      type: "INCREMENT_QUANTITY",
+      payload: productId,
+    });
+
+  const clearCart = (productId: number) =>
+    dispatch({
+      type: "CLEAR_CART_BY_ID",
+      payload: productId,
+    });
+  const completePurchase = () =>
+    dispatch({
+      type: "COMPLETE_PURCHASE",
+    });
 
   return (
     <ShoppingCartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart }}
+      value={{
+        cart: state,
+        addToCart,
+        decrementQuantity,
+        incrementQuantity,
+        clearCart,
+        completePurchase,
+      }}
     >
       {children}
     </ShoppingCartContext.Provider>

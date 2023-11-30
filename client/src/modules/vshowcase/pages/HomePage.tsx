@@ -78,27 +78,22 @@ function HomePage() {
           <div className="vs-cards">
             {Object.keys(products).length > 0 && (
               <>
-                {products.map(
-                  (product: any, index: number) => (
-                    console.log("data product: ", product),
-                    (
-                      <CardProducts
-                        key={index + 1}
-                        imageSrc={product.images[0]}
-                        description={truncateName(product.name)}
-                        price={formattedPrice(product.price)}
-                        sellerName={product.seller.name}
-                        shippingPrice="Gratis"
-                        url={{
-                          pathname: `/${encodeURIComponent(product.name)}/${
-                            product.id
-                          }`,
-                          state: { product },
-                        }}
-                      />
-                    )
-                  )
-                )}
+                {products.map((product: any, index: number) => (
+                  <CardProducts
+                    key={index + 1}
+                    imageSrc={product.images[0]}
+                    description={truncateName(product.name)}
+                    price={formattedPrice(product.price)}
+                    sellerName={product.seller.name}
+                    shippingPrice="Gratis"
+                    url={{
+                      pathname: `/${encodeURIComponent(product.name)}/${
+                        product.id
+                      }`,
+                      state: { product },
+                    }}
+                  />
+                ))}
               </>
             )}
           </div>
