@@ -4,6 +4,7 @@ import { settings } from "../../../shared/constant/settings.constants";
 import { Link } from "react-router-dom";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppIcon from "../../../shared/components/AppIcon";
+import AcountForm from "../components/AccountForm";
 
 const AccountUserPage = () => {
   const appLogo = settings.appLogo;
@@ -24,7 +25,11 @@ const AccountUserPage = () => {
                   </div>
                 </div>
                 <div className="vs-tools-body">
-                  <Link className="vs-body-option" to="information">
+                  <Link
+                    className="vs-body-option fw-bold"
+                    style={{ color: "var(--color-primary" }}
+                    to="information"
+                  >
                     <AppIcon icon="user"></AppIcon>
                     <span>Informacion General</span>
                   </Link>
@@ -44,9 +49,14 @@ const AccountUserPage = () => {
         <div className="vs-account-form">
           <AppCard
             body={
-              <div className="vs-form-title">
-                <h5>Informacion General</h5>
-              </div>
+              <>
+                <div className="vs-form-title">
+                  <h5>Informacion General</h5>
+                </div>
+                <div className="vs-form-content">
+                  <AcountForm></AcountForm>
+                </div>
+              </>
             }
           ></AppCard>
         </div>
@@ -112,6 +122,13 @@ const AccountUserPageStyle = styled.div`
     color: var(--color-gray-400);
     letter-spacing: 0.5px;
     gap: 0.5rem;
+  }
+  .vs-form-title {
+    padding-bottom: var(--p-5);
+    border-bottom: 2px solid var(--color-body);
+  }
+  .vs-form-title h5 {
+    margin-bottom: 0;
   }
   @media (min-width: 768px) {
     .vs-account-tools {

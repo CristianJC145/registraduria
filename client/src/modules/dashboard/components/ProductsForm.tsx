@@ -71,20 +71,6 @@ const validationSchema = Yup.object().shape({
         return !images || images.length <= 5;
       },
     }),
-  //     .test({
-  //         name: 'fileType',
-  //         message: 'Solo se admiten archivos con las extensiones .jpg, .png y .webp',
-  //         test: (files) => {
-  //           if (!files) return true;
-
-  //           const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
-
-  //           return files.every((file) => {
-  //             const extension = (file.name || '').split('.').pop().toLowerCase();
-  //             return allowedExtensions.includes(extension);
-  //         });
-  //     },
-  // })
 });
 
 const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
