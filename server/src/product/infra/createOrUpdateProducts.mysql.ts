@@ -8,9 +8,9 @@ export class CreateOrUpdateProductMySql implements CreateOrUpdateProductReposito
     const { images } = data;
     const imagesString = images.join(',');
     if (id) {
-      sql = 'UPDATE products SET images=?, `name`=?, stock=?, price=?, state=?, description=?, condition_id=?, user_id=?, category_id=?  WHERE id=?';
+      sql = 'UPDATE products SET images=?, `product_name`=?, stock=?, price=?, state=?, description=?, condition_id=?, user_id=?, category_id=?  WHERE id=?';
     } else {
-      sql = 'INSERT INTO products (images, `name`, stock, price, state, description, condition_id, user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      sql = 'INSERT INTO products (images, `product_name`, stock, price, state, description, condition_id, user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
     }
     return executeQuery(sql, [imagesString, data.product.name, data.product.stock, data.product.price, data.product.state, data.product.description, data.product.conditionId, data.product.userId, data.product.productCategoryId, id]);
   }

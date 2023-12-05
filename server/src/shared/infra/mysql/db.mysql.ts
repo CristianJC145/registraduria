@@ -24,7 +24,7 @@ function executeQuery(sql: string, params: any[] = []): Promise<any> {
 }
 
 function getAllByTable(table: string): Promise<any[]> {
-  const sql = `SELECT products.*, users.name AS user_name FROM ${table} INNER JOIN users ON products.user_id = users.id`;
+  const sql = `SELECT * FROM ${table}`;
   return new Promise((resolve, reject) => {
     connection.query(sql, [table], (error, rows) => {
       if (error) reject(error);
