@@ -78,7 +78,7 @@ const ProductsPage = () => {
     },
     {
       Header: "Nombre",
-      accessor: "name",
+      accessor: "product_name",
       columnClassName: "text-center",
       HeaderClassName: "text-center",
       truncate: true,
@@ -172,7 +172,7 @@ export default ProductsPage;
 
 const ProductsPageStyles = styled.span`
   .vs-active {
-    color: var(--color-sucess);
+    color: var(--color-success);
   }
   .vs-inactive {
     color: var(--color-danger);

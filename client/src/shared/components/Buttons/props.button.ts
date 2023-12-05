@@ -17,5 +17,5 @@ export interface ButtonProps {
     outlined?: boolean;
     onClick?: () => void;
     params?: any;
-    disabled?: boolean
+    disabled?: boolean;
 }

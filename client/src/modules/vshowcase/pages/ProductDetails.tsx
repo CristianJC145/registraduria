@@ -6,11 +6,13 @@ import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
 import { useShoppingCart } from "../../../shared/contexts/ShoppingCartContext";
 import { ProductDto } from "../../../shared/dtos/products.dto";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { addToCart } = useShoppingCart();
+  const { state } = useLocation();
 
-  const data = useLocation().state.product;
+  const data = state.product ? state.product : state;
   const sanitizedHTML = DOMPurify.sanitize(data.description);
   const condition =
     data.condition_id === 1
@@ -18,14 +20,9 @@ const ProductDetails = () => {
       : data.condition_id === 2
       ? "Usado"
       : "Reacondicionado";
-  const options = [
-    { value: 1, label: "1" },
-    { value: 2, label: "2" },
-    { value: 3, label: "3" },
-  ];
 
   const handleBuyNow = (product: string) => {
-    console.log(product);
+    toast.success(`Compra Realizada con !Exito!`);
   };
   const handleAddCartShopping = (product: ProductDto) => {
     addToCart(product);
@@ -122,7 +119,7 @@ const ProductDetails = () => {
                   <AppButton
                     to={`/seller/${data.user_id}`}
                     variant="link"
-                    label={data.seller.name}
+                    label={data.user_name}
                   ></AppButton>
                 </div>
                 <div style={{ color: "var(--color-gray-400)" }}>
@@ -166,10 +163,11 @@ const ProductDetails = () => {
           ></AppCard>
           <div className="vs-col-details"></div>
         </div>
-        <div
-          className="vs-containter-description__col"
-          dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-        />
+        <div className="vs-containter-description__col">
+          <AppCard
+            body={<div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />}
+          ></AppCard>
+        </div>
       </div>
     </ProductPageStyles>
   );
@@ -183,6 +181,9 @@ const ProductPageStyles = styled.div`
   }
   .vs-container-left__col,
   .vs-container-right__col,
+  .vs-containter-description__col {
+    padding: var(--p-4) var(--p-2);
+  }
   .vs-containter-description__col {
     padding: var(--p-4) var(--p-2);
   }

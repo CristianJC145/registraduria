@@ -30,12 +30,10 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
   const [isLoggedIn] = useState(tokenService.isAuthenticated());
   const [isOpen, setIsOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleDropdown = () => {
     setDropdown(!dropdown);
-  };
-  const closeDropdown = () => {
-    setDropdown(false);
   };
   const toogleNavbar = () => {
     setIsOpen(!isOpen);
@@ -47,21 +45,46 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
   };
   const handleLogout = async () => {
     await logout.run();
-    closeDropdown();
     authContext.logout();
     navigate("/");
     window.location.reload();
   };
+
   const handleOutsideClick = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     if (isOpen && !target.closest(".vs-navbar-nav")) {
       setIsOpen(false);
       document.body.classList.remove("no-scroll");
     }
+    if (
+      dropdown &&
+      !target.closest(".vs-profile-dropdown") &&
+      !target.closest(".vs-profile-btn")
+    ) {
+      console.log(dropdown);
+
+      setDropdown(false);
+    }
   };
   const handleItemClick = () => {
     setIsOpen(false);
     document.body.classList.remove("no-scroll");
+  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    performSearch();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      performSearch();
+    }
+  };
+  const performSearch = () => {
+    navigate(`/list/${searchTerm}`);
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleOutsideClick);
@@ -69,188 +92,195 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [isOpen]);
+  }, [isOpen, dropdown]);
   return (
     <AppNavbarProductsStyle>
-      <nav className="vs-navbar">
+      <div className="vs-navbar-containter">
         {isOpen && <div className="overlay"></div>}
-        <div className="vs-navbar-left">
-          <AppButton
-            className="openNavbar"
-            variant="dark"
-            icon="fa-bars"
-            onClick={toogleNavbar}
-            ariaLabel="Open Navbar"
-          ></AppButton>
-          <div className={`vs-navbar-nav ${isOpen ? "is-active" : ""}`}>
-            <div className="vs-nav-header">
-              <div className="vs-header-top">
-                <a className="vs-navbar-logo" href="/">
-                  <LazyImage src={appLogo} alt="Logo" />
-                  <span>VSHOWCASE</span>
+        <nav className="vs-navbar">
+          <div className="vs-navbar-left">
+            <AppButton
+              className="openNavbar"
+              variant="dark"
+              icon="fa-bars"
+              onClick={toogleNavbar}
+              ariaLabel="Open Navbar"
+            ></AppButton>
+            <div className={`vs-navbar-nav ${isOpen ? "is-active" : ""}`}>
+              <div className="vs-nav-header">
+                <div className="vs-header-top">
+                  <a className="vs-navbar-logo" href="/">
+                    <LazyImage src={appLogo} alt="Logo" />
+                    <span>VSHOWCASE</span>
+                  </a>
+                  <AppButton
+                    className="closeNavbar"
+                    variant="white"
+                    icon="fa-times"
+                    onClick={toogleNavbar}
+                    ariaLabel="Clase Navbar"
+                  ></AppButton>
+                </div>
+                <div className="vs-header-actions">
+                  {isLoggedIn ? (
+                    <>
+                      <div className="vs-actions-profile">
+                        <AppButton
+                          className="vs-profile-btn"
+                          to="/user/profile"
+                          onClick={handleItemClick}
+                          ariaLabel="Button Profile"
+                        >
+                          <LazyImage
+                            className="vs-profile-img"
+                            src="src/assets/images/1.webp"
+                            alt="Profile"
+                          />
+                        </AppButton>
+                        <span className="vs-profile-name">
+                          Hola, <span>{dataToken.name}</span>{" "}
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <AppButton
+                        variant="primary"
+                        className="vs-btn-login"
+                        to="/auth/login"
+                        label="Ingresar"
+                        onClick={handleItemClick}
+                      ></AppButton>
+                      <AppButton
+                        variant="primary"
+                        outlined
+                        className="vs-btn-register"
+                        to="/register/landing"
+                        label="Registrarme"
+                        onClick={handleItemClick}
+                      ></AppButton>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="vs-nav-links">
+                <a className="vs-nav-link vs-nav-categories" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-list"></AppIcon>
+                  Categorias
                 </a>
+                <a className="vs-nav-link" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-tags"></AppIcon>
+                  Ofertas
+                </a>
+                <a className="vs-nav-link vs-nav-show" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-heart"></AppIcon>
+                  Favoritos
+                </a>
+                <a className="vs-nav-link" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-user-tag"></AppIcon>
+                  Vender
+                </a>
+                <a className="vs-nav-link" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-clock"></AppIcon>
+                  Historial
+                </a>
+                <a className="vs-nav-link vs-nav-show" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-bell"></AppIcon>
+                  Notificaciones
+                </a>
+                <a className="vs-nav-link vs-nav-show" href="#">
+                  <AppIcon className="vs-nav-icon" icon="fa-user-alt"></AppIcon>
+                  Mi cuenta
+                </a>
+              </div>
+            </div>
+
+            <section className="vs-section-search-bar">
+              <div className="vs-search-bar">
+                <div className="vs-logo">
+                  <LazyImage src={appLogo} alt="Logo" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  onChange={handleInputChange}
+                  value={searchTerm}
+                  onKeyDown={handleKeyDown}
+                />
                 <AppButton
-                  className="closeNavbar"
-                  variant="white"
-                  icon="fa-times"
-                  onClick={toogleNavbar}
-                  ariaLabel="Clase Navbar"
+                  variant="dark"
+                  icon="fa-search"
+                  ariaLabel="Search Product"
+                  onClick={handleSearch}
                 ></AppButton>
               </div>
-              <div className="vs-header-actions">
-                {isLoggedIn ? (
-                  <>
-                    <div className="vs-actions-profile">
-                      <AppButton
-                        className="vs-profile-btn"
-                        to="/user/profile"
-                        onClick={handleItemClick}
-                        ariaLabel="Button Profile"
-                      >
-                        <LazyImage
-                          className="vs-profile-img"
-                          src="src/assets/images/1.webp"
-                          alt="Profile"
-                        />
-                      </AppButton>
-                      <span className="vs-profile-name">
-                        Hola, <span>{dataToken.name}</span>{" "}
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <AppButton
-                      variant="primary"
-                      className="vs-btn-login"
-                      to="/auth/login"
-                      label="Ingresar"
-                      onClick={handleItemClick}
-                    ></AppButton>
-                    <AppButton
-                      variant="primary"
-                      outlined
-                      className="vs-btn-register"
-                      to="/register/landing"
-                      label="Registrarme"
-                      onClick={handleItemClick}
-                    ></AppButton>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="vs-nav-links">
-              <a className="vs-nav-link vs-nav-categories" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-list"></AppIcon>
-                Categorias
-              </a>
-              <a className="vs-nav-link" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-tags"></AppIcon>
-                Ofertas
-              </a>
-              <a className="vs-nav-link vs-nav-show" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-heart"></AppIcon>
-                Favoritos
-              </a>
-              <a className="vs-nav-link" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-user-tag"></AppIcon>
-                Vender
-              </a>
-              <a className="vs-nav-link" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-clock"></AppIcon>
-                Historial
-              </a>
-              <a className="vs-nav-link vs-nav-show" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-bell"></AppIcon>
-                Notificaciones
-              </a>
-              <a className="vs-nav-link vs-nav-show" href="#">
-                <AppIcon className="vs-nav-icon" icon="fa-user-alt"></AppIcon>
-                Mi cuenta
-              </a>
-            </div>
+            </section>
           </div>
-
-          <section className="vs-section-search-bar">
-            <div className="vs-search-bar">
-              <div className="vs-logo">
-                <LazyImage src={appLogo} alt="Logo" />
-              </div>
-              <input type="text" placeholder="Buscar..." />
-              <AppButton
-                variant="dark"
-                icon="fa-search"
-                ariaLabel="Search"
-              ></AppButton>
-            </div>
-          </section>
-        </div>
-        <div className="vs-navbar-right">
-          {isLoggedIn ? (
-            <div className="vs-navbar-profile">
-              <AppButton
-                className="vs-profile-btn"
-                to=""
-                onClick={toggleDropdown}
-                ariaLabel="Button Profile"
-              >
-                <LazyImage className="vs-profile-img" src={appLogo} alt="" />
-              </AppButton>
-              {dropdown && (
-                <div className="vs-profile-dropdown">
-                  <div className="vs-dropdown-header">
-                    <span>{dataToken.name}</span>
-                  </div>
-                  <AppButton
-                    variant="link"
-                    className="vs-dropdown-link"
-                    to="user/profile"
-                    label="Mi perfil"
-                    onClick={closeDropdown}
-                    ariaLabel="Button Profile"
-                  />
-                  {dataToken.account_type_id === 2 && (
+          <div className="vs-navbar-right">
+            {isLoggedIn ? (
+              <div className="vs-navbar-profile">
+                <AppButton
+                  className="vs-profile-btn"
+                  to=""
+                  onClick={toggleDropdown}
+                  ariaLabel="Button Profile"
+                >
+                  <LazyImage className="vs-profile-img" src={appLogo} alt="" />
+                </AppButton>
+                {dropdown && (
+                  <div className="vs-profile-dropdown">
+                    <div className="vs-dropdown-header">
+                      <span>{dataToken.name}</span>
+                    </div>
                     <AppButton
                       variant="link"
                       className="vs-dropdown-link"
-                      to="dashboard/home"
-                      label="Dashboard"
-                      onClick={closeDropdown}
-                      ariaLabel="Button Dashboard"
+                      to="user/profile"
+                      label="Mi perfil"
+                      ariaLabel="Button Profile"
                     />
-                  )}
-                  <AppButton
-                    variant="link"
-                    className="vs-dropdown-link"
-                    href="#"
-                    label="Cerrar Sesion"
-                    onClick={handleLogout}
-                    ariaLabel="Button Sign off"
-                  />
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <AppButton to="auth/login" label="Ingresar" />
+                    {dataToken.account_type_id === 2 && (
+                      <AppButton
+                        variant="link"
+                        className="vs-dropdown-link"
+                        to="dashboard/home"
+                        label="Dashboard"
+                        ariaLabel="Button Dashboard"
+                      />
+                    )}
+                    <AppButton
+                      variant="link"
+                      className="vs-dropdown-link"
+                      href="#"
+                      label="Cerrar Sesion"
+                      onClick={handleLogout}
+                      ariaLabel="Button Sign off"
+                    />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="vs-profile-btn__group">
+                <AppButton to="auth/login" label="Ingresar" />
+                <AppButton
+                  to="register/landing"
+                  label="Registrarme"
+                  variant="primary"
+                  outlined
+                ></AppButton>
+              </div>
+            )}
+            <div className="vs-right-cart-shopping">
               <AppButton
-                to="register/landing"
-                label="Registrarme"
-                variant="primary"
-                outlined
+                icon="fa-cart-shopping"
+                variant="dark"
+                ariaLabel="Cart Shopping"
+                onClick={toggleCart}
               ></AppButton>
-            </>
-          )}
-          <div className="vs-right-cart-shopping">
-            <AppButton
-              icon="fa-cart-shopping"
-              variant="dark"
-              ariaLabel="Cart Shopping"
-              onClick={toggleCart}
-            ></AppButton>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </AppNavbarProductsStyle>
   );
 };
@@ -258,6 +288,12 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
 export default AppNavbarProducts;
 
 const AppNavbarProductsStyle = styled.div`
+  .vs-navbar-containter {
+    position: absolute;
+    top: 0;
+    z-index: 40;
+    width: 100%;
+  }
   .vs-navbar {
     position: relative;
     display: flex;
@@ -291,9 +327,6 @@ const AppNavbarProductsStyle = styled.div`
     display: flex;
     align-items: center;
     flex: 1 1 auto;
-  }
-  .vs-navbar-right a {
-    display: none;
   }
   .vs-right-cart-shopping {
     margin-left: 1rem;
@@ -361,13 +394,13 @@ const AppNavbarProductsStyle = styled.div`
   .vs-profile-dropdown {
     position: absolute;
     z-index: 10;
-    width: 15rem;
+    width: 13rem;
     padding: var(--p-4);
     border-radius: 10px;
     background-color: var(--color-light);
     box-shadow: 0 0 15px rgba(106, 106, 106, 0.6);
     inset: 0px 0px auto auto;
-    transform: translate(0px, 45px);
+    transform: translate(30px, 45px);
   }
   .vs-dropdown-header {
     padding: var(--p-4);
@@ -387,6 +420,10 @@ const AppNavbarProductsStyle = styled.div`
 
   .vs-navbar-profile {
     position: relative;
+  }
+  .vs-profile-btn__group {
+    display: none;
+    gap: 0.5rem;
   }
   .vs-profile-img {
     height: 30px;
@@ -449,10 +486,14 @@ const AppNavbarProductsStyle = styled.div`
   .vs-search-bar {
     display: flex;
     align-items: center;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.05);
     background-color: var(--color-body);
     padding: 0 var(--p-3);
     border-radius: 8px;
     width: 100%;
+  }
+  .vs-search-bar:hover {
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.09);
   }
 
   .vs-search-bar input[type="text"] {
@@ -462,6 +503,7 @@ const AppNavbarProductsStyle = styled.div`
     width: 100%;
     background-color: transparent;
     color: var(--color-gray-700);
+    letter-spacing: 0.5px;
   }
 
   .vs-search-bar input[type="text"]:focus-visible {
@@ -477,7 +519,7 @@ const AppNavbarProductsStyle = styled.div`
   }
 
   .vs-search-bar input[type="text"]::placeholder {
-    color: var(--color-gray-300);
+    color: rgba(var(--color-gray-300-rgb), 0.6);
     margin-left: 10px;
     font-weight: bold;
   }
@@ -499,13 +541,22 @@ const AppNavbarProductsStyle = styled.div`
     color: #fff;
   }
   @media (min-width: 768px) {
+    .vs-navbar-containter {
+      top: 70px;
+      height: calc(100vh - 20px);
+      width: initial;
+    }
+    .vs-profile-btn__group {
+      display: flex;
+    }
     .vs-navbar {
       width: 100%;
       position: fixed;
       top: 0;
     }
-    .vs-navbar-right a {
-      display: inline-flex;
+    .vs-profile-dropdown {
+      width: 15rem;
+      transform: translate(0, 45px);
     }
     .vs-header-actions {
       display: none;

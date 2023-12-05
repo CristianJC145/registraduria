@@ -62,7 +62,7 @@ const AppshoppingCart: React.FC<AppshoppingCartProps> = ({ isOpen }) => {
                       <div className="vs-left-image">
                         <img
                           src={item.product.images[0]}
-                          alt={item.product.name}
+                          alt={item.product.product_name}
                         />
                       </div>
                     </div>
@@ -70,7 +70,7 @@ const AppshoppingCart: React.FC<AppshoppingCartProps> = ({ isOpen }) => {
                     <div className="vs-row-right">
                       <div className="vs-right-col__top">
                         <span className="vs-col-top__label">
-                          {truncateName(item.product.name)}
+                          {truncateName(item.product.product_name)}
                         </span>
                         <AppButton
                           onClick={() => clearCart(item.product.id)}

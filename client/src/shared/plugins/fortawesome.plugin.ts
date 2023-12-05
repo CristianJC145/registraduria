@@ -53,7 +53,10 @@ import {
     faCertificate,
     faCheck,
     faLevelDownAlt,
-    faShield
+    faShield,
+    faAd,
+    faLock,
+    faGear
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -106,5 +109,8 @@ library.add(
     faCertificate,
     faLevelDownAlt,
     faShield,
-    faMinus
+    faMinus,
+    faAd,
+    faLock,
+    faGear,
     );

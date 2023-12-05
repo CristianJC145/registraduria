@@ -1,9 +1,0 @@
-.mainContent {
-    padding: var(--p-3) var(--p-4);
-}
-
-@media (min-width: 768px) {
-    .mainContent {
-        margin-top: 70px;
-    }
-}

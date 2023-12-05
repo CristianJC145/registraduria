@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { ProductDto } from "../dtos/products.dto";
-import { useNavigate } from "react-router-dom";
 export type CartItem = {
   product: ProductDto;
   quantity: number;
@@ -16,7 +15,6 @@ export const updateLocalStorage = (state: any) => {
 };
 
 export const cartReducer = (state: CartItem[], action: any) => {
-  const navigate = useNavigate();
   function truncateName(text: string) {
     return text.length > 45 ? `${text.slice(0, 45)}...` : text;
   }
@@ -35,14 +33,14 @@ export const cartReducer = (state: CartItem[], action: any) => {
             quantity: state[existingItemIndex].quantity + 1,
           },
         ];
-        let nameProduct = state[existingItemIndex].product.name;
+        let nameProduct = state[existingItemIndex].product.product_name;
         toast.info(`Se añadió ${truncateName(nameProduct)} al carrito`);
         updateLocalStorage(newState);
         return newState;
       } else {
         const newState = [...state, { product: action.payload, quantity: 1 }];
         updateLocalStorage(newState);
-        let nameProduct = newState[0].product.name;
+        let nameProduct = newState[0].product.product_name;
         toast.info(`Se añadió ${truncateName(nameProduct)} al carrito`);
         return newState;
       }
@@ -91,8 +89,6 @@ export const cartReducer = (state: CartItem[], action: any) => {
     }
 
     case "COMPLETE_PURCHASE": {
-      let url = "http://192.168.18.37:5173";
-      navigate(url);
       updateLocalStorage([]);
       toast.success("¡Compra realizada con éxito!");
       return [];

@@ -3,6 +3,7 @@ import AppFooter from "./AppFooter";
 import AppNavbarProducts from "./AppNavbarProducts";
 import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
 import AppshoppingCart from "./AppShoppingCart";
+import styled from "styled-components";
 interface VshowcaseLayoutProps {
   children: ReactNode;
 }
@@ -28,12 +29,34 @@ const VshowcaseLayout: React.FC<VshowcaseLayoutProps> = ({ children }) => {
   };
   return (
     <ShoppingCartProvider>
-      <AppNavbarProducts toggleCart={toggleCart}></AppNavbarProducts>
-      <AppshoppingCart isOpen={isCartOpen}></AppshoppingCart>
-      <main className="mainContent">{children}</main>
-      <AppFooter></AppFooter>
+      <VshowcaseLayoutStyles>
+        <AppshoppingCart isOpen={isCartOpen}></AppshoppingCart>
+        <main className="mainContent">
+          <AppNavbarProducts toggleCart={toggleCart}></AppNavbarProducts>
+          <div className="vs-content">{children}</div>
+          <AppFooter></AppFooter>
+        </main>
+      </VshowcaseLayoutStyles>
     </ShoppingCartProvider>
   );
 };
 
 export default VshowcaseLayout;
+const VshowcaseLayoutStyles = styled.div`
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .vs-content {
+    padding: var(--p-6) var(--p-6);
+    flex-grow: 1;
+    background-color: #fff;
+    margin-top: 80px;
+  }
+  @media (min-width: 768px) {
+    .vs-content {
+      margin-top: 70px;
+    }
+  }
+`;

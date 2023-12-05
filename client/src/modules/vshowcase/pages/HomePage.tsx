@@ -15,9 +15,7 @@ function HomePage() {
 
   const fetchProducts = async () => {
     const response = await getAllProductsService.run();
-    const dataProducts = response.products;
-
-    const updateProductData = dataProducts.map((res: any) => ({
+    const updateProductData = response.map((res: any) => ({
       ...res,
       images: res.images.map((image: string) => `${services.api_url}/${image}`),
     }));
@@ -82,12 +80,12 @@ function HomePage() {
                   <CardProducts
                     key={index + 1}
                     imageSrc={product.images[0]}
-                    description={truncateName(product.name)}
+                    description={truncateName(product.product_name)}
                     price={formattedPrice(product.price)}
-                    sellerName={product.seller.name}
+                    sellerName={product.user_name}
                     shippingPrice="Gratis"
                     url={{
-                      pathname: `/${encodeURIComponent(product.name)}/${
+                      pathname: `/${encodeURIComponent(product.product_name)}/${
                         product.id
                       }`,
                       state: { product },

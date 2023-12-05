@@ -4,7 +4,7 @@ export interface ProductDto {
     description: string;
     id:number
     images: string[];
-    name: string;
+    product_name: string;
     price: number;
     seller: SellerDto[];
     state: number;

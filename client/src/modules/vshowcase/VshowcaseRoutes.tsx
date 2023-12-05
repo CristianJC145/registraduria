@@ -7,6 +7,7 @@ import RegisterLanding from "./pages/RegisterPage";
 import AppEmptyLayout from "../../shared/layout/AppEmptyLayout";
 import Login from "../auth/Login";
 import ProductDetails from "./pages/ProductDetails";
+import ProductList from "./pages/ProductList";
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -18,6 +19,10 @@ const VshowcaseRoutes: React.FC = () => {
             <Routes>
               <Route index element={<HomePage />} />
               <Route path="/:product/:id" element={<ProductDetails />}></Route>
+              <Route
+                path="/list/:searchTerm/"
+                element={<ProductList />}
+              ></Route>
             </Routes>
           </VshowcaseLayout>
         }

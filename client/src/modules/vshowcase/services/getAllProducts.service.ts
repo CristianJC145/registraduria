@@ -3,7 +3,7 @@ import {services} from '../../../shared/constant/services'
 
 export class GetAllProductsService {
     run() {
-        return configureApi().get(`${services.products}/product-seller`)
+        return configureApi().get(`${services.products}/`)
         .then((response) => response.data);
     }
 }
