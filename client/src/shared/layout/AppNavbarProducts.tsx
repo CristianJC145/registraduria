@@ -127,7 +127,7 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
                       <div className="vs-actions-profile">
                         <AppButton
                           className="vs-profile-btn"
-                          to="/user/profile"
+                          to="dashboard/account"
                           onClick={handleItemClick}
                           ariaLabel="Button Profile"
                         >
@@ -235,7 +235,7 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
                     <AppButton
                       variant="link"
                       className="vs-dropdown-link"
-                      to="user/profile"
+                      to="dashboard/account"
                       label="Mi perfil"
                       ariaLabel="Button Profile"
                     />
