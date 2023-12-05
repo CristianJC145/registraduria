@@ -63,7 +63,7 @@ const ProductDetails = () => {
                     <span>{condition}</span>
                   </div>
                   <div className="vs-container-name">
-                    <span>{data.name}</span>
+                    <span>{data.product_name}</span>
                   </div>
                   <div className="vs-container-price">
                     <span>$ {formattedPrice(data.price)}</span>

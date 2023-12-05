@@ -15,12 +15,18 @@ function HomePage() {
 
   const fetchProducts = async () => {
     const response = await getAllProductsService.run();
-    const updateProductData = response.map((res: any) => ({
-      ...res,
-      images: res.images.map((image: string) => `${services.api_url}/${image}`),
-    }));
+    const { data } = response;
+    console.log();
+    data.map((product: any) => {
+      product.images = product.images
+        .split(",")
+        .map((image: string) => `${services.api_url}/${image}`);
+      return {
+        ...data,
+      };
+    });
 
-    setProducts(updateProductData);
+    setProducts(data);
   };
 
   function truncateName(text: string) {

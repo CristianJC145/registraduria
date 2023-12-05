@@ -38,7 +38,7 @@ interface ProductFormProps {
       stock: string;
       user_id: number;
       price: string;
-      name: string;
+      product_name: string;
       condition_id: string;
       category_id: number;
       description: string;
@@ -87,7 +87,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
   const initialValues = {
     id: dataProduct?.productData?.id ?? "",
     images: dataProduct?.productData?.images ?? [],
-    name: dataProduct?.productData?.name ?? "",
+    name: dataProduct?.productData?.product_name ?? "",
     state: dataProduct?.productData?.state ?? 0,
     productCategoryId: dataProduct?.productData?.category_id ?? 1,
     subcategoryId: dataProduct?.subcategoryData ?? [],
