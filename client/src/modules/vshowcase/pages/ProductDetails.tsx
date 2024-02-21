@@ -1,19 +1,24 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import DOMPurify from "dompurify";
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
+import { format, addDays} from 'date-fns';
+import { es } from 'date-fns/locale';
 import { useShoppingCart } from "../../../shared/contexts/ShoppingCartContext";
 import { ProductDto } from "../../../shared/dtos/products.dto";
-import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { addToCart } = useShoppingCart();
   const { state } = useLocation();
 
   const data = state.product ? state.product : state;
+  const navigate = useNavigate()
   const sanitizedHTML = DOMPurify.sanitize(data.description);
+  const currentData = new Date();
+  const returnTime = addDays(currentData, 30);
+  const formattedReturnTime = format(returnTime, 'dd \'de\' MMMM', { locale: es });
   const condition =
     data.condition_id === 1
       ? "Nuevo"
@@ -22,7 +27,9 @@ const ProductDetails = () => {
       : "Reacondicionado";
 
   const handleBuyNow = (product: string) => {
-    toast.success(`Compra Realizada con !Exito!`);
+    console.log(product);
+    let url = '../buy/payselect';
+    navigate(url, {state: {product}});
   };
   const handleAddCartShopping = (product: ProductDto) => {
     addToCart(product);
@@ -144,7 +151,7 @@ const ProductDetails = () => {
                     <span>
                       Devoluciones:{" "}
                       <span className="fw-bold">
-                        se puede devolver hasta el 25 de dic {"(1 mes)"}
+                        se puede devolver hasta el {formattedReturnTime} {"(1 mes)"}
                       </span>{" "}
                     </span>
                   </div>

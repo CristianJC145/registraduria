@@ -56,7 +56,10 @@ import {
     faShield,
     faAd,
     faLock,
-    faGear
+    faGear,
+    faCreditCard,
+    faLandmark,
+    faMoneyBill
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -113,4 +116,7 @@ library.add(
     faAd,
     faLock,
     faGear,
+    faCreditCard,
+    faLandmark,
+    faMoneyBill
     );
