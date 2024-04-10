@@ -51,7 +51,7 @@ const VshowcaseRoutes: React.FC = () => {
           </AppEmptyLayout>
         }
       />
-      <Route path="/buy/*" 
+      {/* <Route path="/buy/*" 
         element={
           <AppEmptyLayout>
             <Routes>
@@ -68,7 +68,7 @@ const VshowcaseRoutes: React.FC = () => {
             </Routes>
           </AppEmptyLayout>
         }
-      />
+      /> */}
     </Routes>
   );
 };
