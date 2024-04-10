@@ -2,9 +2,16 @@ import styled from "styled-components";
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
 import AppButton from "../../../shared/components/Buttons/AppButton";
+import { useLocation } from 'react-router-dom';
 
 
 const BuyProductPage = () => {
+    const location = useLocation();
+    const { product } = location.state;
+    function formattedPrice(price: number | bigint) {
+        return new Intl.NumberFormat("es-ES").format(price);
+    }
+
     return (
         <BuyProductPageStyle>
             <div className="vs-buy-container">
@@ -56,7 +63,7 @@ const BuyProductPage = () => {
                             <h4 className="vs-order-title">Resumen de compra</h4>
                             <div className="d-flex flex-row justify-content-between mb-3">
                                 <span>Subtotal</span>
-                                <span>$100.000</span>
+                                <span>${formattedPrice(product.price)}</span>
                             </div>
                             <div className="d-flex flex-row justify-content-between mb-3">
                                 <span>Envío</span>
@@ -64,7 +71,7 @@ const BuyProductPage = () => {
                             </div>
                             <div className="vs-order-total">
                                 <span>Total</span>
-                                <span>$100.000</span>
+                                <span>${formattedPrice(product.price)}</span>
                             </div>
                         </div>
                     }/>
