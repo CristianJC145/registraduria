@@ -8,8 +8,7 @@ import AppEmptyLayout from "../../shared/layout/AppEmptyLayout";
 import Login from "../auth/Login";
 import ProductDetails from "./pages/ProductDetails";
 import ProductList from "./pages/ProductList";
-import BuyProductPage from "./pages/BuyProductPage"
-import LogicalCalculator from "./pages/CalculatorPage";
+import BuyProductPage from "./pages/BuyProductPage";
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -46,7 +45,7 @@ const VshowcaseRoutes: React.FC = () => {
         element={
           <AppEmptyLayout>
             <Routes>
-              <Route path="login" element={ <Login /> } />
+              <Route path="login" element={<Login />} />
             </Routes>
           </AppEmptyLayout>
         }
