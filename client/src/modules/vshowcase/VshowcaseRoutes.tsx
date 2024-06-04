@@ -9,6 +9,7 @@ import Login from "../auth/Login";
 import ProductDetails from "./pages/ProductDetails";
 import ProductList from "./pages/ProductList";
 import BuyProductPage from "./pages/BuyProductPage"
+import LogicalCalculator from "./pages/CalculatorPage";
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -45,16 +46,25 @@ const VshowcaseRoutes: React.FC = () => {
         element={
           <AppEmptyLayout>
             <Routes>
-              <Route path="login" element={ <Login /> } />
+              <Route path="login" element={<Login />} />
             </Routes>
           </AppEmptyLayout>
         }
       />
-      <Route path="/buy/*" 
+      {/* <Route path="/buy/*" 
         element={
           <AppEmptyLayout>
             <Routes>
               <Route path="payselect" element={ <BuyProductPage /> }></Route>
+            </Routes>
+          </AppEmptyLayout>
+        }
+      />
+      <Route path="/tools/*" 
+        element={
+          <AppEmptyLayout>
+            <Routes>
+              <Route path="calculator" element={ <LogicalCalculator /> }></Route>
             </Routes>
           </AppEmptyLayout>
         }
