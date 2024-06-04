@@ -27,7 +27,6 @@ const ProductDetails = () => {
       : "Reacondicionado";
 
   const handleBuyNow = (product: string) => {
-    console.log(product);
     let url = '../buy/payselect';
     navigate(url, {state: {product}});
   };

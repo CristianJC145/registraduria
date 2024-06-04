@@ -3,13 +3,18 @@ import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import { useLocation } from 'react-router-dom';
-
+import { toast } from "react-toastify";
 
 const BuyProductPage = () => {
     const location = useLocation();
     const { product } = location.state;
+    console.log(product);
     function formattedPrice(price: number | bigint) {
         return new Intl.NumberFormat("es-ES").format(price);
+    }
+    const handlePurchase = (product: string) => {
+        toast.success("compra realizada con exito");
+        console.log(product);
     }
 
     return (
@@ -52,7 +57,7 @@ const BuyProductPage = () => {
                                 </div>
                             </AppCard>
                             <div className="vs-button-pay">
-                                <AppButton label="Continuar"></AppButton>
+                                <AppButton label="Continuar" onClick={()=>handlePurchase(product)}></AppButton>
                             </div>
                         </div>
                     </div>
@@ -85,7 +90,7 @@ export default BuyProductPage;
 const BuyProductPageStyle = styled.div`
     .vs-buy-container {
         display: flex;
-        flex-direction: row;
+        flex-direction: column-reverse;
         width: 100%;
         max-width: 1190px;
         padding-top: var(--p-4);
@@ -93,12 +98,13 @@ const BuyProductPageStyle = styled.div`
         gap: 2rem;
     }
     .vs-container-left__col {
-        padding: var(--p-4) var(--p-2);
-        width: calc(100% - 410px);
+        padding: var(--p-4);
+        width: 100%;
     }
     .vs-container-right__col {
-        width: 410px;
+        width: 100%;
         flex: 1;
+        padding: var(--p-4);
     }
     .vs-payment-card {
         display: flex;
@@ -128,5 +134,17 @@ const BuyProductPageStyle = styled.div`
     .line {
         padding-top: 2rem;
         border-top: 1px solid rgba(0,0,0, .1);
+    }
+    @media (min-width: 720px) {
+        .vs-buy-container {
+            flex-direction: row;
+        }
+        .vs-container-left__col {
+            width: calc(100% - 410px);
+        }
+        .vs-container-right__col {
+            width: 410px;
+            padding: 0
+        }
     }
 `
