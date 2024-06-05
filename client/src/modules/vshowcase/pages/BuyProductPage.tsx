@@ -2,11 +2,12 @@ import styled from "styled-components";
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import AppIcon from "../../../shared/components/AppIcon";
 import AppButton from "../../../shared/components/Buttons/AppButton";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 const BuyProductPage = () => {
     const location = useLocation();
+    const navigate = useNavigate()
     const { product } = location.state;
     console.log(product);
     function formattedPrice(price: number | bigint) {
@@ -14,9 +15,9 @@ const BuyProductPage = () => {
     }
     const handlePurchase = (product: string) => {
         toast.success("compra realizada con exito");
-        console.log(product);
+        let url = '/buy/invoice'
+        navigate(url, {state: {product}});
     }
-
     return (
         <BuyProductPageStyle>
             <div className="vs-buy-container">

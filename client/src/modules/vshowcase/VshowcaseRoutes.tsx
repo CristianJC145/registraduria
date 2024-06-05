@@ -9,6 +9,7 @@ import Login from "../auth/Login";
 import ProductDetails from "./pages/ProductDetails";
 import ProductList from "./pages/ProductList";
 import BuyProductPage from "./pages/BuyProductPage"
+import InvoicePage from "./pages/InvoicePage";
 
 const VshowcaseRoutes: React.FC = () => {
   return (
@@ -55,6 +56,9 @@ const VshowcaseRoutes: React.FC = () => {
           <AppEmptyLayout>
             <Routes>
               <Route path="payselect" element={ <BuyProductPage /> }></Route>
+            </Routes>
+            <Routes>
+              <Route path="invoice" element={ <InvoicePage /> }></Route>
             </Routes>
           </AppEmptyLayout>
         }
