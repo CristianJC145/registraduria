@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 import AppButton from '../../shared/components/Buttons/AppButton';
 import AppFormField from '../../shared/components/forms/AppFormField';
 import { LoginUser } from './services/loginUser.service';
@@ -13,15 +13,8 @@ const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { isLoggedIn, login } = useAuth();
-  
-  useEffect(() =>{
-    if (isLoggedIn) {
-      let dataToken = tokenService.isAuthenticated();
-      let url = dataToken.account_type_id === 2 ? '/dashboard/home' : '/';
-      navigate(url);
-    }
-  }, [isLoggedIn]);
-
+  const location = useLocation();
+  const { from } = (location.state as { from: { pathname: string } }) || { from: { pathname: '/' } };
   const [formData, setFormData] = useState<any>({
     email: '',
     password: '',
@@ -35,6 +28,14 @@ const Login: React.FC = () => {
     email: '',
     password: '',
   });
+
+  useEffect(() =>{
+    if (isLoggedIn) {
+      let dataToken = tokenService.isAuthenticated();
+      let url = dataToken.account_type_id === 2 ? '/dashboard/home' : from.pathname;
+      navigate(url);
+    }
+  }, [isLoggedIn, from, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     const requiredFields = ['email', 'password'];
@@ -52,7 +53,7 @@ const Login: React.FC = () => {
         }
         await LoginUser(formData);
         let dataToken = tokenService.isAuthenticated();
-        let urlLogin = dataToken.account_type_id === 2 ? '/dashboard/home' : '/';
+        let urlLogin = dataToken.account_type_id === 2 ? '/dashboard/home' : from.pathname;
         login();
         navigate(urlLogin);
     } catch (error: any) {

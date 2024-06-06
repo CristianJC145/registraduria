@@ -8,10 +8,16 @@ import { format, addDays} from 'date-fns';
 import { es } from 'date-fns/locale';
 import { useShoppingCart } from "../../../shared/contexts/ShoppingCartContext";
 import { ProductDto } from "../../../shared/dtos/products.dto";
+import { TokenService } from '../../../shared/services/token.service';
+import { useState } from "react";
 
+const tokenService = new TokenService(
+  "%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9="
+);
 const ProductDetails = () => {
   const { addToCart } = useShoppingCart();
   const { state } = useLocation();
+  const [isLoggedIn] = useState(tokenService.isAuthenticated());
 
   const data = state.product ? state.product : state;
   const navigate = useNavigate()
@@ -27,8 +33,14 @@ const ProductDetails = () => {
       : "Reacondicionado";
 
   const handleBuyNow = (product: string) => {
-    let url = '../buy/payselect';
-    navigate(url, {state: {product}});
+    let url = '';
+    if (isLoggedIn) {
+      url = '../buy/payselect';
+      navigate(url, {state: {product}});
+    } else {
+      url = '../auth/login'
+      navigate(url);
+    }
   };
   const handleAddCartShopping = (product: ProductDto) => {
     addToCart(product);

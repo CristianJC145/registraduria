@@ -6,7 +6,7 @@ const borderColor = '#90e5fc';
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    borderBottomColor: '#bff0fd',
+    borderBottomColor: '#806dfd',
     borderBottomWidth: 1,
     alignItems: 'center',
     height: 24,

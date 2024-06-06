@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginTop: 24,
     borderWidth: 1,
-    borderColor: '#bff0fd',
+    borderColor: '#806dfd',
   },
 });
 
@@ -37,7 +37,7 @@ const InvoiceItemsTable: React.FC<InvoiceItemsTableProps> = ({ invoice }) => (
     <InvoiceTableHeader />
     <InvoiceTableRow items={invoice.items} />
     <InvoiceTableBlankSpace rowsCount={tableRowsCount - invoice.items.length} />
-    <InvoiceTableFooter items={invoice.items} />
+    <InvoiceTableFooter items={invoice.items} />x|
   </View>
 );
 

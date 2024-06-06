@@ -23,7 +23,7 @@ interface InvoiceProps {
 
 const BillTo: React.FC<InvoiceProps> = ({ invoice }) => (
   <HeaderContainer>
-    <BillToText>Bill To:</BillToText>
+    <BillToText>Factura generada por:</BillToText>
     <Text>{invoice.company}</Text>
     <Text>{invoice.address}</Text>
     <Text>{invoice.phone}</Text>

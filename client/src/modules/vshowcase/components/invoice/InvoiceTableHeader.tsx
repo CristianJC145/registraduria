@@ -5,8 +5,8 @@ const borderColor = '#90e5fc'
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        borderBottomColor: '#bff0fd',
-        backgroundColor: '#bff0fd',
+        borderBottomColor: '#806dfd',
+        backgroundColor: '#806dfd',
         borderBottomWidth: 1,
         alignItems: 'center',
         height: 24,
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
 
   const InvoiceTableHeader = () => (
     <View style={styles.container}>
-        <Text style={styles.description}>Item Description</Text>
-        <Text style={styles.qty}>Qty</Text>
-        <Text style={styles.rate}>@</Text>
-        <Text style={styles.amount}>Amount</Text>
+        <Text style={styles.description}>Nombre Producto</Text>
+        <Text style={styles.qty}>Cantidad</Text>
+        <Text style={styles.rate}>Precio Unitario</Text>
+        <Text style={styles.amount}>Total</Text>
     </View>
   );
   
