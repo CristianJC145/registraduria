@@ -11,9 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { LogoutUser } from "../services/logout.service";
 import { useAuth } from "../contexts/AuthContext";
 
-const tokenService = new TokenService(
-  "%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9="
-);
+const tokenService = new TokenService();
 
 interface AppNavbarProductsProps {
   toggleCart: () => void;
@@ -387,7 +385,7 @@ const AppNavbarProductsStyle = styled.div`
     border-radius: 999px;
     padding: 0.225rem;
   }
-  .vs-profile-btn: hover {
+  .vs-profile-btn:hover {
     background-color: rgba(var(--color-gray-400-rgb), 0.05);
     border-color: rgba(var(--color-gray-400-rgb), 0.1);
   }

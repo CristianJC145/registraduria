@@ -19,15 +19,16 @@ interface AppDataTableProps {
   params?: {
     id: number;
   };
+  loading?: boolean
 }
 
 const AppDataTable: React.FC<AppDataTableProps> = ({
   columns,
   service,
   params,
+  loading,
 }) => {
   const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     perPage: 10,
@@ -45,7 +46,6 @@ const AppDataTable: React.FC<AppDataTableProps> = ({
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       const result = await service.run({
         ...params,
         page: pagination.page,
@@ -54,16 +54,17 @@ const AppDataTable: React.FC<AppDataTableProps> = ({
       });
 
       const { data, page, perPage, total } = result;
-      let products = data;
-      products.map((product: any) => {
-        product.images = product.images
-          .split(",")
-          .map((image: string) => `${services.api_url}/${image}`);
 
-        return {
-          ...products,
-        };
-      });
+      // let products = data;
+      // products.map((product: any) => {
+      //   product.images = product.images
+      //     .split(",")
+      //     .map((image: string) => `${services.api_url}/${image}`);
+
+      //   return {
+      //     ...products,
+      //   };
+      // });
       setData(data);
       setPagination((prevPagination) => ({
         ...prevPagination,
@@ -71,14 +72,12 @@ const AppDataTable: React.FC<AppDataTableProps> = ({
       }));
     } catch (error) {
       console.error("Error al obtener datos:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.perPage, search, service]);
+  }, [pagination.page, pagination.perPage, search, service, loading]);
 
   const handlePageChange = (newPageIndex: number) => {
     if (pagination.page !== newPageIndex) {

@@ -8,13 +8,13 @@ import AppIcon from '../../shared/components/AppIcon';
 import { useAuth } from '../../shared/contexts/AuthContext';
 import { TokenService } from '../../shared/services/token.service';
 
-const tokenService = new TokenService('%jg1!#h%2wl33$v=l!y^74xg2mghgr4^li3$_c+*3dd(wp6_9=');
+const tokenService = new TokenService();
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { isLoggedIn, login } = useAuth();
   const location = useLocation();
-  const { from } = (location.state as { from: { pathname: string } }) || { from: { pathname: '/' } };
+  const { from } = (location.state as { from: { pathname: string } }) || { from: { pathname: '/dashboard/home' } };
   const [formData, setFormData] = useState<any>({
     email: '',
     password: '',
@@ -31,8 +31,7 @@ const Login: React.FC = () => {
 
   useEffect(() =>{
     if (isLoggedIn) {
-      let dataToken = tokenService.isAuthenticated();
-      let url = dataToken.account_type_id === 2 ? '/dashboard/home' : from.pathname;
+      let url = from.pathname;
       navigate(url);
     }
   }, [isLoggedIn, from, navigate]);
@@ -52,10 +51,7 @@ const Login: React.FC = () => {
           }
         }
         await LoginUser(formData);
-        let dataToken = tokenService.isAuthenticated();
-        let urlLogin = dataToken.account_type_id === 2 ? '/dashboard/home' : from.pathname;
         login();
-        navigate(urlLogin);
     } catch (error: any) {
       setServerErrorMensage(error.response?.data?.message);
     }
@@ -85,7 +81,7 @@ const Login: React.FC = () => {
       <div className="vs-form-register">
         <h2 className="vs-form-title">Iniciar Sesión</h2>
         <form className="vs-form-content" onSubmit={handleSubmit}>
-          <AppFormField label="E-mail" name='email' type="text" value={formData.email} onChange={handleChange} errorMessage={errorMessage.email}></AppFormField>
+          <AppFormField label="Nombre de usuario" name='email' type="text" value={formData.email} onChange={handleChange} errorMessage={errorMessage.email}></AppFormField>
           <AppFormField label="Contraseña" name='password' type="password" value={formData.password} onChange={handleChange} errorMessage={errorMessage.password}></AppFormField>
           {serverErrorMensage && (
             <div className="vs-form-box-error">

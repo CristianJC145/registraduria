@@ -19,7 +19,7 @@ import AppIcon from "../../../shared/components/AppIcon";
 const getProductsWithPaginationService = new GetProductsWithPaginationService();
 const deleteProductByIdService = new DeleteProductByIdService();
 const updateDatatableService = new UpdateDatatableService();
-const tokenService = new TokenService("");
+const tokenService = new TokenService();
 
 const ProductsPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -48,6 +48,9 @@ const ProductsPage = () => {
     toast.success("¡Producto eliminado correctamente!");
     setIsDeleteModalOpen(false);
   };
+  const handleOpenModal = () => {
+
+  }
 
   const params = {
     id: dataToken.id,
@@ -151,7 +154,8 @@ const ProductsPage = () => {
       <div className="d-flex align-items-center mb-3">
         <AppButton
           label="Agregar Producto"
-          to={"/dashboard/products/create"}
+          onClick={() => handleOpenModal()}
+          icon="plus"
         ></AppButton>
       </div>
       <AppDataTable
@@ -160,11 +164,9 @@ const ProductsPage = () => {
         service={getProductsWithPaginationService}
       ></AppDataTable>
 
-      <AppModal
+      {/* <AppModal
         isOpen={isDeleteModalOpen}
-        onCancel={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-      ></AppModal>
+      ></AppModal> */}
     </>
   );
 };

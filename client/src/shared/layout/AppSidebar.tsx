@@ -9,7 +9,6 @@ import { LogoutUser } from "../services/logout.service";
 import { useAuth } from "../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
-// import './css/AppSidebar.css'
 import AppButton from "../components/Buttons/AppButton";
 
 const logout = new LogoutUser();
@@ -57,13 +56,10 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
                     <AppButton className="vs-btn-miniSidebar" icon={`${smallSidebar ? 'bars' : 'bars-staggered'}`} variant="dark" onClick={handleSmallSidebar} ariaLabel="Small Sidebar"></AppButton>
                 </div>
                 <div className="vs-sidebar-content">
-                    <AppLinkNavigation to="/dashboard/home" icon="home" label="Home" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/products" icon="store" label="Productos" selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/orders" icon="receipt" label="Ordenes"  selected={selectedOption === "/dashboard/orders"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/finance" icon="sack-dollar" label="Financiero" selected={selectedOption === "/dashboard/finance"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/sales" icon="tags" label="Ventas" selected={selectedOption === "/dashboard/sales"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/record" icon="clock" label="Historial" selected={selectedOption === "/dashboard/record"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/account" icon="user" label="Mi cuenta" selected={selectedOption === "/dashboard/account"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/home" icon="home" label="Inicio" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/users" icon="user" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/products" icon="box" label="Agregar Productos"  selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/products-admin"}></AppLinkNavigation>
                 </div>
                 <div className="vs-sidebar-actions">
                     <AppButton icon="right-from-bracket" onClick={handleLogout} variant="dark" className="bg-transparent" ariaLabel="Logout">
@@ -79,7 +75,7 @@ export default AppSidebar;
 const AppSidebarStyle = styled.div`
 .vs-sidebar {
     position: fixed;
-    width: 220px;
+    width: 270px;
     z-index: 0;
     bottom: 0;
     top: 0;

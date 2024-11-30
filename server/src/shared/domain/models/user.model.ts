@@ -1,13 +1,13 @@
 export class UserModel {
   id: number = null;
 
-  name: string = null;
+  idPerson: string = null;
 
-  email: string = null;
-
-  phone: number = null;
+  username: string = null;
 
   password: string = null;
 
-  account_type_id: string = null;
+  idRole: string = null;
+
+  idStatus: string = null;
 }

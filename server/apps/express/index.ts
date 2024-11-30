@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(userRouter, authRouter, productRouter);
 
 app.get('/', async (_req, res) => {
-  res.json('vshowcase API');
+  res.json('registraduria API');
 });
 
 app.listen(port, () => {

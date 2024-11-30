@@ -2,7 +2,7 @@ import { executeQuery } from '../../shared/infra/mysql/db.mysql';
 
 export class GetUserAndPasswordMySql {
   async run(email: string) {
-    const sql = 'SELECT * FROM users WHERE email = ?';
+    const sql = 'SELECT * FROM users WHERE username = ?';
     const [rows] = await executeQuery(sql, [email]);
 
     if (!rows) {
@@ -10,11 +10,11 @@ export class GetUserAndPasswordMySql {
     }
 
     return {
-      id: rows.id as number,
-      name: rows.name as string,
-      email: rows.email as string,
+      idUser: rows.idUser as number,
+      idPerson: rows.idPerson as number,
+      username: rows.username as string,
       password: rows.password as string,
-      account_type_id: rows.account_type_id as number,
+      idRole: rows.idRole as number,
     };
   }
 }

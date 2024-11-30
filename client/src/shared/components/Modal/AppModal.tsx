@@ -1,67 +1,97 @@
-import React from "react";
-import styled from "styled-components";
-import AppButton from "../Buttons/AppButton";
-import AppIcon from "../AppIcon";
-interface AppModalProps {
-    isOpen: boolean;
-    onCancel: () => void;
-    onConfirm: () => void;
+import React from 'react';
+import styled from 'styled-components';
+import { SizeConstant } from '../../constant/size.constants';
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  title: string;
+  subtitle?: string;
+  size? : SizeConstant;
 }
-const AppModal : React.FC<AppModalProps> = ({ isOpen, onCancel, onConfirm }) => {
-    return (
-        <>
-            {isOpen && (
-                <AppModalStyles>
-                    <div className="overlay"></div>
-                    <div className="position-fixed" style={{top: 0, bottom: 0, left: 0, right: 0, zIndex: 6, display: "grid", alignItems: "center", width: "100%", justifyContent: "center"}}>
-                        <div className="vs-modal">
-                            <div className="vs-modal-header">
-                                <AppIcon className="text-warning fs-4 me-2" icon="warning"></AppIcon>
-                                <h1 className="vs-header-title">Confirmar Eliminación</h1>
-                            </div>
-                            <div className="vs-modal-body">
-                                <span className="fs-6 fw-bold">¿Estás seguro de que deseas eliminar este producto?</span>
-                            </div>
-                            <div className="vs-modal-actions">
-                                <AppButton className="px-3 py-2" outlined variant="dark" onClick={onCancel}>Cancelar</AppButton>
-                                <AppButton className="px-3 py-2" variant="danger" onClick={onConfirm}>Confirmar</AppButton>
-                            </div>
-                        </div>
-                    </div>
-                </AppModalStyles>
-            )}
-        </>
-    )
-}
+
+const AppModal: React.FC<ModalProps> = ({ isOpen, onClose, children, title, subtitle, size }) => {
+  if (!isOpen) return null;
+
+  return (
+    <AppModalStyle>
+        <div className="modal-overlay">
+        <div className={size ? `modal-container ${size}` : 'modal-container'}>
+          <div className='modal-header'>
+            <div className='header-title'>{title}</div>
+            <small className='header-subtitle'>
+              {subtitle}
+            </small>
+            <button className="modal-close" onClick={onClose}>×</button>
+          </div>
+          <div className="modal-content">
+              {children}
+          </div>
+        </div>
+        </div>
+    </AppModalStyle>
+  );
+};
+
 export default AppModal;
 
-const AppModalStyles = styled.div`
-    .vs-modal {
-        position: fixed;
-        background-color: #fff;
-        border-radius: 14px;
-        position: relative
-    }
-    .vs-modal-header {
-        display: flex;
-        align-items: center;
-        padding: var(--p-6) var(--p-8);
-        border-bottom: 1px solid #e2e2e2;
-    }
-    .vs-header-title {
-        color: var(--color-gray-800);
-        font-weight: bold;
-        font-size: 1.5rem;
-        margin-bottom: 0;
-    }
-    .vs-modal-body {
-        padding: var(--p-6) var(--p-8);
-    }
+const AppModalStyle = styled.div`
+  .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+  }
+  .modal-container {
+    background: #fff;
+    max-width: 450px;
+    border-radius: 16px;
+  }
+  .modal-container.md {
+    max-width: 850px;
+  }
+  .modal-content {
+      position: relative;
+      padding: 1rem 2rem;
+  }
 
-    .vs-modal-actions {
-        display: flex;
-        justify-content: right;
-        gap: 0.5rem;
-        padding: 0 var(--p-8) var(--p-8) var(--p-8);
-    }
+  .modal-close {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.5rem;
+      top: 3px;
+      right: 0;
+      width: 25px;
+      height: 25px;
+      font-size: 1.5rem;
+      color: var(--color-dark);      
+      border: none;
+      background-color: unset;
+      cursor: pointer;
+  }
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    border-bottom: 1px solid rgba(var(--color-gray-300-rgb), .2);
+    padding: 1rem 2rem;
+  }
+  .header-title {
+    font-weight: 700;
+    font-size: 16px;
+    width: 100%;
+    color: var(--color-dark);
+  }
+
+
 `

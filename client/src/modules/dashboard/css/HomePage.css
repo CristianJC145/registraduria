@@ -1,7 +1,7 @@
 .vs-general-statistics {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
-    gap: .5rem;
+    gap: 1rem;
     margin-bottom: 1.5rem;
 }
 
@@ -30,10 +30,7 @@
     .vs-homePage {
         padding: var(--p-6);
     }
-    .vs-general-statistics {
-        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-        gap: 1.5rem;
-    }
+
     .vs-chart-bar {
         width: 35%;
     }

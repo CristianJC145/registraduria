@@ -62,9 +62,10 @@ const DashboardLayoutStyles = styled.div`
   @media (min-width: 992px) {
     .vs-content {
       padding: var(--p-6) var(--p-8);
+      margin: 0 1.125rem;
     }
     .vs-main-content {
-      margin-left: 220px;
+      margin-left: 270px;
       transition: all 0.3s ease;
     }
     .vs-main-content.small-sidebar {

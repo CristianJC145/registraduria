@@ -60,7 +60,9 @@ import {
     faCreditCard,
     faLandmark,
     faMoneyBill,
-    faCircleCheck
+    faCircleCheck,
+    faBox,
+    faDatabase
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -120,5 +122,7 @@ library.add(
     faCreditCard,
     faLandmark,
     faMoneyBill,
-    faCircleCheck
+    faCircleCheck,
+    faBox,
+    faDatabase
     );

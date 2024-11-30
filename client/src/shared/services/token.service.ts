@@ -1,12 +1,6 @@
 import jwt_decode from 'jwt-decode';
 
 export class TokenService {
-  private secretKey : string;
-
-  constructor(secretKey: string) {
-      this.secretKey = secretKey;
-  }
-
   get(): string | boolean {
       const token = localStorage.getItem('token');
 

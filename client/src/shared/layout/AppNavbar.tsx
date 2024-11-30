@@ -10,7 +10,7 @@ import { LogoutUser } from "../services/logout.service";
 import { settings } from "../constant/settings.constants";
 import { pathnamesT } from "../constant/pathnamesT";
 
-const tokenService = new TokenService("");
+const tokenService = new TokenService();
 
 interface AppNavbarProps {
   toggleSidebar: () => void;
@@ -104,7 +104,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ toggleSidebar }) => {
             {dropdown && (
               <div className="vs-profile-dropdown">
                 <div className="vs-dropdown-header">
-                  <span>{dataToken.name}</span>
+                  <span>{dataToken.username}</span>
                 </div>
                 <AppButton
                   className="vs-dropdown-link"
@@ -200,7 +200,7 @@ const AppNavbarStyle = styled.div`
     border-radius: 999px;
     padding: 0.225rem;
   }
-  .vs-profile-btn: hover {
+  .vs-profile-btn:hover {
     background-color: rgba(var(--color-gray-400-rgb), 0.03);
     border-color: rgba(var(--color-gray-400-rgb), 0.1);
   }
@@ -220,7 +220,7 @@ const AppNavbarStyle = styled.div`
   }
   @media (min-width: 1200px) {
     .vs-AppNavbar {
-      padding-left: var(--p-8);
+      padding: 0 var(--p-8);
     }
   }
 `;
