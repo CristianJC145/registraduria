@@ -10,7 +10,8 @@ import { toast } from "react-toastify";
 
 interface FigureEditorProps {
     onClose : () => void,
-    onSave: () => void
+    onSave: () => void,
+    id?: number
 }
 const createOrUpdateUserService = new CreateOrUpdateUserService();
 const getUserByNameService = new GetUserByNameService();
@@ -26,7 +27,8 @@ const validationSchema = Yup.object().shape({
     idStatus: Yup.string().required("El estado es obligatorio"),
     idPerson: Yup.string().required("Este campo es obligatorio"),
 })
-const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave }) => {
+const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
+    console.log("id capturado ", id)
     const [options, setOptions] = useState<any[]>([]);
     const initialValues = {
         id: "",
