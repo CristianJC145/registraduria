@@ -32,6 +32,13 @@ const HomePage = () => {
           color="#107700"
           onClick={()=> accionNavigate('../admin-products')}
         ></CardOptions>
+        <CardOptions
+          title="Mi perfil"
+          subtitle="Configuracion del perfil"
+          icon="tools"
+          color="#6f0077"
+          onClick={()=> accionNavigate('../admin-products')}
+        ></CardOptions>
       </div>
     </>
   );

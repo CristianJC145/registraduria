@@ -14,10 +14,9 @@ interface ConfirmActionProps {
 const deleteUserService = new DeleteUserByIdService();
 
 const ConfirmAction: React.FC<ConfirmActionProps> = ({ onClose, userDataDelete, onSave }) => {
-    console.log("data para borrar",userDataDelete);
     const handleDelete = async() => {
-        if (userDataDelete.idUser) {
-            await deleteUserService.run(userDataDelete.idUser);
+        if (userDataDelete.id) {
+            await deleteUserService.run(userDataDelete.id);
             onClose();
             onSave();
         }

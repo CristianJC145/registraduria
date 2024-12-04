@@ -57,9 +57,10 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
                 </div>
                 <div className="vs-sidebar-content">
                     <AppLinkNavigation to="/dashboard/home" icon="home" label="Inicio" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/users" icon="user" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/users" icon="users" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
                     <AppLinkNavigation to="/dashboard/products" icon="box" label="Agregar Productos"  selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/products-admin"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/admin-products"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/account-settings" icon="tools" label="Mi Perfil" selected={selectedOption === "/dashboard/account-settings"}></AppLinkNavigation>
                 </div>
                 <div className="vs-sidebar-actions">
                     <AppButton icon="right-from-bracket" onClick={handleLogout} variant="dark" className="bg-transparent" ariaLabel="Logout">
@@ -80,7 +81,7 @@ const AppSidebarStyle = styled.div`
     bottom: 0;
     top: 0;
     background-color: #fff;
-    transform: translateX(-17.125rem);
+    transform: translateX(-21.125rem);
     transition: all .3s ease;
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);

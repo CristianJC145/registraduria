@@ -71,7 +71,7 @@ const UsersPage = () => {
               variant="dark"
               className="bg-transparent"
               icon="check-square"
-              onClick={() => handleOpenModal(value.idUser)}
+              onClick={() => handleOpenModal(value.id)}
             >
               Editar
             </AppButton>
@@ -104,10 +104,8 @@ const UsersPage = () => {
         id: dataToken.id,
     };
     const handleOpenModal = (id?: number) => {
-      console.log("mostrando id:", id, "tipo:", typeof id); // Muestra el tipo de id
       if (id) {
           setEditingUserId(id);
-          console.log("Se estableció el ID:", id);
       }
       setIsModalOpen(true);
     };

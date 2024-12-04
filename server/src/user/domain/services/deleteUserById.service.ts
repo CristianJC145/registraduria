@@ -7,7 +7,7 @@ export class DeleteUserByIdService {
 
   async run(id: number) {
     await Promise.all([
-      this.deleteUserById.run('users', 'idUser', id),
+      this.deleteUserById.run('users', 'id', id),
     ]);
 
     return { id };

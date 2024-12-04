@@ -6,7 +6,7 @@ const GetUsersWithPagination = async (req: Request, res: Response) => {
     const params = req.query as any;
     const paramsSQL = [];
 
-    const sql = `SELECT idUser, name, email, status.statusName, roleName FROM users
+    const sql = `SELECT id, name, email, status.statusName, roleName FROM users
                 INNER JOIN people ON users.idPerson = people.idPerson
                 INNER JOIN STATUS ON users.idStatus = status.idStatus
                 INNER JOIN roles ON users.idRole = roles.idRole`;

@@ -10,7 +10,7 @@ export class GetUserAndPasswordMySql {
     }
 
     return {
-      idUser: rows.idUser as number,
+      idUser: rows.id as number,
       idPerson: rows.idPerson as number,
       username: rows.username as string,
       password: rows.password as string,

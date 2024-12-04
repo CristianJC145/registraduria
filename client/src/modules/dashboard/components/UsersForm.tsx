@@ -5,7 +5,8 @@ import Select from "react-select";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import { CreateOrUpdateUserService } from "../services/CreateOrUpdateUsers.service";
 import { GetUserByNameService } from "../services/getUserByName.service";
-import { useState } from "react";
+import { GetUserByIdService } from "../services/getUserById.service";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 interface FigureEditorProps {
@@ -15,7 +16,7 @@ interface FigureEditorProps {
 }
 const createOrUpdateUserService = new CreateOrUpdateUserService();
 const getUserByNameService = new GetUserByNameService();
-
+const getUserByIdService = new GetUserByIdService();
 const validationSchema = Yup.object().shape({
     username: Yup.string().required("El nombre de usuario es obligatorio"),
     password: Yup.string().required("La contraseña es obligatoria")
@@ -28,24 +29,16 @@ const validationSchema = Yup.object().shape({
     idPerson: Yup.string().required("Este campo es obligatorio"),
 })
 const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
-    console.log("id capturado ", id)
     const [options, setOptions] = useState<any[]>([]);
-    const initialValues = {
-        id: "",
-        username:  "",
-        password: "",
-        idRole: "",
-        idStatus: "",
-        idPerson: "",
-    };
+    const [userData, setUserData] = useState<any>({})
     const roles = [
         {
             id: 1,
-            name: "Usuario"
+            name: "Administrador"
         },
         {
             id: 2,
-            name: "Administrador"
+            name: "Usuario"
         }
     ]
     const status = [
@@ -78,6 +71,16 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
             setOptions([])
         }
     }
+    const fetchEditUser = async (id: number) => {
+        try {
+            const response = await getUserByIdService.run(id);
+            setUserData(response.userData[0]);
+            console.log(response.userData[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const handleInputChange = (inputValue: string) => {
         fetchOptions(inputValue);
     };
@@ -97,6 +100,19 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
             console.log(e);
         }
     }
+    useEffect(() => {
+        if (id) {
+            fetchEditUser(id)
+        }
+    }, [id]);
+    const initialValues = {
+        id: userData?.id ?? "",
+        username: userData?.username ?? "",
+        password: "",
+        idRole: userData?.idRole ?? null,
+        idStatus: userData?.idStatus ?? "",
+        idPerson: "",
+    };
     return (
         <UsersFormStyle>
             <div className="form-content">
@@ -104,8 +120,9 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
+                    enableReinitialize = { true }
                 >
-                    {({ setFieldValue, setFieldTouched }) => (
+                    {({ values, setFieldValue, setFieldTouched }) => (
                         <div>
                             <Form>
                             <div className="content-field">
@@ -169,17 +186,25 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
                                             {() => (
                                                 <Select
                                                     className="py-2 w-100"
+                                                    value = {
+                                                        values.idRole
+                                                            ? {
+                                                                value: values.idRole,
+                                                                label: roles.find((role)=> role.id === values.idRole)?.name
+                                                            }
+                                                            : null
+                                                    }
                                                     options={roles.map((role) => ({
                                                         value: role.id,
                                                         label: role.name,
                                                     }))}
                                                     onChange={(idRole: any) => {
                                                         setFieldValue(
-                                                          "idRole",
-                                                          idRole?.value ?? ""
+                                                        "idRole",
+                                                        idRole?.value ?? ""
                                                         );
                                                     }}
-                                                    placeholder="Selecciona una Categoria"
+                                                    placeholder="Selecciona un Rol"
                                                 />
                                             )}
                                         </Field>
