@@ -2,7 +2,7 @@ import { executeQuery } from '../../shared/infra/mysql/db.mysql';
 
 export class GetUserByNameMySql {
   async run(name: string) {
-    const sql = 'SELECT idPerson, name FROM people WHERE name LIKE ?';
+    const sql = 'SELECT id, name FROM people WHERE name LIKE ?';
 
     try {
       const result = await executeQuery(sql, [`${name}%`]);
@@ -11,7 +11,7 @@ export class GetUserByNameMySql {
         return null;
       }
       return rows.map((row: any) => ({
-        idUser: row.idPerson,
+        idUser: row.id,
         name: row.name,
       }));
     } catch (error) {

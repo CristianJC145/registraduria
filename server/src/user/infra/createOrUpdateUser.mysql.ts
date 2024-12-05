@@ -6,12 +6,46 @@ import { CreateOrUpdateUserRepository } from '../domain/repositories/createOrUpd
 export class CreateOrUpdateUserMySql implements CreateOrUpdateUserRepository {
   async run(data: CreateOrUpdateUserDto, id?: number) {
     let sql = '';
+    let params: any[] = [];
+
     if (id) {
-      sql = 'UPDATE users SET name=?, phone=? WHERE id = ?';
+      if (data.user.password) {
+        const hashedPassword = await hashPassword(data.user.password);
+        sql =
+          'UPDATE users SET idPerson=?, username=?, password=?, idRole=?, idStatus=? WHERE id = ?';
+        params = [
+          data.user.idPerson,
+          data.user.username,
+          hashedPassword,
+          data.user.idRole,
+          data.user.idStatus,
+          id,
+        ];
+      } else {
+        sql =
+          'UPDATE users SET idPerson=?, username=?, idRole=?, idStatus=? WHERE id = ?';
+        params = [
+          data.user.idPerson,
+          data.user.username,
+          data.user.idRole,
+          data.user.idStatus,
+          id,
+        ];
+      }
     } else {
-      sql = 'INSERT INTO users (idPerson, username, password, idRole, idStatus) VALUES (?, ?, ?, ?, ?)';
+      // Inserción de un nuevo usuario
+      const hashedPassword = await hashPassword(data.user.password);
+      sql =
+        'INSERT INTO users (idPerson, username, password, idRole, idStatus) VALUES (?, ?, ?, ?, ?)';
+      params = [
+        data.user.idPerson,
+        data.user.username,
+        hashedPassword,
+        data.user.idRole,
+        data.user.idStatus,
+      ];
     }
-    const hashedPassword = await hashPassword(data.user.password);
-    return executeQuery(sql, [data.user.idPerson,data.user.username, hashedPassword, data.user.idRole, data.user.idStatus]);
+
+    return executeQuery(sql, params);
   }
 }
