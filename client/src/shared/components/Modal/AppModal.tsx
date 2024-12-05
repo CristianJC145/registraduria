@@ -8,12 +8,11 @@ interface ModalProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
-  size? : SizeConstant;
+  size?: SizeConstant;
 }
 
 const AppModal: React.FC<ModalProps> = ({ isOpen, onClose, children, title, subtitle, size }) => {
   if (!isOpen) return null;
-
   return (
     <AppModalStyle>
         <div className="modal-overlay">
@@ -51,8 +50,21 @@ const AppModalStyle = styled.div`
   }
   .modal-container {
     background: #fff;
-    max-width: 450px;
+    max-width: 400px;
+    max-height: 600px;
     border-radius: 16px;
+    overflow: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #a7a7a7;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-button {
+    background: #0000000;
   }
   .modal-container.md {
     max-width: 850px;
@@ -93,5 +105,9 @@ const AppModalStyle = styled.div`
     color: var(--color-dark);
   }
 
-
+  @media (min-width: 768px) {
+    .modal-container {
+      max-width: 1500px;
+    }
+  }
 `

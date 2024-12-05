@@ -10,11 +10,10 @@ import { GetProductsWithPaginationService } from "../services/getProductsWithPag
 import { DeleteProductByIdService } from "../services/deleteProductById.service";
 import { TokenService } from "../../../shared/services/token.service";
 
-import "../css/ProductsPage.css";
-
 import AppModal from "../../../shared/components/Modal/AppModal";
 import { UpdateDatatableService } from "../../../shared/services/updateDatatable.service";
 import AppIcon from "../../../shared/components/AppIcon";
+import ProductForm from "../components/ProductsForm";
 
 const getProductsWithPaginationService = new GetProductsWithPaginationService();
 const deleteProductByIdService = new DeleteProductByIdService();
@@ -23,6 +22,8 @@ const tokenService = new TokenService();
 
 const ProductsPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProductId, setEditingProductId] = useState<number | null>(null);
   const [idDataDelete, setIdDataDelete] = useState<number>();
   const navigate = useNavigate();
   const dataToken = tokenService.isAuthenticated();
@@ -48,8 +49,15 @@ const ProductsPage = () => {
     toast.success("¡Producto eliminado correctamente!");
     setIsDeleteModalOpen(false);
   };
-  const handleOpenModal = () => {
-
+  const handleCloseModal = () => {
+    setEditingProductId(null);
+    setIsModalOpen(false);
+  }
+  const handleOpenModal = (id?: number) => {
+    if (id) {
+      setEditingProductId(id);
+    }
+    setIsModalOpen(true);
   }
 
   const params = {
@@ -150,19 +158,20 @@ const ProductsPage = () => {
 
   return (
     <>
-      <h4 className="fw-bold mt-2 mb-4">Lista de Productos</h4>
-      <div className="d-flex align-items-center mb-3">
-        <AppButton
-          label="Agregar Producto"
-          onClick={() => handleOpenModal()}
-          icon="plus"
-        ></AppButton>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4 className="fw-bold mt-2 mb-4">Lista de Productos</h4>
+        <div className="d-flex align-items-center mb-3">
+          <AppButton onClick={() => handleOpenModal()} icon="plus">Agregar Producto</AppButton>
+        </div>
       </div>
       <AppDataTable
         columns={columns}
         params={params}
         service={getProductsWithPaginationService}
       ></AppDataTable>
+      <AppModal title="Agregar Productos" subtitle="Ingresa los detalles del nuevo producto" isOpen={isModalOpen} onClose={handleCloseModal}>
+          <ProductForm/>
+      </AppModal>
 
       {/* <AppModal
         isOpen={isDeleteModalOpen}

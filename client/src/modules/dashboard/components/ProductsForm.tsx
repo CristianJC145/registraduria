@@ -13,13 +13,13 @@ import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppSwitch from "../../../shared/components/AppSwitch";
 import RichTextEditor from "./RichTextEditor";
 
-import { CreateOrUpdateProductService } from "../services/createOrUpdateProduct.service";
 import { GetAllCategoriesService } from "../services/getAllCategories.service";
 import { GetSubCategoriesByIdService } from "../services/getSubCategoriesById.service";
 import { GetConditionsService } from "../services/getConditions.service";
 import { CategoriesDto } from "../dtos/product.dto";
 import { TokenService } from "../../../shared/services/token.service";
 import { GetSubCategoriesByProductService } from "../services/getSubcategoriesByProduct.service";
+import { CreateOrUpdateProductService } from "../services/CreateOrUpdateProduct.service";
 
 const createOrUpdateProduct = new CreateOrUpdateProductService();
 const getAllCategoriesService = new GetAllCategoriesService();
@@ -27,7 +27,7 @@ const getSubCategoriesByIdService = new GetSubCategoriesByIdService();
 const getConditionsService = new GetConditionsService();
 const getSubCategoriesByProductService = new GetSubCategoriesByProductService();
 
-const tokenSertice = new TokenService("");
+const tokenSertice = new TokenService();
 
 interface ProductFormProps {
   dataProduct?: {
@@ -179,361 +179,245 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
   }, []);
   return (
     <ProductFormStyle>
-      <Formik
-        className="vs-product-form"
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ values, setFieldValue }) => (
-          <div>
-            <h4 className="fw-bold mt-2">{`${
-              dataProduct?.productData ? "Editar" : "Crear"
-            } Producto`}</h4>
-            <Form className="d-flex flex-column gap-4 mt-4">
-              <AppCard
-                body={
-                  <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
-                    <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
-                      Imagenes del Producto
-                    </h5>
-                    <ProductField
-                      title="Subir Imagenes"
-                      tipDescription="Los formatos admitidos para las imagenes son .jpg .png .webp y un tamaño minimo de 250 x 250 pixeles. Seleccione o arrastre hasta 5 imagenes del producto y procure que sean imagenes llamativas para que resalte su producto."
-                      required
-                    >
-                      <Field name="images">
-                        {({ field }: any) => (
-                          <ImageUpload
-                            images={field.value}
-                            onRemoveImage={(index: number) => {
-                              const newImages = [...field.value];
-                              newImages.splice(index, 1);
-                              setFieldValue(field.name, newImages);
-                            }}
-                            onAddImages={(newImages: File[]) => {
-                              setFieldValue("images", newImages);
-                            }}
-                          />
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="images"
-                        component="div"
-                      />
-                    </ProductField>
-                  </div>
-                }
-              ></AppCard>
+      <div className="vs-product-form">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, setFieldValue }) => (
+            <div>
+              <h4 className="fw-bold mt-2">{`${
+                dataProduct?.productData ? "Editar" : "Crear"
+              } Producto`}</h4>
+              <Form className="d-flex flex-column gap-4 mt-4">
+                <AppCard
+                  body={
+                    <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
+                      <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
+                        Imagenes del Producto
+                      </h5>
+                      <ProductField
+                        title="Subir Imagenes"
+                        required
+                      >
+                        <Field name="images">
+                          {({ field }: any) => (
+                            <ImageUpload
+                              images={field.value}
+                              onRemoveImage={(index: number) => {
+                                const newImages = [...field.value];
+                                newImages.splice(index, 1);
+                                setFieldValue(field.name, newImages);
+                              }}
+                              onAddImages={(newImages: File[]) => {
+                                setFieldValue("images", newImages);
+                              }}
+                            />
+                          )}
+                        </Field>
+                        <ErrorMessage
+                          className="vs-errorMensage"
+                          name="images"
+                          component="div"
+                        />
+                      </ProductField>
+                    </div>
+                  }
+                ></AppCard>
 
-              <AppCard
-                body={
-                  <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
-                    <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
-                      Información del Producto
-                    </h5>
-                    <ProductField
-                      title="Nombre del Producto"
-                      tipDescription="Incluya almenos 20 caracteres para que su producto sea mas descriptivo y facil de buscar, inlcuya información relevante del producto como su color, material o tipo"
-                      required
-                    >
-                      <Field
-                        type="text"
-                        className="form-control py-2"
-                        name="name"
-                        placeholder="Nombre del Producto"
-                      />
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="name"
-                        component="div"
-                      />
-                    </ProductField>
-                    <ProductField
-                      title="Categoría"
-                      tipDescription="Recuerda seleccionar la caterogia correspondiente al producto"
-                      required
-                    >
-                      {initialValues.id && initialValues.id != null ? (
-                        <Field
-                          className="py-2"
-                          id="productCategoryId"
-                          name="productCategoryId"
-                        >
-                          {() => (
-                            <>
-                              {Object.keys(categories).length && (
-                                <Select
-                                  defaultValue={{
-                                    value:
-                                      categories[
-                                        (values.productCategoryId as number) - 1
-                                      ]?.id,
-                                    label:
-                                      categories[
-                                        (values.productCategoryId as number) - 1
-                                      ]?.name,
-                                  }}
-                                  className="py-2"
-                                  options={categories.map((category) => ({
-                                    value: category.id,
-                                    label: category.name,
-                                  }))}
-                                  placeholder="Selecciona una Categoria"
-                                  onChange={(selectedOption: any) => {
-                                    setFieldValue("subcategoryId", null);
-                                    fetchSubCategories(
-                                      selectedOption?.value || ""
-                                    );
-                                    setFieldValue(
-                                      "productCategoryId",
-                                      selectedOption?.value || ""
-                                    );
-                                  }}
-                                />
-                              )}
-                            </>
-                          )}
-                        </Field>
-                      ) : (
-                        <Field
-                          className="py-2"
-                          id="productCategoryId"
-                          name="productCategoryId"
-                        >
-                          {() => (
-                            <Select
-                              className="py-2"
-                              options={categories.map((category) => ({
-                                value: category.id,
-                                label: category.name,
-                              }))}
-                              placeholder="Selecciona una Categoria"
-                              onChange={(selectedOption: any) => {
-                                setFieldValue("subcategoryId", null);
-                                fetchSubCategories(selectedOption?.value || "");
-                                setFieldValue(
-                                  "productCategoryId",
-                                  selectedOption?.value || ""
-                                );
-                              }}
-                            />
-                          )}
-                        </Field>
-                      )}
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="productCategoryId"
-                        component="div"
-                      />
-                    </ProductField>
-                    <ProductField
-                      title="Subcategoria"
-                      tipDescription=" Selecciona la subcategoría que mejor describe tu producto. La subcategoría proporciona detalles adicionales y ayuda a los compradores a encontrar tu producto más fácilmente. Asegúrate de elegir la subcategoría más relevante para garantizar una clasificación precisa en la plataforma."
-                      required
-                    >
-                      {Object.keys(subcategoriesByProduct).length > 0 ? (
-                        <Field
-                          className=" py-2"
-                          id="subcategoryId"
-                          name="subcategoryId"
-                        >
-                          {() => (
-                            <Select
-                              className="py-2"
-                              defaultValue={
-                                subcategoriesByProduct
-                                  ? subcategoriesByProduct.map(
-                                      (subcategory) => ({
-                                        value: subcategory.id,
-                                        label: subcategory.name,
-                                      })
-                                    )
-                                  : null
-                              }
-                              placeholder="Selecciona Subcategorias"
-                              isMulti
-                              options={subcategories.map((subCategory) => ({
-                                value: subCategory.id,
-                                label: subCategory.name,
-                              }))}
-                              onChange={(selectedOption: any) => {
-                                setFieldValue("subcategoryId", selectedOption);
-                              }}
-                              // value={values.subcategoryId}
-                            />
-                          )}
-                        </Field>
-                      ) : (
-                        <>
-                          <Field
-                            className=" py-2"
-                            id="subcategoryId"
-                            name="subcategoryId"
+                <AppCard
+                  body={
+                    <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
+                      <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
+                        Información del Producto
+                      </h5>
+                      <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
+                        <div className="col-12 col-sm-6 pe-3">
+                          <ProductField
+                            title="Bien ID"
+                            required
                           >
-                            {() => (
-                              <Select
-                                className="py-2"
-                                placeholder="Selecciona Subcategorias"
-                                isMulti
-                                options={subcategories.map((subCategory) => ({
-                                  value: subCategory.id,
-                                  label: subCategory.name,
-                                }))}
-                                onChange={(selectedOption: any) => {
-                                  setFieldValue(
-                                    "subcategoryId",
-                                    selectedOption
-                                  );
-                                }}
-                                value={values.subcategoryId}
-                              />
-                            )}
-                          </Field>
-                        </>
-                      )}
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="subcategoryId"
-                        component="div"
-                      />
-                    </ProductField>
-                  </div>
-                }
-              ></AppCard>
-              <AppCard
-                body={
-                  <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
-                    <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
-                      Gestion del Producto
-                    </h5>
-                    <ProductField
-                      title="Estado del producto"
-                      tipDescription="Si el producto está activo, los compradores puedes encontrar tu producto facilmente"
-                      required
-                    >
-                      <Field name="state">
-                        {({ field, form }: any) => (
-                          <div className="d-flex gap-3 align-items-center">
-                            <AppSwitch
-                              value={field.value ? 1 : 0}
-                              onChange={(value: number) =>
-                                form.setFieldValue("state", value)
-                              }
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="name"
+                              placeholder="Bien ID"
                             />
-                          </div>
-                        )}
-                      </Field>
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="state"
-                        component="div"
-                      />
-                    </ProductField>
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="name"
+                              component="div"
+                            />
+                          </ProductField>
 
-                    <ProductField title="Stock del Producto" required>
-                      <Field
-                        type="text"
-                        className="form-control py-2"
-                        name="stock"
-                        placeholder="Ingrese Stock del Producto"
-                      />
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="stock"
-                        component="div"
-                      />
-                    </ProductField>
+                          <ProductField
+                            title="Tipo de elemendo ID"
+                            required
+                          >
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="name"
+                              placeholder="Tipo de elemendo ID"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="name"
+                              component="div"
+                            />
+                          </ProductField>
+                          <ProductField
+                            title="Material"
+                            required
+                          >
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="name"
+                              placeholder="Material"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="name"
+                              component="div"
+                            />
+                          </ProductField>
+                        </div>
+                        <div className="col-12 col-sm-6 pe-4">
+                          <ProductField title="Color" required>
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="price"
+                              placeholder="Color"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="price"
+                              component="div"
+                            />
+                          </ProductField>
+                          <ProductField title="Marca/Modelo" required>
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="price"
+                              placeholder="Marca/Modelo"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="price"
+                              component="div"
+                            />
+                          </ProductField>
+                          <ProductField title="Serial" required>
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="price"
+                              placeholder="Serial"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="price"
+                              component="div"
+                            />
+                          </ProductField>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                ></AppCard>
+                <AppCard
+                  body={
+                    <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
+                      <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
+                        Gestion del Producto
+                      </h5>
+                      <ProductField
+                        title="Estado del producto"
+                        required
+                      >
+                        <Field name="state">
+                          {({ field, form }: any) => (
+                            <div className="d-flex gap-3 align-items-center">
+                              <AppSwitch
+                                value={field.value ? 1 : 0}
+                                onChange={(value: number) =>
+                                  form.setFieldValue("state", value)
+                                }
+                              />
+                            </div>
+                          )}
+                        </Field>
+                        <ErrorMessage
+                          className="vs-errorMensage"
+                          name="state"
+                          component="div"
+                        />
+                      </ProductField>
 
-                    <ProductField title="Precio del Producto" required>
-                      <Field
-                        type="text"
-                        className="form-control py-2"
-                        name="price"
-                        placeholder="Ingrese precio del Producto"
-                      />
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="price"
-                        component="div"
-                      />
-                    </ProductField>
-                  </div>
-                }
-              ></AppCard>
-              <AppCard
-                body={
-                  <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
-                    <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
-                      Detalles del Producto
-                    </h5>
-                    <ProductField title="Condición del Producto" required>
-                      <Field name="conditionId" className="form-select">
-                        {() => (
-                          <Select
-                            className="z-3"
-                            placeholder="Selecciona una Condicion"
-                            options={conditions.map((condition) => ({
-                              value: condition.id,
-                              label: condition.name,
-                            }))}
-                            onChange={(conditionId: any) => {
-                              setFieldValue(
-                                "conditionId",
-                                conditionId?.value ?? ""
-                              );
-                            }}
-                          />
-                        )}
-                      </Field>
+                      <ProductField title="Stock del Producto" required>
+                        <Field
+                          type="text"
+                          className="form-control py-2"
+                          name="stock"
+                          placeholder="Ingrese Stock del Producto"
+                        />
+                        <ErrorMessage
+                          className="vs-errorMensage"
+                          name="stock"
+                          component="div"
+                        />
+                      </ProductField>
 
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="conditionId"
-                        component="div"
-                      />
-                    </ProductField>
-
-                    <ProductField
-                      title="Descripción del Producto"
-                      tipDescription="Ingresa una descripción detallada de tu producto. Proporciona información relevante, como características, usos, materiales y cualquier detalle que pueda ser útil para los compradores."
-                    >
-                      <Field
-                        name="description"
-                        component={RichTextEditor}
-                      ></Field>
-                      <ErrorMessage
-                        className="vs-errorMensage"
-                        name="description"
-                        component="div"
-                      />
-                    </ProductField>
-                  </div>
-                }
-              ></AppCard>
-              <div className="d-flex flex-column flex-sm-row gap-sm-3 justify-content-sm-end">
-                <AppButton
-                  className="mt-3 px-5"
-                  variant="dark"
-                  outlined
-                  label="Cancelar"
-                  onClick={() => GoBack()}
-                ></AppButton>
-                <AppButton className="mt-3 px-5" label="Guardar"></AppButton>
-              </div>
-            </Form>
-          </div>
-        )}
-      </Formik>
+                      <ProductField title="Precio del Producto" required>
+                        <Field
+                          type="text"
+                          className="form-control py-2"
+                          name="price"
+                          placeholder="Ingrese precio del Producto"
+                        />
+                        <ErrorMessage
+                          className="vs-errorMensage"
+                          name="price"
+                          component="div"
+                        />
+                      </ProductField>
+                    </div>
+                  }
+                ></AppCard>
+                
+                <div className="d-flex flex-column flex-sm-row gap-sm-3 justify-content-sm-end">
+                  <AppButton
+                    className="mt-3 px-5"
+                    variant="dark"
+                    outlined
+                    label="Cancelar"
+                    onClick={() => GoBack()}
+                  ></AppButton>
+                  <AppButton className="mt-3 px-5" label="Guardar"></AppButton>
+                </div>
+              </Form>
+            </div>
+          )}
+        </Formik>
+      </div>
     </ProductFormStyle>
   );
 };
 export default ProductForm;
 
 const ProductFormStyle = styled.div`
+
   .vs-errorMensage {
     padding: var(--p-4) 0;
     color: red;
+  }
+  @media (min-width: 768px) {
+    .vs-product-form {
+      width: 700px;
+    }
   }
 `;

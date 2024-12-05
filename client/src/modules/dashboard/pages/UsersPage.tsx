@@ -2,7 +2,6 @@ import styled from "styled-components";
 import AppIcon from "../../../shared/components/AppIcon";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppDataTable from "../../../shared/components/DataTable/AppDataTable";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { TokenService } from "../../../shared/services/token.service";
 import { GetUsersWithPaginationService } from "../services/getUsersWithPagination.service";
@@ -14,7 +13,6 @@ const tokenService = new TokenService();
 const getUsersWithPaginationService = new GetUsersWithPaginationService();
 
 const UsersPage = () => {
-    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [userDataDelete, setUserDataDelete] = useState<any | null >(null);

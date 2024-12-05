@@ -43,7 +43,7 @@ export default ConfirmAction;
 
 const ConfirmActionStyle = styled.div`
     .confirm-action {
-        width: 400px;
+        width: 350px;
     }
     .action-body {
         display: flex;
@@ -60,5 +60,10 @@ const ConfirmActionStyle = styled.div`
         gap: 1rem;
         justify-content: flex-end;
         padding: 1rem 0;
+    }
+    @media (min-width: 768px) {
+        .confirm-action {
+            width: 400px;
+        }
     }
 `
