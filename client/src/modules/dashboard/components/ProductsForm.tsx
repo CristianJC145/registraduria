@@ -335,56 +335,61 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                       <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
                         Gestion del Producto
                       </h5>
-                      <ProductField
-                        title="Estado del producto"
-                        required
-                      >
-                        <Field name="state">
-                          {({ field, form }: any) => (
-                            <div className="d-flex gap-3 align-items-center">
-                              <AppSwitch
-                                value={field.value ? 1 : 0}
-                                onChange={(value: number) =>
-                                  form.setFieldValue("state", value)
-                                }
-                              />
-                            </div>
-                          )}
-                        </Field>
-                        <ErrorMessage
-                          className="vs-errorMensage"
-                          name="state"
-                          component="div"
-                        />
-                      </ProductField>
+                      <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
+                        <div className="col-12 col-sm-6 pe-3">
+                          <ProductField
+                            title="Estado del producto"
+                            required
+                          >
+                            <Field name="state">
+                              {({ field, form }: any) => (
+                                <div className="d-flex gap-3 align-items-center">
+                                  <AppSwitch
+                                    value={field.value ? 1 : 0}
+                                    onChange={(value: number) =>
+                                      form.setFieldValue("state", value)
+                                    }
+                                  />
+                                </div>
+                              )}
+                            </Field>
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="state"
+                              component="div"
+                            />
+                          </ProductField>
 
-                      <ProductField title="Stock del Producto" required>
-                        <Field
-                          type="text"
-                          className="form-control py-2"
-                          name="stock"
-                          placeholder="Ingrese Stock del Producto"
-                        />
-                        <ErrorMessage
-                          className="vs-errorMensage"
-                          name="stock"
-                          component="div"
-                        />
-                      </ProductField>
+                          <ProductField title="Fecha de Recepción" required>
+                            <Field
+                              type="date"
+                              className="form-control py-2"
+                              name="stock"
+                              placeholder="Ingrese Stock del Producto"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="stock"
+                              component="div"
+                            />
+                          </ProductField>
 
-                      <ProductField title="Precio del Producto" required>
-                        <Field
-                          type="text"
-                          className="form-control py-2"
-                          name="price"
-                          placeholder="Ingrese precio del Producto"
-                        />
-                        <ErrorMessage
-                          className="vs-errorMensage"
-                          name="price"
-                          component="div"
-                        />
-                      </ProductField>
+                          <ProductField title="Precio del Producto" required>
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="price"
+                              placeholder="Ingrese precio del Producto"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="price"
+                              component="div"
+                            />
+                          </ProductField>
+                        </div>
+                        <div></div>
+                      </div>
                     </div>
                   }
                 ></AppCard>

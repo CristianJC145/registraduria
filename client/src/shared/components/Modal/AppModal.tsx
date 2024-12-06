@@ -64,7 +64,7 @@ const AppModalStyle = styled.div`
     border-radius: 10px;
   }
   ::-webkit-scrollbar-button {
-    background: #0000000;
+    background: rgba(0, 0, 0, 0);
   }
   .modal-container.md {
     max-width: 850px;
