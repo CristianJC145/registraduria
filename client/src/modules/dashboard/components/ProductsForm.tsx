@@ -179,7 +179,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose, dataElement, onSave 
                         Información del Elemento
                       </h5>
                       <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
-                        <div className="col-12 col-sm-6 pe-3">
+                        <div className="col-12 col-sm-6 pe-sm-3">
                           <ProductField
                             title="Nombre del Elemento"
                             required
@@ -302,7 +302,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose, dataElement, onSave 
                         Gestion del Producto
                       </h5>
                       <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
-                        <div className="col-12 col-sm-6 pe-3">
+                        <div className="col-12 col-sm-6 pe-sm-3">
                           <ProductField
                             title="Condicion del producto"
                             required
@@ -354,7 +354,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onClose, dataElement, onSave 
                           </ProductField>
                         </div>
 
-                        <div className="col-12 col-sm-6 pe-3">
+                        <div className="col-12 col-sm-6 pe-sm-3">
                           <ProductField title="Disponibilidad" required>
                             <Field name="idAvailability" id="idAvailability">
                               {() => (

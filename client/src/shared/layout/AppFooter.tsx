@@ -12,7 +12,7 @@ const AppFooter:React.FC<AppFooterProps> = ({style}) => {
         <AppFooterStyles>
             <footer style={style}>
                 <div className="vs-footer-left" >
-                    <span>@ 2024 Vshowcase. Todos los derechos reservados</span>
+                    <span>@ 2024 Registraduria. Todos los derechos reservados</span>
                 </div>
 
                 <div className="vs-footer-right" >

@@ -109,7 +109,7 @@ const AppNavbarProducts: React.FC<AppNavbarProductsProps> = ({
                 <div className="vs-header-top">
                   <a className="vs-navbar-logo" href="/">
                     <LazyImage src={appLogo} alt="Logo" />
-                    <span>VSHOWCASE</span>
+                    <span>REGISTRADURIA</span>
                   </a>
                   <AppButton
                     className="closeNavbar"

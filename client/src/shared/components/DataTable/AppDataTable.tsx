@@ -146,7 +146,7 @@ const AppDataTable: React.FC<AppDataTableProps> = ({
           {data.length === 0 ? (
             <tbody>
               <tr>
-                <td colSpan={6}>
+                <td colSpan={12}>
                   <h3 className="text-center">No se encontraron resultados.</h3>
                 </td>
               </tr>
