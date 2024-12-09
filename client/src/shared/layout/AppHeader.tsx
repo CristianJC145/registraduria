@@ -38,6 +38,7 @@ const AppHeaderStyles = styled.div`
 .vs-header-logo {
     height: 40px;
     width: 40px;
+    object-fit: contain;
     margin-right: 0.5rem;
 }
 `
