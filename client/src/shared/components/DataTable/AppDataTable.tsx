@@ -55,17 +55,18 @@ const AppDataTable: React.FC<AppDataTableProps> = ({
 
       const { data, page, perPage, total } = result;
 
-      // let products = data;
-      // products.map((product: any) => {
-      //   product.images = product.images
-      //     .split(",")
-      //     .map((image: string) => `${services.api_url}/${image}`);
+      const products = data.map((product: any) => {
+        const images = product.images
+        ? product.images.split(",").map((image: string) => `${services.api_url}/${image}`)
+        : []
 
-      //   return {
-      //     ...products,
-      //   };
-      // });
-      setData(data);
+        return {
+          ...product,
+          images,
+        };
+      });
+
+      setData(products);
       setPagination((prevPagination) => ({
         ...prevPagination,
         total: result.total,

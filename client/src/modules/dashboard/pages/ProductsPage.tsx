@@ -1,61 +1,47 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppDataTable from "../../../shared/components/DataTable/AppDataTable";
 
 import { GetProductsWithPaginationService } from "../services/getProductsWithPagination.service";
-import { DeleteProductByIdService } from "../services/deleteProductById.service";
 import { TokenService } from "../../../shared/services/token.service";
 
 import AppModal from "../../../shared/components/Modal/AppModal";
-import { UpdateDatatableService } from "../../../shared/services/updateDatatable.service";
-import AppIcon from "../../../shared/components/AppIcon";
 import ProductForm from "../components/ProductsForm";
+import ConfirmAction from "../components/ConfirmAction";
 
 const getProductsWithPaginationService = new GetProductsWithPaginationService();
-const deleteProductByIdService = new DeleteProductByIdService();
-const updateDatatableService = new UpdateDatatableService();
 const tokenService = new TokenService();
 
 const ProductsPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProductId, setEditingProductId] = useState<number | null>(null);
-  const [idDataDelete, setIdDataDelete] = useState<number>();
-  const navigate = useNavigate();
+  const [editingProductId, setEditingProductId] = useState<any>(null);
+  const [elementDataDelete, setElementDataDelete] = useState<any>();
   const dataToken = tokenService.isAuthenticated();
-  const handleEdit = (row: number) => {
-    let url = `/dashboard/products/edit-product/${row}`;
-    navigate(url);
-  };
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (id: number) => {
+
+  const handleDelete = (data: string) => {
     setIsDeleteModalOpen(true);
-    setIdDataDelete(id);
+    setElementDataDelete(data);
   };
 
-  const handleCancelDelete = () => {
-    setIsDeleteModalOpen(false);
+  const handleCloseWarning = () => {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
   };
-
-  const handleConfirmDelete = async () => {
-    if (idDataDelete) {
-      await deleteProductByIdService.run(idDataDelete);
-      updateDatatableService.run();
-    }
-    toast.success("¡Producto eliminado correctamente!");
-    setIsDeleteModalOpen(false);
-  };
+  
+  const handleLoading = () => {
+    setLoading(!loading);
+  }
   const handleCloseModal = () => {
     setEditingProductId(null);
     setIsModalOpen(false);
   }
-  const handleOpenModal = (id?: number) => {
-    if (id) {
-      setEditingProductId(id);
+  const handleOpenModal = (data?: any) => {
+    if (data) {
+      setEditingProductId(data);
     }
     setIsModalOpen(true);
   }
@@ -88,48 +74,54 @@ const ProductsPage = () => {
       },
     },
     {
-      Header: "Nombre",
-      accessor: "product_name",
+      Header: "Tipo Elemendo ID",
+      accessor: "elementType",
       columnClassName: "text-center",
       HeaderClassName: "text-center",
       truncate: true,
       maxChars: 40,
     },
     {
-      Header: "Stock",
-      accessor: "stock",
+      Header: "Material",
+      accessor: "material",
       HeaderClassName: "text-center",
       columnClassName: "text-center",
     },
     {
-      Header: "Precio",
-      accessor: "price",
+      Header: "Color",
+      accessor: "color",
       HeaderClassName: "text-center",
       columnClassName: "text-center",
     },
     {
-      Header: "Estado",
+      Header: "Marca/Modelo",
+      accessor: "model",
       HeaderClassName: "text-center",
       columnClassName: "text-center",
-      Cell: ({ value }: any) => {
-        const stateMap: { [key: number]: string } = {
-          0: "Inactivo",
-          1: "Activo",
-        };
-        const className = `${
-          stateMap[value.state] === "Activo" ? "vs-active" : "vs-inactive"
-        }`;
-        return (
-          <ProductsPageStyles>
-            <div
-              className={`${className} d-flex align-items-center justify-content-center gap-2`}
-            >
-              <AppIcon icon="square-check"></AppIcon>
-              <span>{stateMap[value.state] || "Desconocido"}</span>
-            </div>
-          </ProductsPageStyles>
-        );
-      },
+    },
+    {
+      Header: "Serial",
+      accessor: "serial",
+      HeaderClassName: "text-center",
+      columnClassName: "text-center",
+    },
+    {
+      Header: "Condidicion",
+      accessor: "conditionName",
+      HeaderClassName: "text-center",
+      columnClassName: "text-center",
+    },
+    {
+      Header: "Disponibilidad",
+      accessor: "availability",
+      HeaderClassName: "text-center",
+      columnClassName: "text-center",
+    },
+    {
+      Header: "Fecha Registro",
+      accessor: "formattedDate",
+      HeaderClassName: "text-center",
+      columnClassName: "text-center",
     },
     {
       Header: "Acciones",
@@ -140,14 +132,14 @@ const ProductsPage = () => {
             variant="dark"
             className="bg-transparent"
             icon="check-square"
-            onClick={() => handleEdit(value.id)}
+            onClick={() => handleOpenModal(value)}
           >
             Editar
           </AppButton>
           <AppButton
             className="text-danger bg-transparent"
             icon="trash-alt"
-            onClick={() => handleDelete(value.id)}
+            onClick={() => handleDelete(value)}
           >
             Eliminar
           </AppButton>
@@ -168,14 +160,15 @@ const ProductsPage = () => {
         columns={columns}
         params={params}
         service={getProductsWithPaginationService}
+        loading={loading}
       ></AppDataTable>
       <AppModal title="Agregar Productos" subtitle="Ingresa los detalles del nuevo producto" isOpen={isModalOpen} onClose={handleCloseModal}>
-          <ProductForm/>
+          <ProductForm dataElement={editingProductId!} onClose={handleCloseModal} onSave={handleLoading}/>
       </AppModal>
 
-      {/* <AppModal
-        isOpen={isDeleteModalOpen}
-      ></AppModal> */}
+      <AppModal title='¿Eliminar Elemento?' isOpen={isDeleteModalOpen} onClose={handleCloseWarning}>
+          <ConfirmAction page="products" dataDelete={elementDataDelete} onClose={handleCloseWarning} onSave={handleLoading}></ConfirmAction>
+        </AppModal>
     </>
   );
 };

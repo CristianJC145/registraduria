@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import VshowcaseRutes from "./modules/vshowcase/VshowcaseRoutes"
 import DashboardRoutes from "./modules/dashboard/DashboardRoutes"
 import { useAuth } from './shared/contexts/AuthContext';
+import AuthRoutes from './modules/auth/AuthRoutes';
 
 
 const AppRouting: React.FC = () => {
@@ -11,8 +11,8 @@ const AppRouting: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/*"  element={ <VshowcaseRutes/> } />
-        <Route path="/dashboard/*"  element={isLoggedIn ? <DashboardRoutes/> : <Navigate to="../auth/login" replace /> } />
+        <Route path="/*"  element={ <AuthRoutes/> } />
+        <Route path="/dashboard/*"  element={isLoggedIn ? <DashboardRoutes/> : <Navigate to="../" replace /> } />
       </Routes>
     </Router>
   );

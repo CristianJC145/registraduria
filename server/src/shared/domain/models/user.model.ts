@@ -10,4 +10,6 @@ export class UserModel {
   idRole: string = null;
 
   idStatus: string = null;
+
+  idCity: number = null;
 }

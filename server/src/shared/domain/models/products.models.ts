@@ -4,27 +4,26 @@ export class ProductModel {
 
   images: string[] = null;
 
-  name: string = null;
+  elementName: string = null;
 
-  stock: number = null;
+  idElementType: number = null;
 
-  price: number = null;
+  material: string = null;
 
-  state: number = null;
+  color: string = null;
 
-  description: string = null;
+  model: string = null;
 
-  conditionId: number = null;
+  serial: string = null;
 
-  productCategoryId : number = null;
+  idCondition: number = null;
 
-  subcategoriesId : number[] = null;
+  idAvailability: number = null;
 
-  userId: number = null;
-}
+  warranty: string = null;
 
-export class SubCategoryModel {
-  id: number = null;
+  idUser: number = null;
 
-  name: string = null;
+  dateCreation: string = null;
+
 }

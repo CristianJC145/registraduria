@@ -1,13 +1,13 @@
 import { DeleteRecordsByIdRepository } from '../../../shared/domain/repositories/deleteRecordsById.repository';
 
-export class DeleteProductByIdService {
+export class DeleteElementsByIdService {
   constructor(
-    private deleteProductById : DeleteRecordsByIdRepository,
+    private deleteElementById : DeleteRecordsByIdRepository,
   ) {}
 
   async run(id: number) {
     await Promise.all([
-      this.deleteProductById.run('products', 'id', id),
+      this.deleteElementById.run('elements', 'id', id),
     ]);
 
     return { id };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -10,57 +9,22 @@ import AppCard from "../../../shared/components/AppCard/AppCard";
 import ImageUpload from "../components/ImageUpload";
 import ProductField from "./ProductField";
 import AppButton from "../../../shared/components/Buttons/AppButton";
-import AppSwitch from "../../../shared/components/AppSwitch";
-import RichTextEditor from "./RichTextEditor";
 
-import { GetAllCategoriesService } from "../services/getAllCategories.service";
-import { GetSubCategoriesByIdService } from "../services/getSubCategoriesById.service";
-import { GetConditionsService } from "../services/getConditions.service";
-import { CategoriesDto } from "../dtos/product.dto";
 import { TokenService } from "../../../shared/services/token.service";
-import { GetSubCategoriesByProductService } from "../services/getSubcategoriesByProduct.service";
-import { CreateOrUpdateProductService } from "../services/CreateOrUpdateProduct.service";
+import { CreateOrUpdateProductService } from "../services/CreateOrUpdateElement.service";
+import { GetAllElementTypesService } from "../services/getAllElementType.service";
 
 const createOrUpdateProduct = new CreateOrUpdateProductService();
-const getAllCategoriesService = new GetAllCategoriesService();
-const getSubCategoriesByIdService = new GetSubCategoriesByIdService();
-const getConditionsService = new GetConditionsService();
-const getSubCategoriesByProductService = new GetSubCategoriesByProductService();
-
+const getAllElementTypes = new GetAllElementTypesService()
 const tokenSertice = new TokenService();
 
 interface ProductFormProps {
-  dataProduct?: {
-    productData?: {
-      id: number;
-      images: [];
-      state: number;
-      stock: string;
-      user_id: number;
-      price: string;
-      product_name: string;
-      condition_id: string;
-      category_id: number;
-      description: string;
-    };
-    subcategoryData?: {
-      subcategory_id: number[];
-    };
-  };
+  onClose : () => void,
+  onSave: ()=> void,
+  dataElement?: any,
 }
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("El nombre del producto es obligatorio"),
-  productCategoryId: Yup.number().required("La categoría es obligatoria"),
-  subcategoryId: Yup.array().required("Elige al menos una subcatería"),
-  stock: Yup.number()
-    .required("El stock es obligatorio")
-    .min(0, "El stock debe ser mayor o igual a 0"),
-  state: Yup.string().required("El estado es obligatorio"),
-  conditionId: Yup.string().required(
-    "La condición del producto es obligatorio"
-  ),
-  price: Yup.number().required("El precio es requerido"),
   images: Yup.array()
     .min(1, "Debes subir al menos una imagen")
     .max(5, "No puedes subir más de 5 imágenes a la vez")
@@ -70,113 +34,95 @@ const validationSchema = Yup.object().shape({
       test: function (images) {
         return !images || images.length <= 5;
       },
-    }),
+    }
+  ),
+  elementName: Yup.string().required("El nombre del producto es obligatorio"),
+  idElementType: Yup.number().required("Este campo es obligatorio"),
+  material: Yup.string().required("El material del elemento es requerido"),
+  color: Yup.string().required("El color es requerido"),
+  model: Yup.string().required("Este campo es obligatorio"),
+  serial: Yup.string().required("Este campo es obligatorio"),
+  idCondition: Yup.number().required("La condicion es obligatoria"),
+  dateCreation: Yup.date().required("La fecha es requerida"),
+  idAvailability: Yup.string().required("La disponibilidad es requerida"),
+  warranty: Yup.string().required("La garantia es obligatoria")
 });
 
-const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
-  const navigate = useNavigate();
-  const [categories, setCategories] = useState<CategoriesDto[]>([]);
-  const [subcategories, setSubcategories] = useState<any[]>([]);
-  const [subcategoriesByProduct, setSubcategoriesByProduct] = useState<any[]>(
-    []
-  );
-  const [conditions, setConditions] = useState<any[]>([]);
+const ProductForm: React.FC<ProductFormProps> = ({ onClose, dataElement, onSave }) => {
   const dataToken = tokenSertice.isAuthenticated();
   const UserId = dataToken.id;
-
-  const initialValues = {
-    id: dataProduct?.productData?.id ?? "",
-    images: dataProduct?.productData?.images ?? [],
-    name: dataProduct?.productData?.product_name ?? "",
-    state: dataProduct?.productData?.state ?? 0,
-    productCategoryId: dataProduct?.productData?.category_id ?? 1,
-    subcategoryId: dataProduct?.subcategoryData ?? [],
-    stock: dataProduct?.productData?.stock ?? "",
-    price: dataProduct?.productData?.price ?? "",
-    description: dataProduct?.productData?.description ?? "",
-    conditionId: dataProduct?.productData?.condition_id ?? null,
-    userId: UserId,
-  };
-  const fetchCategories = async () => {
-    try {
-      const result = await getAllCategoriesService.run();
-
-      if (Object.keys(result).length > 0 && result !== undefined) {
-        setCategories(result);
-      }
-    } catch (error) {
-      console.error("Error al obtener datos:", error);
+  const [elementType, setElemetType] = useState<any[]>([]);
+  const condition = [
+    {
+        id: 1,
+        name: "Nuevo"
+    },
+    {
+        id: 2,
+        name: "Usado",
     }
-  };
-  const fetchSubCategories = async (categoryId: number) => {
-    try {
-      const result = await getSubCategoriesByIdService.run(categoryId);
-      setSubcategories(result);
-    } catch (error) {}
-  };
-
-  const fetchSubcategoriesByProduct = async (productId: number) => {
-    try {
-      const result = await getSubCategoriesByProductService.run(productId);
-
-      if (Object.keys(result).length > 0) {
-        setSubcategoriesByProduct(result);
-      }
-    } catch (error) {
-      console.log(error);
+  ]
+  const availability = [
+    {
+        id: 1,
+        name: "Disponible"
+    },
+    {
+        id: 2,
+        name: "En uso",
     }
-  };
-
-  const fetchConditions = async () => {
-    try {
-      const conditions = await getConditionsService.run();
-      setConditions(conditions);
-    } catch (error) {}
-  };
+  ]
 
   const handleSubmit = async (data: any) => {
-    const selectedSubcategories = data.subcategoryId.map(
-      (subcategory: { value: any }) => subcategory.value
-    );
-    console.log(data);
-    const dataSend = data?.id
-      ? {
-          id: data.id,
-          data: {
-            ...data,
-            subcategoryId: selectedSubcategories,
-          },
-          isFormData: true,
-        }
-      : {
-          data: {
-            ...data,
-            subcategoryId: selectedSubcategories,
-          },
-          isFormData: true,
-        };
-
+    const dataSend = {
+      data: {
+        ...data,
+      },
+      isFormData: true,
+      ...(data?.id && { id: data.id}),
+    }
     try {
       await createOrUpdateProduct.run(dataSend);
-      toast.success("¡Producto creado con éxito!");
-      let url = "../products";
-      navigate(url);
+      onClose();
+      onSave();
+      toast.success(`¡Producto ${dataElement ? "editado" : "creado"} con éxito!`);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const GoBack = () => {
-    let url = "../products";
-    navigate(url);
-  };
-  useEffect(() => {
-    fetchCategories();
-    fetchConditions();
-    if (initialValues.id) {
-      fetchSubcategoriesByProduct(initialValues.id as number);
+  const fetchTypeElement = async () => {
+    try {
+      const response = await getAllElementTypes.run();
+      setElemetType(response);
+    } catch (error) {
+      console.log(error);
     }
-  }, []);
+  }
+
+  const GoBack = () => {
+    onClose();
+  };
+
+  useEffect(()=> {
+    fetchTypeElement();
+  }, [])
+
+  const initialValues = {
+    id: dataElement?.id ?? "",
+    images: dataElement?.images ?? [],
+    idElementType: dataElement?.idElementType ?? "",
+    elementName: dataElement?.elementName ?? "",
+    material: dataElement?.material ?? "",
+    color: dataElement?.color ?? "",
+    model: dataElement?.model ?? "",
+    serial: dataElement?.serial ?? "",
+    idCondition: dataElement?.idCondition ?? "",
+    idAvailability: dataElement?.idAvailability ?? "",
+    warranty: dataElement?.warranty ?? "",
+    idUser: UserId,
+    dateCreation: dataElement?.formattedDate ?? "",
+  };
   return (
     <ProductFormStyle>
       <div className="vs-product-form">
@@ -188,7 +134,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
           {({ values, setFieldValue }) => (
             <div>
               <h4 className="fw-bold mt-2">{`${
-                dataProduct?.productData ? "Editar" : "Crear"
+                dataElement ? "Editar" : "Crear"
               } Producto`}</h4>
               <Form className="d-flex flex-column gap-4 mt-4">
                 <AppCard
@@ -230,23 +176,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                   body={
                     <div className="border p-4 rounded-3 border border-secondary border-opacity-10">
                       <h5 className="fw-bold border-bottom border-secondary border-opacity-10 pb-3 mb-0">
-                        Información del Producto
+                        Información del Elemento
                       </h5>
                       <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
                         <div className="col-12 col-sm-6 pe-3">
                           <ProductField
-                            title="Bien ID"
+                            title="Nombre del Elemento"
                             required
                           >
                             <Field
                               type="text"
                               className="form-control py-2"
-                              name="name"
-                              placeholder="Bien ID"
+                              name="elementName"
+                              placeholder="Nombre del Elemento"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="name"
+                              name="elementName"
                               component="div"
                             />
                           </ProductField>
@@ -255,15 +201,35 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                             title="Tipo de elemendo ID"
                             required
                           >
-                            <Field
-                              type="text"
-                              className="form-control py-2"
-                              name="name"
-                              placeholder="Tipo de elemendo ID"
-                            />
+                            <Field className="form-control py-2" name="idElementType" id= "idElementType">
+                                {() => (
+                                    <Select
+                                      className="w-100"
+                                      value = {
+                                          values.idElementType
+                                            ?  {
+                                                value: values.idElementType,
+                                                label: elementType.find((elementType:any)=> elementType.id === values.idElementType)?.elementType
+                                            }
+                                            : null
+                                      }
+                                      options={elementType.map((elementType:any) => ({
+                                          value: elementType.id,
+                                          label: elementType.elementType,
+                                      }))}
+                                      onChange={(elementType: any) => {
+                                          setFieldValue(
+                                          "idElementType",
+                                          elementType?.value ?? ""
+                                          );
+                                      }}
+                                      placeholder="Selecciona un municipio"
+                                    />
+                                )}
+                            </Field>
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="name"
+                              name="idElementType"
                               component="div"
                             />
                           </ProductField>
@@ -274,12 +240,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                             <Field
                               type="text"
                               className="form-control py-2"
-                              name="name"
+                              name="material"
                               placeholder="Material"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="name"
+                              name="material"
                               component="div"
                             />
                           </ProductField>
@@ -289,12 +255,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                             <Field
                               type="text"
                               className="form-control py-2"
-                              name="price"
+                              name="color"
                               placeholder="Color"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="price"
+                              name="color"
                               component="div"
                             />
                           </ProductField>
@@ -302,12 +268,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                             <Field
                               type="text"
                               className="form-control py-2"
-                              name="price"
+                              name="model"
                               placeholder="Marca/Modelo"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="price"
+                              name="model"
                               component="div"
                             />
                           </ProductField>
@@ -315,12 +281,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                             <Field
                               type="text"
                               className="form-control py-2"
-                              name="price"
+                              name="serial"
                               placeholder="Serial"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="price"
+                              name="serial"
                               component="div"
                             />
                           </ProductField>
@@ -338,57 +304,103 @@ const ProductForm: React.FC<ProductFormProps> = ({ dataProduct }) => {
                       <div className="d-flex flex-column flex-sm-row justify-content-between gap-4">
                         <div className="col-12 col-sm-6 pe-3">
                           <ProductField
-                            title="Estado del producto"
+                            title="Condicion del producto"
                             required
                           >
-                            <Field name="state">
-                              {({ field, form }: any) => (
-                                <div className="d-flex gap-3 align-items-center">
-                                  <AppSwitch
-                                    value={field.value ? 1 : 0}
-                                    onChange={(value: number) =>
-                                      form.setFieldValue("state", value)
-                                    }
+                            <Field name="idCondition" id= "idCondition">
+                              {() => (
+                                  <Select
+                                      options={condition.map((state) => ({
+                                          value: state.id,
+                                          label: state.name,
+                                      }))}
+                                      value={
+                                          values.idCondition ?
+                                          {
+                                              value: values.idCondition ,
+                                              label: condition.find((sts) => sts.id === values.idCondition)?.name
+                                          }
+                                          : null
+                                      }
+                                      onChange={(idCondition: any) => {
+                                          setFieldValue(
+                                          "idCondition",
+                                          idCondition?.value ?? ""
+                                          );
+                                      }}
+                                      placeholder="Selecciona una condicion"
                                   />
-                                </div>
                               )}
                             </Field>
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="state"
+                              name="idCondition"
                               component="div"
-                            />
+                            />  
                           </ProductField>
 
                           <ProductField title="Fecha de Recepción" required>
                             <Field
                               type="date"
                               className="form-control py-2"
-                              name="stock"
+                              name="dateCreation"
                               placeholder="Ingrese Stock del Producto"
                             />
                             <ErrorMessage
                               className="vs-errorMensage"
-                              name="stock"
-                              component="div"
-                            />
-                          </ProductField>
-
-                          <ProductField title="Precio del Producto" required>
-                            <Field
-                              type="text"
-                              className="form-control py-2"
-                              name="price"
-                              placeholder="Ingrese precio del Producto"
-                            />
-                            <ErrorMessage
-                              className="vs-errorMensage"
-                              name="price"
+                              name="dateCreation"
                               component="div"
                             />
                           </ProductField>
                         </div>
-                        <div></div>
+
+                        <div className="col-12 col-sm-6 pe-3">
+                          <ProductField title="Disponibilidad" required>
+                            <Field name="idAvailability" id="idAvailability">
+                              {() => (
+                                <Select
+                                    options={availability.map((state) => ({
+                                        value: state.id,
+                                        label: state.name,
+                                    }))}
+                                    value={
+                                        values.idAvailability ?
+                                        {
+                                            value: values.idAvailability ,
+                                            label: availability.find((sts) => sts.id === values.idAvailability)?.name
+                                        }
+                                        : null
+                                    }
+                                    onChange={(idAvailability: any) => {
+                                        setFieldValue(
+                                        "idAvailability",
+                                        idAvailability?.value ?? ""
+                                        );
+                                    }}
+                                    placeholder="Disponibilidad del elemento"
+                                />
+                              )}
+                            </Field>
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="idAvailability"
+                              component="div"
+                            />
+                          </ProductField>                    
+                          <ProductField title="Garantia" required>
+                            <Field
+                              type="text"
+                              className="form-control py-2"
+                              name="warranty"
+                              placeholder="Garantia"
+                            />
+                            <ErrorMessage
+                              className="vs-errorMensage"
+                              name="warranty"
+                              component="div"
+                            />
+                          </ProductField>
+                        </div>
                       </div>
                     </div>
                   }

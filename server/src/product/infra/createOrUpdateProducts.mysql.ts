@@ -7,11 +7,19 @@ export class CreateOrUpdateProductMySql implements CreateOrUpdateProductReposito
     let sql = '';
     const { images } = data;
     const imagesString = images.join(',');
+    let params: any[] = [];
     if (id) {
-      sql = 'UPDATE products SET images=?, `product_name`=?, stock=?, price=?, state=?, description=?, condition_id=?, user_id=?, category_id=?  WHERE id=?';
+      if (imagesString) {
+        sql = 'UPDATE elements SET images=?, `elementName`=?, idElementType=?, material=?, color=?, model=?, serial=?, idCondition=?, idAvailability=?, warranty=?, idUser=?, dateCreation=? WHERE id=?';
+        params = [imagesString, data.product.elementName, data.product.idElementType, data.product.material, data.product.color, data.product.model, data.product.serial, data.product.idCondition, data.product.idAvailability, data.product.warranty, data.product.idUser, data.product.dateCreation, id]
+      } else {
+        sql = 'UPDATE elements SET `elementName`=?, idElementType=?, material=?, color=?, model=?, serial=?, idCondition=?, idAvailability=?, warranty=?, idUser=?, dateCreation=? WHERE id=?';
+        params = [data.product.elementName, data.product.idElementType, data.product.material, data.product.color, data.product.model, data.product.serial, data.product.idCondition, data.product.idAvailability, data.product.warranty, data.product.idUser, data.product.dateCreation, id]
+      }
     } else {
-      sql = 'INSERT INTO products (images, `product_name`, stock, price, state, description, condition_id, user_id, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      sql = 'INSERT INTO elements (images, elementName, idElementType, material, color, model, serial, idCondition, idAvailability, warranty,  idUser, dateCreation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      params = [imagesString, data.product.elementName, data.product.idElementType, data.product.material, data.product.color, data.product.model, data.product.serial, data.product.idCondition, data.product.idAvailability, data.product.warranty, data.product.idUser, data.product.dateCreation]
     }
-    return executeQuery(sql, [imagesString, data.product.name, data.product.stock, data.product.price, data.product.state, data.product.description, data.product.conditionId, data.product.userId, data.product.productCategoryId, id]);
+    return executeQuery(sql, params);
   }
 }

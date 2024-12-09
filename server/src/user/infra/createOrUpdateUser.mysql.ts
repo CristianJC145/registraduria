@@ -12,37 +12,39 @@ export class CreateOrUpdateUserMySql implements CreateOrUpdateUserRepository {
       if (data.user.password) {
         const hashedPassword = await hashPassword(data.user.password);
         sql =
-          'UPDATE users SET idPerson=?, username=?, password=?, idRole=?, idStatus=? WHERE id = ?';
+          'UPDATE users SET idPerson=?, username=?, password=?, idRole=?, idStatus=?, idCity WHERE id = ?';
         params = [
           data.user.idPerson,
           data.user.username,
           hashedPassword,
           data.user.idRole,
           data.user.idStatus,
+          data.user.idCity,
           id,
         ];
       } else {
         sql =
-          'UPDATE users SET idPerson=?, username=?, idRole=?, idStatus=? WHERE id = ?';
+          'UPDATE users SET idPerson=?, username=?, idRole=?, idStatus=?, idCity WHERE id = ?';
         params = [
           data.user.idPerson,
           data.user.username,
           data.user.idRole,
           data.user.idStatus,
+          data.user.idCity,
           id,
         ];
       }
     } else {
-      // Inserción de un nuevo usuario
       const hashedPassword = await hashPassword(data.user.password);
       sql =
-        'INSERT INTO users (idPerson, username, password, idRole, idStatus) VALUES (?, ?, ?, ?, ?)';
+        'INSERT INTO users (idPerson, username, password, idRole, idStatus, idCity) VALUES (?, ?, ?, ?, ?, ?)';
       params = [
         data.user.idPerson,
         data.user.username,
         hashedPassword,
         data.user.idRole,
         data.user.idStatus,
+        data.user.idCity
       ];
     }
 

@@ -7,14 +7,23 @@ const GetProductsWithPagination = async (req: Request, res: Response) => {
     let sqlwhere = '';
     const paramsSQL = [];
     if (params.id) {
-      sqlwhere = 'where products.user_id = ?';
+      sqlwhere = 'where elements.idUser = ?';
       paramsSQL.push(params.id);
     }
 
-    const sql = `SELECT products.*, users.name AS user_name FROM products INNER JOIN users ON products.user_id = users.id  ${sqlwhere}`;
-
+    const sql = `
+        SELECT elements.*,
+              DATE_FORMAT(dateCreation, '%Y-%m-%d') AS formattedDate,
+              elementtypes.elementType,
+              \`condition\`.conditionName,
+              availability.availability
+        FROM elements
+        INNER JOIN elementtypes ON elements.idElementType = elementtypes.id
+        INNER JOIN \`condition\` ON elements.idCondition = \`condition\`.id
+        INNER JOIN availability ON elements.idAvailability = availability.id
+        ${sqlwhere}`;
     const products = await getDataWithPagination({
-      sql, params, columnsSearch: ['product_name'], paramsSQL,
+      sql, params, columnsSearch: ['elementName'], paramsSQL,
     });
     return res.json(products);
   } catch (e) {

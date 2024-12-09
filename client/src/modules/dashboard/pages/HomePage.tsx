@@ -19,7 +19,7 @@ const HomePage = () => {
           onClick={()=> accionNavigate('../users')}
         ></CardOptions>
         <CardOptions
-          title="Agregar Producto"
+          title="Productos"
           subtitle="Gestionar agregar productos"
           icon="box"
           color="#770c00"

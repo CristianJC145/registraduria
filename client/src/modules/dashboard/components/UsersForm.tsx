@@ -7,9 +7,9 @@ import { CreateOrUpdateUserService } from "../services/CreateOrUpdateUsers.servi
 import { GetUserByNameService } from "../services/getUserByName.service";
 import { GetPeopleByIdService } from "../services/getPeopleById.service";
 import { GetUserByIdService } from "../services/getUserById.service";
+import { GetAllCitiesService } from "../services/getAllCities.service";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 
 interface FigureEditorProps {
     onClose : () => void,
@@ -20,6 +20,7 @@ const createOrUpdateUserService = new CreateOrUpdateUserService();
 const getUserByNameService = new GetUserByNameService();
 const getUserByIdService = new GetUserByIdService();
 const getPeopleByIdService = new GetPeopleByIdService();
+const getAllCitiesService = new GetAllCitiesService();
 const validationSchema = Yup.object().shape({
     id: Yup.number().nullable(),
     username: Yup.string().required("El nombre de usuario es obligatorio"),
@@ -76,6 +77,7 @@ const validationSchema = Yup.object().shape({
 const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
     const [options, setOptions] = useState<any[]>([]);
     const [userData, setUserData] = useState<any>({});
+    const [cities, setCities] = useState<any[]>([]);
     const [peopleData, setPeopleData] = useState<any>({});
     const [selectedOption, setSelectedOption] = useState<any>(null);
 
@@ -127,7 +129,14 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
             const peopleDataResponse = await getPeopleByIdService.run(dataUser.idPerson)
             setUserData(dataUser);
             setPeopleData(peopleDataResponse.peopleData[0]);
-            console.log(peopleDataResponse.peopleData[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const fetchCities = async () => {
+        try {
+            const respose = await getAllCitiesService.run();
+            setCities(respose);
         } catch (error) {
             console.log(error);
         }
@@ -147,12 +156,12 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
             onClose();
             onSave();
             toast.success(`Usuario ${userData?.id ? 'editado' : 'creado'} correctamente`);
-
         } catch (e) {
             console.log(e);
         }
     }
     useEffect(() => {
+        fetchCities();
         if (id) {
             fetchEditUser(id)
         }
@@ -164,6 +173,7 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
         idRole: userData?.idRole ?? null,
         idStatus: userData?.idStatus ?? null,
         idPerson: userData?.idPerson ?? "",
+        idCity: userData?.idCity ?? "",
         confirmPassword : "",
     };
     return (
@@ -264,6 +274,42 @@ const UsersForm: React.FC<FigureEditorProps> = ({ onClose, onSave, id }) => {
                                             />
                                         </div>
                                     )}
+                                    <div className="content-field">
+                                        <div className="d-flex align-items-center gap-3">
+                                            <label htmlFor="idCity" className="field-label">Municipio</label>
+                                            <Field className="form-control py-2" name="idCity" id= "idCity">
+                                                {() => (
+                                                    <Select
+                                                        className="py-2 w-100"
+                                                        value = {
+                                                            values.idCity
+                                                                ?  {
+                                                                    value: values.idCity,
+                                                                    label: cities.find((city:any)=> city.id === values.idCity)?.nameCity
+                                                                }
+                                                                : null
+                                                        }
+                                                        options={cities.map((city:any) => ({
+                                                            value: city.id,
+                                                            label: city.nameCity,
+                                                        }))}
+                                                        onChange={(idCity: any) => {
+                                                            setFieldValue(
+                                                            "idCity",
+                                                            idCity?.value ?? ""
+                                                            );
+                                                        }}
+                                                        placeholder="Selecciona un municipio"
+                                                    />
+                                                )}
+                                            </Field>
+                                        </div>
+                                        <ErrorMessage
+                                            className="vs-errorMensage"
+                                            name="idCity"
+                                            component="div"
+                                        />
+                                    </div>
                                     <div className="content-field">
                                         <div className="d-flex align-items-center gap-3">
                                             <label htmlFor="idRole" className="field-label">Rol</label>

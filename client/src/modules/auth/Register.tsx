@@ -30,7 +30,7 @@ const Register: React.FC = () => {
       }
       try {
           await registerUser(formData);
-          let url = '/auth/login'
+          let url = '/'
           toast.success('Te has registrado exitosamente');
           navigate(url);
           

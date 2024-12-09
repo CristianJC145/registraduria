@@ -10,7 +10,7 @@ const AppHeader:React.FC = () => {
                 <div className="vs-header" >
                     <a className="vs-header-container" href="/">
                         <LazyImage className="vs-header-logo" src={appLogo} alt="Logo" />
-                        <span className="vs-header-title">VSHOWCASE</span>
+                        <span className="vs-header-title">Registraduria</span>
                     </a>
                 </div>
             </header>

@@ -58,7 +58,7 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
                 <div className="vs-sidebar-content">
                     <AppLinkNavigation to="/dashboard/home" icon="home" label="Inicio" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
                     <AppLinkNavigation to="/dashboard/users" icon="users" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/products" icon="box" label="Agregar Productos"  selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
+                    <AppLinkNavigation to="/dashboard/products" icon="box" label="Productos"  selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
                     <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/admin-products"}></AppLinkNavigation>
                     <AppLinkNavigation to="/dashboard/account-settings" icon="tools" label="Mi Perfil" selected={selectedOption === "/dashboard/account-settings"}></AppLinkNavigation>
                 </div>

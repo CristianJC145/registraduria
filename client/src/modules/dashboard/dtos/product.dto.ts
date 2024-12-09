@@ -1,18 +1,14 @@
 export interface ProductsDto {
     id? : number;
     images: File[];
-    name: string ;
-    stock: number ;
-    price: number;
-    state: number;
-    description: string;
-    productCategoryId : number;
-    subcategoryId: number[];
-    userId: number
-    conditionId: number;
-}
-
-export interface CategoriesDto {
-    id: number;
-    name: string;
+    elementName: string ;
+    idElementType: number ;
+    material: string;
+    color: string;
+    model: string;
+    serial : string;
+    idCondition: number;
+    idAvailability: number;
+    idUser: number;
+    dateCreation: string;
 }

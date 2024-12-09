@@ -124,7 +124,7 @@ const UsersPage = () => {
                 <UsersForm id={editingUserId!} onClose={handleCloseModal} onSave={handleLoading} />
             </AppModal>
             <AppModal title='¿Eliminar Usuario?' isOpen={isDeleteModalOpen} onClose={handleCloseWarning}>
-              <ConfirmAction userDataDelete={userDataDelete} onClose={handleCloseWarning} onSave={handleLoading}></ConfirmAction>
+              <ConfirmAction page="users" dataDelete={userDataDelete} onClose={handleCloseWarning} onSave={handleLoading}></ConfirmAction>
             </AppModal>
         </>
     )
