@@ -5,6 +5,7 @@ import { userRouter } from './user';
 import { authRouter } from './auth';
 import { productRouter } from './product';
 import { requestLoggerMiddleware } from '../../src/middleware/requestLoggerMiddleware';
+import { peopleRouter } from './people';
 
 const compression = require('compression');
 
@@ -19,7 +20,7 @@ const port = process.env.PORT ?? '3000';
 
 app.use(express.json());
 
-app.use(userRouter, authRouter, productRouter);
+app.use(userRouter, authRouter, productRouter, peopleRouter);
 
 app.get('/', async (_req, res) => {
   res.json('registraduria API');

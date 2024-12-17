@@ -12,7 +12,7 @@ export class CreateOrUpdateUserMySql implements CreateOrUpdateUserRepository {
       if (data.user.password) {
         const hashedPassword = await hashPassword(data.user.password);
         sql =
-          'UPDATE users SET idPerson=?, username=?, password=?, idRole=?, idStatus=?, idCity WHERE id = ?';
+          'UPDATE users SET idPerson=?, username=?, password=?, idRole=?, idStatus=?, idCity=? WHERE id = ?';
         params = [
           data.user.idPerson,
           data.user.username,
@@ -24,7 +24,7 @@ export class CreateOrUpdateUserMySql implements CreateOrUpdateUserRepository {
         ];
       } else {
         sql =
-          'UPDATE users SET idPerson=?, username=?, idRole=?, idStatus=?, idCity WHERE id = ?';
+          'UPDATE users SET idPerson=?, username=?, idRole=?, idStatus=?, idCity=? WHERE id = ?';
         params = [
           data.user.idPerson,
           data.user.username,

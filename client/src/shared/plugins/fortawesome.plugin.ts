@@ -62,7 +62,8 @@ import {
     faMoneyBill,
     faCircleCheck,
     faBox,
-    faDatabase
+    faDatabase,
+    faBuildingUser
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -124,5 +125,6 @@ library.add(
     faMoneyBill,
     faCircleCheck,
     faBox,
-    faDatabase
+    faDatabase,
+    faBuildingUser
     );

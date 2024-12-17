@@ -51,7 +51,11 @@ const Login: React.FC = () => {
           }
         }
         await LoginUser(formData);
-        login();
+        const decodedData = tokenService.isAuthenticated();
+        if (decodedData) {
+          login(decodedData);
+          navigate(from.pathname)
+        }
     } catch (error: any) {
       setServerErrorMensage(error.response?.data?.message);
     }

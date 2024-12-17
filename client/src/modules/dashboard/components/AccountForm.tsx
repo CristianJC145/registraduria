@@ -1,28 +1,47 @@
-import { ReactNode } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import ImageUpload from "./ImageUpload";
 import styled from "styled-components";
 import { settings } from "../../../shared/constant/settings.constants";
+import { GetPeopleByIdService } from "../services/getPeopleById.service";
+import AppButton from "../../../shared/components/Buttons/AppButton";
+import { useEffect, useState } from "react";
+
+const getPeopleByIdService = new GetPeopleByIdService();
+
+interface AcountFormProps {
+  dataToken: any;
+}
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("El nombre del producto es obligatorio"),
+  name: Yup.string().required("Este campo es obligatorio"),
 });
 
-const AcountForm: React.FC = () => {
+const AcountForm: React.FC<AcountFormProps> = ({ dataToken }) => {
   const appLogo = [settings.appNoResults];
+  const [peopleData, setPeopleData] = useState<any>({});
   const initialValues = {
-    name: "VSHOWCASE",
-    email: "admin@vshowcase.com.co",
-    phone: "573216549870",
+    name: peopleData?.name ?? "",
+    email: peopleData?.email ?? "",
+    idCard: peopleData?.idCard ?? "",
+    phone: peopleData?.phone ?? "",
     images: appLogo,
   };
+
+  const fetchPeople = async () => {
+    try {
+        let dataUser = dataToken;
+        const peopleDataResponse = await getPeopleByIdService.run(dataUser.idPerson);
+        setPeopleData(peopleDataResponse.peopleData[0]);
+        console.log(peopleDataResponse);
+    } catch (error) {
+        console.log(error);
+    }
+  }
   const handleSubmit = async (data: any) => {
     const selectedSubcategories = data.subcategoryId.map(
       (subcategory: { value: any }) => subcategory.value
     );
-    console.log(data);
     const dataSend = data?.id
       ? {
           id: data.id,
@@ -47,16 +66,21 @@ const AcountForm: React.FC = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    fetchPeople();
+  }, []);
   return (
     <AcountFormStyle>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
+        enableReinitialize = { true }
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue }) => (
           <Form>
-            <div className="d-flex">
+            <div className="d-flex flex-column flex-sm-row">
               <div className="vs-form-field__right">
                 <div className="vs-form-field">
                   <div className="vs-form-field__container">
@@ -66,7 +90,7 @@ const AcountForm: React.FC = () => {
                         type="text"
                         name="name"
                         className="form-control py-2 my-2"
-                        disabled
+                        placeholder="Nombre persona"
                       />
                       <ErrorMessage
                         className="vs-errorMensage"
@@ -74,25 +98,29 @@ const AcountForm: React.FC = () => {
                         component="div"
                       />
                     </div>
+
                     <div className="vs-field-content">
-                      <label htmlFor="phone">Celular</label>
+                      <label htmlFor="idCard">Documento</label>
                       <Field
                         type="text"
-                        name="phone"
+                        name="idCard"
                         className="form-control py-2 my-2"
+                        placeholder="Numero de documento"
                       />
                       <ErrorMessage
                         className="vs-errorMensage"
-                        name="phone"
+                        name="idCard"
                         component="div"
                       />
                     </div>
+
                     <div className="vs-field-content">
                       <label htmlFor="email">Email</label>
                       <Field
                         type="text"
                         name="email"
                         className="form-control py-2 my-2"
+                        placeholder="Email"
                       />
                       <ErrorMessage
                         className="vs-errorMensage"
@@ -100,50 +128,28 @@ const AcountForm: React.FC = () => {
                         component="div"
                       />
                     </div>
-
                     <div className="vs-field-content">
-                      <label htmlFor="typeAccount">Tipo de Cuenta</label>
+                      <label htmlFor="phone">Contacto</label>
                       <Field
                         type="text"
-                        name="typeAccount"
+                        name="phone"
                         className="form-control py-2 my-2"
-                        disabled
-                        value="Empresarial"
+                        placeholder="Contacto"
                       />
                       <ErrorMessage
                         className="vs-errorMensage"
-                        name="typeAccount"
+                        name="phone"
                         component="div"
                       />
                     </div>
+
                   </div>
                 </div>
               </div>
-              <div className="vs-form-field__image">
-                <Field name="images">
-                  {({ field }: any) => (
-                    console.log(field),
-                    (
-                      <ImageUpload
-                        images={field.value}
-                        onRemoveImage={(index: number) => {
-                          const newImages = [...field.value];
-                          newImages.splice(index, 1);
-                          setFieldValue(field.name, newImages);
-                        }}
-                        onAddImages={(newImages: File[]) => {
-                          setFieldValue("images", newImages);
-                        }}
-                      />
-                    )
-                  )}
-                </Field>
-                <ErrorMessage
-                  className="vs-errorMensage"
-                  name="images"
-                  component="div"
-                />
-              </div>
+            </div>
+
+            <div className="pt-4">
+              <AppButton>Aplicar Cambios</AppButton>
             </div>
           </Form>
         )}
@@ -152,6 +158,7 @@ const AcountForm: React.FC = () => {
   );
 };
 export default AcountForm;
+
 const AcountFormStyle = styled.div`
   .vs-form-field__right {
     flex: 1 1 0%;
@@ -164,24 +171,15 @@ const AcountFormStyle = styled.div`
   .vs-form-field__container {
     grid-column: span 12 / span 12;
   }
-  .vs-form-field__image {
-    margin-left: 1.5rem;
-  }
-  .vs-updateImage-dropzone {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .vs-updateImage-dropzone button {
-    margin: 0 !important;
-  }
-  .vs-container-image {
-    height: 14rem;
-    width: 14rem;
-  }
-  .vs-updateImage-dropzone h6 {
-    margin: 0 !important;
-  }
   .vs-field-content {
     margin-top: 0.75rem;
+  }
+  .vs-errorMensage {
+    color: red;
+  }
+  @media (min-width: 768px){
+    .vs-form-field__image {
+      margin-left: 1.5rem;
+    }
   }
 `;

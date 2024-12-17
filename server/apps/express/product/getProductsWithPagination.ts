@@ -4,13 +4,7 @@ import { getDataWithPagination } from '../../../src/shared/infra/mysql/db.mysql'
 const GetProductsWithPagination = async (req: Request, res: Response) => {
   try {
     const params = req.query as any;
-    let sqlwhere = '';
     const paramsSQL = [];
-    if (params.id) {
-      sqlwhere = 'where elements.idUser = ?';
-      paramsSQL.push(params.id);
-    }
-
     const sql = `
         SELECT elements.*,
               DATE_FORMAT(dateCreation, '%Y-%m-%d') AS formattedDate,
@@ -20,8 +14,7 @@ const GetProductsWithPagination = async (req: Request, res: Response) => {
         FROM elements
         INNER JOIN elementtypes ON elements.idElementType = elementtypes.id
         INNER JOIN \`condition\` ON elements.idCondition = \`condition\`.id
-        INNER JOIN availability ON elements.idAvailability = availability.id
-        ${sqlwhere}`;
+        INNER JOIN availability ON elements.idAvailability = availability.id`;
     const products = await getDataWithPagination({
       sql, params, columnsSearch: ['elementName'], paramsSQL,
     });

@@ -4,7 +4,7 @@ import { TokenService } from '../services/token.service'; // Asegúrate de impor
 
 const configureApi = () => {
   // const errorAlertStore = useErrorAlertStore ();
-  const tokenService = new TokenService('');
+  const tokenService = new TokenService();
 
   const api = axios.create();
 

@@ -17,7 +17,6 @@ const deleteUserService = new DeleteUserByIdService();
 const deleteElementByIdService = new DeleteElementByIdService();
 
 const ConfirmAction: React.FC<ConfirmActionProps> = ({ onClose, dataDelete, onSave, page }) => {
-    console.log(dataDelete);
     const handleDelete = async() => {
         if (dataDelete.id) {
             if (page === 'users') {

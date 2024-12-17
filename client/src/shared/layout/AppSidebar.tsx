@@ -10,8 +10,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import AppButton from "../components/Buttons/AppButton";
+import { TokenService } from "../services/token.service";
 
 const logout = new LogoutUser();
+const tokenService = new TokenService();
+
 
 interface AppSidebarProps {
     isOpen: boolean; 
@@ -19,6 +22,7 @@ interface AppSidebarProps {
     onSmallSidebar: (value: any) => void
 }
 const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar}) => {
+    const dataToken = tokenService.isAuthenticated();
     const location = useLocation();
     const [selectedOption, setSelectedOption] = useState('/dashboard/home');
     const [smallSidebar, setSmallSidebar] = useState(false);
@@ -57,9 +61,14 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
                 </div>
                 <div className="vs-sidebar-content">
                     <AppLinkNavigation to="/dashboard/home" icon="home" label="Inicio" selected={selectedOption === '/dashboard/home'}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/users" icon="users" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
                     <AppLinkNavigation to="/dashboard/products" icon="box" label="Productos"  selected={selectedOption === "/dashboard/products"}></AppLinkNavigation>
-                    <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/admin-products"}></AppLinkNavigation>
+                    {dataToken.idRole === 1 && (
+                        <>
+                            <AppLinkNavigation to="/dashboard/users" icon="users" label="Usuarios" selected={selectedOption === "/dashboard/users"}></AppLinkNavigation>
+                            <AppLinkNavigation to="/dashboard/employees" icon="building-user" label="Funcionarios" selected={selectedOption === "/dashboard/employees"}></AppLinkNavigation>
+                            <AppLinkNavigation to="/dashboard/admin-products" icon="database" label="Productos Admin" selected={selectedOption === "/dashboard/admin-products"}></AppLinkNavigation>
+                        </>
+                    )}
                     <AppLinkNavigation to="/dashboard/account-settings" icon="tools" label="Mi Perfil" selected={selectedOption === "/dashboard/account-settings"}></AppLinkNavigation>
                 </div>
                 <div className="vs-sidebar-actions">

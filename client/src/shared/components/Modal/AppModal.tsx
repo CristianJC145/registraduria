@@ -53,6 +53,7 @@ const AppModalStyle = styled.div`
     max-width: 400px;
     max-height: 600px;
     border-radius: 16px;
+    margin: 1rem;
     overflow: auto;
   }
   ::-webkit-scrollbar {

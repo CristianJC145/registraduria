@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import AppCard from "../../../shared/components/AppCard/AppCard";
 import { settings } from "../../../shared/constant/settings.constants";
+import { TokenService } from "../../../shared/services/token.service";
 import { Link } from "react-router-dom";
-import AppButton from "../../../shared/components/Buttons/AppButton";
 import AppIcon from "../../../shared/components/AppIcon";
 import AcountForm from "../components/AccountForm";
 
+const tokenService = new TokenService()
 const AccountUserPage = () => {
   const appLogo = settings.appLogo;
+  const dataToken = tokenService.isAuthenticated();
+  const role = dataToken.idRole === 1 ? 'Administrador' : 'Usuario'
+  console.log(dataToken);
   return (
     <AccountUserPageStyle>
       <div className="vs-account">
@@ -20,8 +24,8 @@ const AccountUserPage = () => {
                     <img src={appLogo} alt="Image Profile User" />
                   </div>
                   <div className="vs-header-info">
-                    <div className="vs-info-name">Cristian Jamioy</div>
-                    <div className="vs-info-type__account">Empresa</div>
+                    <div className="vs-info-name">{dataToken.username}</div>
+                    <div className="vs-info-type__account">{role}</div>
                   </div>
                 </div>
                 <div className="vs-tools-body">
@@ -51,10 +55,10 @@ const AccountUserPage = () => {
             body={
               <>
                 <div className="vs-form-title">
-                  <h5>Informacion General</h5>
+                  <h5>Información General</h5>
                 </div>
                 <div className="vs-form-content">
-                  <AcountForm></AcountForm>
+                  <AcountForm dataToken={dataToken}></AcountForm>
                 </div>
               </>
             }
