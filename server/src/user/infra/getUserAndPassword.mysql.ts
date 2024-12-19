@@ -15,6 +15,7 @@ export class GetUserAndPasswordMySql {
       username: rows.username as string,
       password: rows.password as string,
       idRole: rows.idRole as number,
+      idStatus: rows.idStatus as number
     };
   }
 }
