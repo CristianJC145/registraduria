@@ -10,22 +10,24 @@ export class CreateOrUpdatePeopleMySql implements CreateOrUpdatePeopleRepository
 
     if (id) {
       sql =
-        'UPDATE people SET name=?, idCard=?, email=?, phone=? WHERE id = ?';
+        'UPDATE people SET name=?, idCard=?, email=?, phone=?, birthDate=? WHERE id = ?';
       params = [
         data.people.name,
         data.people.idCard,
         data.people.email,
         data.people.phone,
+        data.people.birthDate,
         data.people.id,
       ];
     } else {
       sql =
-        'INSERT INTO people (name, idCard, email, phone) VALUES (?, ?, ?, ?)';
+        'INSERT INTO people (name, idCard, email, phone, birthDate) VALUES (?, ?, ?, ?, ?)';
       params = [
         data.people.name,
         data.people.idCard,
         data.people.email,
-        data.people.phone
+        data.people.phone,
+        data.people.birthDate
       ];
     }
 

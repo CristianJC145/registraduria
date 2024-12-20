@@ -9,4 +9,6 @@ export class PeopleModel {
 
     phone: string = null;
 
+    birthDate: string = null;
+
 }

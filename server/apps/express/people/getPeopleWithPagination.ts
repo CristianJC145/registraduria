@@ -6,7 +6,7 @@ const GetPeopleWithPagination = async (req: Request, res: Response) => {
     const params = req.query as any;
     const paramsSQL = [];
 
-    const sql = `SELECT * FROM people`;
+    const sql = `SELECT people.*, DATE_FORMAT(birthDate, '%Y-%m-%d') AS formattedDate FROM people`;
     const people = await getDataWithPagination({
       sql, params, columnsSearch: ['name'], paramsSQL,
     });
