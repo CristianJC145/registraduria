@@ -1,55 +1,74 @@
 import styled from "styled-components";
 import AppButton from "../../../shared/components/Buttons/AppButton";
-
 import { toast } from "react-toastify";
 import AppIcon from "../../../shared/components/AppIcon";
 import { DeleteUserByIdService } from "../services/deleteUserById.service";
 import { DeleteElementByIdService } from "../services/deleteElementById.service";
+import { DeletePeopleByIdService } from "../services/deletePeopleById.service";
+
+const deleteServices: Record<string, any> = {
+  users: new DeleteUserByIdService(),
+  products: new DeleteElementByIdService(),
+  employees: new DeletePeopleByIdService(),
+};
+
+const entityNames: Record<string, string> = {
+  users: "usuario",
+  products: "elemento",
+  employees: "funcionario",
+};
 
 interface ConfirmActionProps {
-    dataDelete?: any;
-    onClose: () => void;
-    onSave: () => void;
-    page: string;
+  dataDelete?: any;
+  onClose: () => void;
+  onSave: () => void;
+  page: string;
 }
-
-const deleteUserService = new DeleteUserByIdService();
-const deleteElementByIdService = new DeleteElementByIdService();
 
 const ConfirmAction: React.FC<ConfirmActionProps> = ({ onClose, dataDelete, onSave, page }) => {
-    const handleDelete = async() => {
-        if (dataDelete.id) {
-            if (page === 'users') {
-                await deleteUserService.run(dataDelete.id);
-                onClose();
-                onSave();
-                toast.success(`¡Se ha eliminado el usuario ${dataDelete.name} correctamente!`);
-            } else {
-                await deleteElementByIdService.run(dataDelete.id);
-                onClose();
-                onSave();
-                toast.success(`¡Se ha eliminado el elemento ${dataDelete.elementName} correctamente!`);
-            }
-        }
+  const handleDelete = async () => {
+    const service = deleteServices[page];
+    const entityName = entityNames[page];
+
+    if (dataDelete?.id && service && entityName) {
+      try {
+        await service.run(dataDelete.id);
+        toast.success(
+          `¡Se ha eliminado el ${entityName} ${dataDelete.name || dataDelete.elementName} correctamente!`
+        );
+        onClose();
+        onSave();
+      } catch (error) {
+        toast.error(`Error al eliminar el ${entityName}: ${error}`);
+      }
     }
-    return (
-        <ConfirmActionStyle>
-            <div className="confirm-action">
-                <div className="action-body">
-                    <AppIcon icon="triangle-exclamation"></AppIcon>
-                    Estas a punto de eliminar el {page === 'users' ? 'usuario' : 'elemento'}
-                    <span className="fw-bold">{dataDelete.name ? dataDelete.name : dataDelete.elementName}</span>
-                </div>
-                <div className="action-footer">
-                    <AppButton outlined variant="dark" onClick={onClose}>Cancelar</AppButton>
-                    <AppButton variant="danger" onClick={handleDelete}>Confirmar</AppButton>
-                </div>
-            </div>
-        </ConfirmActionStyle>
-    )
-}
+  };
+
+  return (
+    <ConfirmActionStyle>
+      <div className="confirm-action">
+        <div className="action-body">
+          <AppIcon icon="triangle-exclamation" />
+          Estas a punto de eliminar el {entityNames[page]}
+          <span className="fw-bold">
+            {dataDelete?.name || dataDelete?.elementName || "desconocido"}
+          </span>
+        </div>
+        <div className="action-footer">
+          <AppButton outlined variant="dark" onClick={onClose}>
+            Cancelar
+          </AppButton>
+          <AppButton variant="danger" onClick={handleDelete}>
+            Confirmar
+          </AppButton>
+        </div>
+      </div>
+    </ConfirmActionStyle>
+  );
+};
 
 export default ConfirmAction;
+
 
 const ConfirmActionStyle = styled.div`
     .confirm-action {

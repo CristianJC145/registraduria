@@ -22,30 +22,40 @@ const UsersPage = () => {
     const columns = [
       {
         Header: "Nombre",
-        accessor: "name",
         columnClassName: "text-center",
         HeaderClassName: "text-center",
-        truncate: true,
-        maxChars: 40,
+        Cell: ({ value }: any) => {
+          return (
+              <div className={dataToken.id === value.id ? "opacity-50" : ''}>{value.name}</div>
+          );
+        }
       },
       {
         Header: "Email",
-        accessor: "email",
         HeaderClassName: "text-center",
         columnClassName: "text-center",
+        Cell: ({ value }: any) => {
+          return (
+              <div className={dataToken.id === value.id ? "opacity-50" : ''}>{value.email}</div>
+          );
+        }
       },
       {
         Header: "Estado",
         HeaderClassName: "text-center",
         columnClassName: "text-center",
         Cell: ({ value }: any) => {
-          const className = `${
-            value.statusName === "activo" ? "vs-active" : "vs-inactive"
-          }`;
+          const isActive = value.statusName === "activo";
+          const isCurrentUser = dataToken.id === value.id;
+          const className = `
+            ${isActive ? "vs-active" : "vs-inactive"} 
+            ${isCurrentUser ? "opacity-50" : ""} 
+            d-flex align-items-center justify-content-center gap-2
+          `.trim();
           return (
             <UsersPageStyles>
               <div
-                className={`${className} d-flex align-items-center justify-content-center gap-2`}
+                className={className}
               >
                 <AppIcon icon="square-check"></AppIcon>
                 <span>{ value.statusName || "Desconocido"}</span>
@@ -56,9 +66,13 @@ const UsersPage = () => {
       },
       {
           Header: "Rol",
-          accessor: "roleName",
           HeaderClassName: "text-center",
-          columnClassName: "text-center",
+          Cell: ({ value }: any) => (
+            <div className={dataToken.id === value.id ? "opacity-50" : ''}>
+              {value.roleName}
+            </div>
+          ),
+          columnClassName: `text-center`,
       },
       {
         Header: "Acciones",
@@ -66,15 +80,17 @@ const UsersPage = () => {
         Cell: ({ value }: any) => (
           <div className="d-flex justify-content-center">
             <AppButton
-              variant="dark"
-              className="bg-transparent"
+              disabled = {dataToken.id === value.id}
+              variant= "dark"
+              className={`bg-transparent ${dataToken.id === value.id ? 'opacity-50' : ''}`}
               icon="check-square"
               onClick={() => handleOpenModal(value.id)}
             >
               Editar
             </AppButton>
             <AppButton
-              className="text-danger bg-transparent"
+              disabled = {dataToken.id === value.id}
+              className={`text-danger bg-transparent ${dataToken.id === value.id ? 'opacity-50' : ''}`}
               icon="trash-alt"
               onClick={() => handleDelete(value)}
             >
