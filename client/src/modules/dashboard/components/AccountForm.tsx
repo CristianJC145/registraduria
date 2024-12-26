@@ -6,25 +6,34 @@ import { settings } from "../../../shared/constant/settings.constants";
 import { GetPeopleByIdService } from "../services/getPeopleById.service";
 import AppButton from "../../../shared/components/Buttons/AppButton";
 import { useEffect, useState } from "react";
+import { CreateOrUpdatePeopleService } from "../services/CreateOrUpdatePeople.service";
 
 const getPeopleByIdService = new GetPeopleByIdService();
+const createOrUpdatePeopleService = new CreateOrUpdatePeopleService();
+
 
 interface AcountFormProps {
   dataToken: any;
 }
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Este campo es obligatorio"),
+  name: Yup.string().required("El nombre del funcionario es requerido"),
+  idCard: Yup.string().required("El documento del funcionario es requerido"),
+  email: Yup.string().required("El email del funcionario es requerido"),
+  phone: Yup.string().required("El telefono del funcionario es requerido"),
+  birthDate: Yup.date().required("Este campo es obligatorio")
 });
 
 const AcountForm: React.FC<AcountFormProps> = ({ dataToken }) => {
   const appLogo = [settings.appNoResults];
   const [peopleData, setPeopleData] = useState<any>({});
   const initialValues = {
+    id: peopleData?.id ?? "",
     name: peopleData?.name ?? "",
     email: peopleData?.email ?? "",
     idCard: peopleData?.idCard ?? "",
     phone: peopleData?.phone ?? "",
+    birthDate: peopleData?.formattedDate ?? "",
     images: appLogo,
   };
 
@@ -39,29 +48,14 @@ const AcountForm: React.FC<AcountFormProps> = ({ dataToken }) => {
     }
   }
   const handleSubmit = async (data: any) => {
-    const selectedSubcategories = data.subcategoryId.map(
-      (subcategory: { value: any }) => subcategory.value
-    );
-    const dataSend = data?.id
-      ? {
-          id: data.id,
-          data: {
-            ...data,
-            subcategoryId: selectedSubcategories,
-          },
-          isFormData: true,
-        }
-      : {
-          data: {
-            ...data,
-            subcategoryId: selectedSubcategories,
-          },
-          isFormData: true,
-        };
-
+   const dataSend = {
+    ...(data?.id && {id: data.id}),
+    data: {...data}
+   }
     try {
-      //   await createOrUpdateProduct.run(dataSend);
-      toast.success("¡Producto creado con éxito!");
+      console.log(dataSend);
+      await createOrUpdatePeopleService.run(dataSend);
+      toast.success("Informacion actualizada con exito!");
     } catch (e) {
       console.log(e);
     }
@@ -89,6 +83,7 @@ const AcountForm: React.FC<AcountFormProps> = ({ dataToken }) => {
                       <Field
                         type="text"
                         name="name"
+                        id="name"
                         className="form-control py-2 my-2"
                         placeholder="Nombre persona"
                       />
@@ -139,6 +134,21 @@ const AcountForm: React.FC<AcountFormProps> = ({ dataToken }) => {
                       <ErrorMessage
                         className="vs-errorMensage"
                         name="phone"
+                        component="div"
+                      />
+                    </div>
+
+                    <div className="vs-field-content">
+                      <label htmlFor="birthDate">Fecha de Nacimiento</label>
+                      <Field
+                        type="date"
+                        name="birthDate"
+                        className="form-control py-2 my-2"
+                        placeholder="Contacto"
+                      />
+                      <ErrorMessage
+                        className="vs-errorMensage"
+                        name="birthDate"
                         component="div"
                       />
                     </div>

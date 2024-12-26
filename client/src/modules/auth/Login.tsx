@@ -52,7 +52,6 @@ const Login: React.FC = () => {
         }
         await LoginUser(formData);
         const decodedData = tokenService.isAuthenticated();
-        console.log("data decodificada: ",decodedData);
         if (decodedData) {
           if (decodedData.idStatus !== 1) {
             setServerErrorMensage('Tu cuenta no está activa. Contacta al administrador.');

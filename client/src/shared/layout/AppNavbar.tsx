@@ -36,11 +36,21 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ toggleSidebar }) => {
     setDropdown(false);
   };
   const handleLogout = async () => {
-    await logout.run();
-    closeDropdown();
-    authContext.logout();
-    navigate("/");
-    window.location.reload();
+    try {
+      const sessionId = sessionStorage.getItem("sessionId");
+      if (!sessionId) {
+        console.error("No hay sesión activa para cerrar.");
+        return
+      };
+      await logout.run(sessionId);
+      closeDropdown();
+      authContext.logout();
+      navigate("/");
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
   return (
     <AppNavbarStyle>

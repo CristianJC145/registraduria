@@ -22,7 +22,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
     const login = (userData: User) => {
-        console.log("user data:", userData)
         setIsLoggedIn(true);
         setUser(userData);
         localStorage.setItem('isLoggedIn', 'true');
@@ -34,6 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(null);
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('user');
+        sessionStorage.removeItem("sessionId");
     };
 
     useEffect(() => {

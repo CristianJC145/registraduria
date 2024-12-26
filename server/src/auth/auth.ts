@@ -33,6 +33,7 @@ export const Login = async (req: Request, res: Response) => {
         username: userCredentials.username,
         idRole: userCredentials.idRole,
         idStatus: userCredentials.idStatus,
+        idPerson: userCredentials.idPerson
       },
       SECRET_KEY,
       { expiresIn: '1h' }

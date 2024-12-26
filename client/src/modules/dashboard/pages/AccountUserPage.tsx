@@ -5,13 +5,18 @@ import { TokenService } from "../../../shared/services/token.service";
 import { Link } from "react-router-dom";
 import AppIcon from "../../../shared/components/AppIcon";
 import AcountForm from "../components/AccountForm";
+import { useState } from "react";
+import ChangePasswordForm from "../components/ChangePasswordForm";
 
 const tokenService = new TokenService()
 const AccountUserPage = () => {
   const appLogo = settings.appLogo;
   const dataToken = tokenService.isAuthenticated();
   const role = dataToken.idRole === 1 ? 'Administrador' : 'Usuario'
-  console.log(dataToken);
+  const [activeTab, setActiveTab] = useState("tab1")
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  }
   return (
     <AccountUserPageStyle>
       <div className="vs-account">
@@ -30,18 +35,19 @@ const AccountUserPage = () => {
                 </div>
                 <div className="vs-tools-body">
                   <Link
-                    className="vs-body-option fw-bold"
-                    style={{ color: "var(--color-primary" }}
-                    to="information"
+                    onClick={()=> handleTabClick("tab1")}
+                    className={`vs-body-option ${activeTab === "tab1" ? "selected" : ""}`}
+                    to="#"
                   >
                     <AppIcon icon="user"></AppIcon>
                     <span>Informacion General</span>
                   </Link>
-                  <Link className="vs-body-option" to="information">
+
+                  <Link className={`vs-body-option ${activeTab === "tab2" ? "selected" : ""}`} to="#" onClick={()=> handleTabClick("tab2")}>
                     <AppIcon icon="lock"></AppIcon>
                     <span>Cambiar Contraseña</span>
                   </Link>
-                  <Link className="vs-body-option" to="information">
+                  <Link className={`vs-body-option ${activeTab === "tab3" ? "selected" : ""}`} to="#" onClick={()=> handleTabClick("tab3")}>
                     <AppIcon icon="gear"></AppIcon>
                     <span>Configuracion de Usuario</span>
                   </Link>
@@ -50,20 +56,39 @@ const AccountUserPage = () => {
             }
           ></AppCard>
         </div>
-        <div className="vs-account-form">
-          <AppCard
-            body={
-              <>
-                <div className="vs-form-title">
-                  <h5>Información General</h5>
-                </div>
-                <div className="vs-form-content">
-                  <AcountForm dataToken={dataToken}></AcountForm>
-                </div>
-              </>
-            }
-          ></AppCard>
-        </div>
+        {activeTab === "tab1" && (
+          <div className="vs-account-form">
+            <AppCard
+              body={
+                <>
+                  <div className="vs-form-title">
+                    <h5>Información General</h5>
+                  </div>
+                  <div className="vs-form-content">
+                    <AcountForm dataToken={dataToken}></AcountForm>
+                  </div>
+                </>
+              }
+            ></AppCard>
+          </div>
+        )}
+
+        {activeTab === "tab2" && (
+          <div className="vs-password-form">
+            <AppCard
+              body={
+                <>
+                  <div className="vs-form-title">
+                    <h5>Cambio de Contraseña</h5>
+                  </div>
+                  <div className="vs-form-content">
+                    <ChangePasswordForm dataToken={dataToken} onSave={()=> handleTabClick("tab1")}></ChangePasswordForm>
+                  </div>
+                </>
+              }
+            ></AppCard>
+          </div>
+        )}
       </div>
     </AccountUserPageStyle>
   );
@@ -101,7 +126,7 @@ const AccountUserPageStyle = styled.div`
     margin-right: auto;
     margin-left: 1rem;
   }
-  .vs-account-form {
+  .vs-account-form, .vs-password-form {
     grid-column: span 12 / span 12;
   }
   .vs-info-name {
@@ -134,12 +159,16 @@ const AccountUserPageStyle = styled.div`
   .vs-form-title h5 {
     margin-bottom: 0;
   }
+  .selected {
+    font-weight: bold;
+    color: var(--color-primary);
+  }
   @media (min-width: 768px) {
     .vs-account-tools {
       grid-column: span 4 / span 4;
       display: block;
     }
-    .vs-account-form {
+    .vs-account-form, .vs-password-form {
       grid-column: span 8 / span 8;
     }
   }

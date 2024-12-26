@@ -39,10 +39,20 @@ const AppSidebar : React.FC<AppSidebarProps> = ({isOpen, onClose, onSmallSidebar
     }
 
     const handleLogout = async () => {
-        await logout.run();
-        authContext.logout();
-        navigate('/');
-        window.location.reload();
+        try {
+            const sessionId = sessionStorage.getItem("sessionId");
+            if (!sessionId) {
+              console.error("No hay sesión activa para cerrar.");
+              return
+            };
+            await logout.run(sessionId);
+            authContext.logout();
+            navigate("/");
+            window.location.reload();
+      
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
     }
 
     useEffect(() => {

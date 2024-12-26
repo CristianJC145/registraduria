@@ -12,6 +12,7 @@ export const LoginUser = async (formData: { email: string, password: string }) =
       }
     });
     const token = response.data.token;
+    sessionStorage.setItem("sessionId", response.data.sessionId)
     tokenService.set(token);
     return response.data;
   } catch (error) {

@@ -38,8 +38,8 @@ const ConfirmAction: React.FC<ConfirmActionProps> = ({ onClose, dataDelete, onSa
         );
         onClose();
         onSave();
-      } catch (error) {
-        toast.error(`Error al eliminar el ${entityName}: ${error}`);
+      } catch (error: any) {
+        toast.error(`Error al eliminar el ${entityName}  ${dataDelete.name || dataDelete.elementName}: ${error.response.data.message}`);
       }
     }
   };
